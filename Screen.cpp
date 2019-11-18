@@ -1,5 +1,5 @@
 #include "Screen.h"
-
+#include <Windows.h>
 
 
 Screen::Screen()

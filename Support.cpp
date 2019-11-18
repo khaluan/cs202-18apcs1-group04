@@ -15,3 +15,13 @@ void gotoXY(int x, int y)
 	coord.Y = y;
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
+
+void setColor(int k) {
+	SetConsoleTextAttribute(color, 10);
+}
+
+void EXIT_ERROR(std::string defineErr, int code) {
+	system("cls");
+	std::cout << defineErr << std::endl;
+	exit(code);
+}
