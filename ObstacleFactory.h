@@ -20,6 +20,6 @@ public:
 	~ObstacleFactory();
 private:
 	std::vector < std::vector<std::vector<char>> >pattern;
-	Obstacle * ptr;
+	Obstacle * ptr = nullptr;
 };
 

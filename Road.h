@@ -27,10 +27,10 @@ public:
 	virtual ~Road();
 private:
 	int offset = 3;
-	int maxObject, objRow, objectSpeed = 1000;
-	direction direct;
+	int maxObject = 5, objRow = 5, objectSpeed = 100;
+	direction direct = Left;
 	std::vector<Obstacle*> arr;
-	ObstacleType type;
+	ObstacleType type = Bird;
 	static ObstacleFactory factory;//This factory produce the correspond instance of objects to the lane
 };
 #endif // 

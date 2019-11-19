@@ -1,3 +1,4 @@
+#pragma once
 #ifndef SUPPORT_H
 #define SUPPORT_H
 #include <iostream>
@@ -5,7 +6,9 @@
 #include <iostream>
 #include <string>
 #include <conio.h>
+#include <mutex>
 
+static std::mutex m;
 const HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE); //just once
 
 void EXIT_ERROR(std::string defineErr, int code);

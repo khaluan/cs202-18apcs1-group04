@@ -10,8 +10,6 @@ RoadVehicle::RoadVehicle(int offset, int maxObject, ObstacleType type, int objRo
 }
 
 void RoadVehicle::process() {
-	while (1) {
-		Road::process();
-		//TODO: light.process()
-	}
+	Road::process();
+	//TODO: light.process()
 }

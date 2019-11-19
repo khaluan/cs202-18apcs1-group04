@@ -1,7 +1,7 @@
 #include "Road.h"
 ObstacleFactory Road::factory = ObstacleFactory();
-Road::Road()
-{
+Road::Road() {
+	addObject(this->type);
 }
 
 Road::Road(int offset,int maxObject, ObstacleType type, int objRow, int objectSpeed, direction direct)
@@ -35,8 +35,11 @@ void Road::update()
 
 void Road::process()
 {
-	update();
-	Sleep(objectSpeed);
+	while (true) {
+		if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) return;
+		update();
+		Sleep(objectSpeed);
+	}
 }
 
 void Road::displayOutline()

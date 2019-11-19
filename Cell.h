@@ -2,6 +2,7 @@
 #define CELL_H
 #include <fstream>
 #include <vector>
+
 enum direction
 {
 	Up, 
@@ -9,6 +10,7 @@ enum direction
 	Left, 
 	Right
 };
+
 class Cell{
 public:
 	Cell() = default;
