@@ -1,7 +1,7 @@
-#include "RoadVehicle.h"
+#include "RoadAnimal.h"
 
 int main() {
-	RoadVehicle a;
+	RoadAnimal a(1,5,500,2);
 	a.Process();
 
 	return 0;
