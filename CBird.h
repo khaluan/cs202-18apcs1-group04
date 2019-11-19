@@ -1,12 +1,15 @@
 #ifndef CBIRD_H
 #define CBIRD_H
-
-#include "CAnimal.h"
-
-class CBird: public CAnimal {
+#include "Obstacle.h"
+class CBird :
+	public Obstacle
+{
 public:
-	CBird();
-	void inputShape();
+	CBird(int x, int y, std::vector<std::vector<char>> shape);
+	void tell();
+	~CBird();
+private:
+
 };
 
 #endif

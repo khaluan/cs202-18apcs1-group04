@@ -2,8 +2,9 @@
 #include "Support.h"
 #include <iostream>
 
-TrafficLight::TrafficLight(int x, int y) {
-	shape = Cell(x, y);
+TrafficLight::TrafficLight(int x, int y) 
+	:shape(x, y)
+{
 }
 
 void TrafficLight::change() {

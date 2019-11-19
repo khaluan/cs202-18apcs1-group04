@@ -1,21 +1,10 @@
-#ifndef ROADVEHICLE_H
-#define ROADVEHICLE_H
-
-#include "CVehicle.h"
+#pragma once
 #include "Light.h"
-#include <vector>
-
-class RoadVehicle {
+#include "Road.h"
+class RoadVehicle :public Road {
 public:
-	RoadVehicle();
-	RoadVehicle(int n, int y, int sV, int sL, int direct, bool ok);
-	void init();
-	void Process();
+	RoadVehicle(int offset, int maxObject, ObstacleType type, int objRow, int objectSpeed, direction direct);
+	void process();
 private:
-	int _n = 3, _y = 5, speedVehicle = 1000, speedLight = 5000, _direct = 2;
-	bool isLight = 0;
-	std::vector <CVehicle> arr;
 	TrafficLight light;
 };
-
-#endif // !ROADVEHICLE_H

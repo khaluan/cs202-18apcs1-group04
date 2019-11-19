@@ -3,9 +3,8 @@
 #include <iostream>
 #include <Windows.h>
 #include <iostream>
+#include <string>
 #include <conio.h>
-#include "Road.h"
-#include "CPeople.h"
 
 const HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE); //just once
 
