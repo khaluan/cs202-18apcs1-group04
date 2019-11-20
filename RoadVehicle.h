@@ -1,12 +1,18 @@
 #pragma once
 #include "Light.h"
 #include "Road.h"
+#include "Obstacle.h"
 
 class RoadVehicle :public Road {
 public:
-	RoadVehicle() = default;
+	RoadVehicle();
 	RoadVehicle(int offset, int maxObject, ObstacleType type, int objRow, int objectSpeed, direction direct);
+	void init();
 	void process();
+	void processLight();
+	void processVehicle();
 private:
-	TrafficLight light;
+	Obstacle* light;
+	bool isLight, color = 0, EXIT = 0;
+	int lightSpeed;
 };

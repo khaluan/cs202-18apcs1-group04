@@ -22,8 +22,8 @@ void Cell::input(std::ifstream & fin)
 	//TODO: 
 }
 
-void Cell::draw() {
-	if (x < 0 || x > Width || y < 0 || y > Height) return;
+void Cell::draw(bool isLight) {
+	if ((x < 0 || x > Width || y < 0 || y > Height) && !isLight) return;
 	for (int i = 0; i < h; ++i)
 		for (int j = 0; j < w; ++j) {
 			m.lock();
@@ -65,4 +65,14 @@ void Cell::move(direction direct) {
 	else EXIT_ERROR("Wrong drirect: " + char(direct + '0'), 1);
 
 	draw();
+}
+
+void Cell::changeColor(bool color) {
+	m.lock();
+	gotoXY(x , y - 1);
+	if (color) setColor(RED);
+	else setColor(GREEN);
+	std::cout << a[1][1];
+	setColor(WHITE);
+	m.unlock();
 }

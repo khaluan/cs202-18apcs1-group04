@@ -3,14 +3,14 @@
 ObstacleFactory::ObstacleFactory()
 {
 	//TODO: Load pattern of each of obstacle class here
-	std::vector<std::string> patternDir{ "Truck.txt", "Car.txt", "Dinosaur.txt", "Bird.txt"};
+	std::vector<std::string> patternDir{ "Truck.txt", "Car.txt", "Dinosaur.txt", "Bird.txt", "Light.txt"};
 	for (unsigned i = 0; i < patternDir.size(); ++i) {
 		std::vector<std::vector<char>> shape = readShape(patternDir[i]);
 		pattern.push_back(shape);
 	}
 }
 
-Obstacle * ObstacleFactory::getInstance(ObstacleType & type, int x, int y)
+Obstacle * ObstacleFactory::getInstance(ObstacleType type, int x, int y)
 {
 	if (type == Truck) {
 		ptr = new CTruck(x, y, pattern[Truck]);
@@ -23,6 +23,9 @@ Obstacle * ObstacleFactory::getInstance(ObstacleType & type, int x, int y)
 	}
 	else if (type == Bird) {
 		ptr = new CBird(x, y, pattern[Bird]);
+	}
+	else if (type == Light) {
+		ptr = new TrafficLight(x, y, pattern[Light]);
 	}
 	else
 		EXIT_ERROR("Wrong type initialization, type = " + char(type + '0'), -1);

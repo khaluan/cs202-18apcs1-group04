@@ -2,18 +2,4 @@
 #include "Support.h"
 #include <iostream>
 
-TrafficLight::TrafficLight(int x, int y) 
-	:shape(x, y)
-{
-}
-
-void TrafficLight::change() {
-	light = 1 - light;
-	std::cout << light ? 'G' : 'R';
-}
-
-void TrafficLight::draw() {
-	shape.draw();
-	setColor(10);
-	std::cout << light ? 'G' : 'R';
-}
+TrafficLight::TrafficLight(int x, int y, std::vector<std::vector<char>> shape):Obstacle(x, y, shape) {}

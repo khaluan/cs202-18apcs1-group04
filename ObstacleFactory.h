@@ -4,18 +4,22 @@
 #include "Car.h"
 #include "Dinosaur.h"
 #include "Support.h"
+#include "Light.h"
+
 enum ObstacleType
 {
 	Truck,
-	Car, 
+	Car,
 	Dinosaur,
-	Bird
+	Bird,
+	Light
 };
+
 class ObstacleFactory
 {
 public:
 	ObstacleFactory();
-	Obstacle* getInstance(ObstacleType& type, int x, int y);
+	Obstacle* getInstance(ObstacleType type, int x, int y);
 	std::vector<std::vector<char>> readShape(std::string& dir);
 	~ObstacleFactory();
 private:

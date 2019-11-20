@@ -6,8 +6,9 @@ public:
 	Obstacle();
 	Obstacle(int x, int y, std::vector<std::vector<char>> shape);
 	void move(direction direct); //0: up 1: down 2: left 3: right
-	void display();
+	void display(bool isLight = false);
 	void remove();
+	void changeColor(bool Color);
 	virtual void tell();
 	virtual ~Obstacle();
 private:

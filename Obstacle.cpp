@@ -14,14 +14,18 @@ void Obstacle::move(direction direct)
 	shape.move(direct);
 }
 
-void Obstacle::display()
+void Obstacle::display(bool isLight)
 {
-	shape.draw();
+	shape.draw(isLight);
 }
 
 void Obstacle::remove()
 {
 	shape.remove();
+}
+
+void Obstacle::changeColor(bool Color) {
+	shape.changeColor(Color);
 }
 
 void Obstacle::tell()

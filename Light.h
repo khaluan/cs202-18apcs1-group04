@@ -2,16 +2,12 @@
 #define LIGHT_H
 
 #include "Cell.h"
+#include "Obstacle.h"
 
-class TrafficLight {
+class TrafficLight: public Obstacle {
 public:
 	TrafficLight() = default;
-	TrafficLight(int x, int y);
-	void draw();
-	void change();
-private:
-	Cell shape;
-	bool light = 0; //0 red 1 green
+	TrafficLight(int x, int y, std::vector<std::vector<char>> shape);private:
 };
 
 #endif // !LIGHT_H

@@ -17,11 +17,25 @@ void gotoXY(int x, int y)
 }
 
 void setColor(int k) {
-	SetConsoleTextAttribute(color, 10);
+	SetConsoleTextAttribute(color, k);
 }
 
 void EXIT_ERROR(std::string defineErr, int code) {
 	system("cls");
 	std::cout << defineErr << std::endl;
 	exit(code);
+}
+
+int random(int l, int r) {
+	return rand() % (r - l + 1) + l;
+}
+
+void ShowConsoleCursor(bool showFlag) {
+	HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	CONSOLE_CURSOR_INFO     cursorInfo;
+
+	GetConsoleCursorInfo(out, &cursorInfo);
+	cursorInfo.bVisible = showFlag; // set the cursor visibility
+	SetConsoleCursorInfo(out, &cursorInfo);
 }

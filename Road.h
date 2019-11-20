@@ -12,7 +12,7 @@ public:
 	Road();
 	Road(int offset, int maxObject, ObstacleType type, int objRow, int objectSpeed, direction direct);
 	
-	void addObject(ObstacleType type);//This function add object to array of objects
+	virtual void addObject(ObstacleType type);//This function add object to array of objects
 	
 	virtual void update();//Update position of all objects
 	virtual void process();//Dont know what to do, = update + sleep
@@ -25,13 +25,13 @@ public:
 	int getObjRow();
 
 	virtual ~Road();
-private:
+protected:
+	static ObstacleFactory factory;//This factory produce the correspond instance of objects to the lane
 	int offset = 3;
 	int maxObject = 5, objRow = 5, objectSpeed = 100;
 	direction direct = Left;
 	std::vector<Obstacle*> arr;
 	ObstacleType type = Bird;
-	static ObstacleFactory factory;//This factory produce the correspond instance of objects to the lane
 };
 #endif // 
 
