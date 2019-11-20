@@ -30,8 +30,10 @@ void Cell::draw(bool isLight) {
 	if ((x < 0 || x > Width || y < 0 || y > Height) && !isLight) return;
 	for (int i = 0; i < h; ++i)
 		for (int j = 0; j < w; ++j) {
+			m.lock();
 			gotoXY(x + i - 1, y + j - 1);
 			std::cout << a[i][j];
+			m.unlock();
 		}
 }
 
@@ -39,8 +41,10 @@ void Cell::remove() {
 	if (x < 0 || x > Width || y < 0 || y > Height) return;
 	for (int i = 0; i < h; ++i)
 		for (int j = -1; j < w; ++j) {
+			m.lock();
 			gotoXY(x + j - 1, y + i - 1);
 			std::cout << (char)255;
+			m.unlock();
 		}
 }
 

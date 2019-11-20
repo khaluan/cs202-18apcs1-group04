@@ -7,7 +7,7 @@
 class TrafficLight: public Obstacle {
 public:
 	TrafficLight() = default;
-	TrafficLight(int x, int y, std::vector<std::vector<char>> shape);private:
+	TrafficLight(int x, int y, std::vector<std::vector<char>> shape);
 };
 
 #endif // !LIGHT_H

@@ -7,6 +7,7 @@
 #include <mutex>
 #include <stdlib.h>
 #include <time.h>
+#include <mutex>
 
 #define GREEN 10
 #define BLUE 11
@@ -15,6 +16,7 @@
 #define YELLOW 14
 #define WHITE 15
 
+static std::mutex m;
 const HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE); //just once
 
 void EXIT_ERROR(std::string defineErr, int code);
