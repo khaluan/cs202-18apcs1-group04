@@ -1,11 +1,15 @@
 #pragma once
-#include "Support.h"
+#include "Screen.h"
+#include "Cell.h"
+
 class CPeople
 {
 public:
-	CPeople() = default;
-	CPeople(int _x, int _y);
-	void move(const char &c, const int & stepx, const int & stepy, const int &height, const int &width);
+	CPeople();
+	CPeople(int x, int y);
+	//void move(const char &c,const int & stepx, const int & stepy, const int &height, const int &width);
+	std::vector<std::vector<char>> readShape(const std::string& dir);
+	void move(const int & stepx, const int & stepy);
 	bool isFinish(const int &height);
 	bool isDead();//Comment code
 	void display();
@@ -14,7 +18,8 @@ public:
 	void update();
 	~CPeople();
 private:
-	int x = 0, y = 0;
+	Cell shape;
+	int x, y;
 	bool state = true; //state true is alive, false is dead
 };
 

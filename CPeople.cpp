@@ -1,11 +1,19 @@
 #include "CPeople.h"
 
-CPeople::CPeople(int _x, int _y)
+CPeople::CPeople()
 {
-	x = _x;
-	y = _y;
+	x = 1;
+	y = 1;
 }
 
+CPeople::CPeople(int x, int y)
+{
+	this->x = x;
+	this->y = y;
+	this->shape = Cell(x, y, readShape("Human.txt"));
+}
+
+/*
 void CPeople::move(const char & c, const int & stepx, const int & stepy, const int & height, const int & width)
 {
 	//remove the last position
@@ -32,10 +40,110 @@ void CPeople::move(const char & c, const int & stepx, const int & stepy, const i
 		break;
 	}
 }
+*/
+
+std::vector<std::vector<char>> CPeople::readShape(const std::string& dir) {
+
+	std::string directory = "Data/" + dir;
+	std::ifstream fin;
+	fin.open(directory);
+	if (fin.is_open()) {
+		int h, w; fin >> h >> w;
+		std::vector<std::vector<char>> tmp(h, std::vector<char>(w));
+		for (int i = 0; i < h; ++i)
+			for (int j = 0; j < w; ++j) {
+				int val; fin >> val;
+				tmp[j][i] = char(val);
+			}
+		fin.close();
+		return tmp;
+	}
+	else
+		EXIT_ERROR("File at " + directory + " not found", -1);
+}
+
+void CPeople::move(const int& stepx, const int& stepy) {
+	while (!isFinish(Height))
+	{
+		shape.init(x,y);
+		gotoXY(x, y);
+		shape.draw();
+		char ch = _getch();
+		switch (ch)
+		{
+		case 's':
+
+			if (y+stepy <= Height)
+			{
+				y += stepy;
+			}
+			else
+			{
+				y = Height;
+			}
+
+			Sleep(300);
+			break;
+			//system("cls");
+			//return y;
+
+		case 'w':
+
+			if (y - stepy >= 0)
+			{
+				y -= stepy;
+			}
+			else
+			{
+				y = 0;
+			}
+
+			Sleep(300);
+			break;
+			//system("cls");
+			//return state;
+
+		case 'd':
+
+			if (x + stepx <= Width)
+			{
+				x += stepx;
+			}
+			else
+			{
+				x = Width;
+			}
+			Sleep(300);
+			break;
+			//	system("cls");
+			//return state;
+
+		case 'a':
+
+			if (x - stepx >= 0)
+			{
+				x -= stepx;
+			}
+			else
+			{
+				x = 0;
+			}
+			Sleep(300);
+			break;
+			//	system("cls");
+			//return state;
+
+		default:
+			break;
+		}
+		shape.remove();
+	}
+}
 
 bool CPeople::isFinish(const int & height)
 {
-	return y == height - 1;
+	if (y == Height) return true;
+	return false;
 }
 
 void CPeople::display()
