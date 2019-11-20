@@ -2,7 +2,6 @@
 #define CELL_H
 #include <fstream>
 #include <vector>
-
 enum direction
 {
 	Up, 
@@ -10,12 +9,12 @@ enum direction
 	Left, 
 	Right
 };
-
 class Cell{
 public:
 	Cell() = default;
 	Cell(int x, int y, std::vector<std::vector<char>> shape);
 	Cell(int x, int y);
+	void init(int x, int y);
 	void input(std::ifstream& fin);
 	void draw(bool isLight = false);
 	void remove(); 
