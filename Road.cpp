@@ -18,10 +18,15 @@ Road::Road(int offset,int maxObject, ObstacleType type, int objRow, int objectSp
 void Road::addObject(ObstacleType type)
 {
 	//TODO: Change the distance of the 2 consecutive objects
+	int curX = (direct == 2) ? Width : 1;
 	for (int i = 0; i < maxObject; ++i) {
 		Obstacle *ptr = nullptr;
-		if (direct == 2) ptr = factory.getInstance(type, Width + i * 3, objRow);
-		if (direct == 3) ptr = factory.getInstance(type, 1 - i * 3, objRow);
+
+		if (direct == 2) curX += random(2, 7) * 3;
+		if (direct == 3) curX -= random(2, 7) * 3;
+
+		if (direct == 2) ptr = factory.getInstance(type, curX, objRow);
+		if (direct == 3) ptr = factory.getInstance(type, curX, objRow);
 		if (ptr)
 			arr.push_back(ptr);
 	}

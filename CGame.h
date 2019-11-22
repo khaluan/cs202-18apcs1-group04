@@ -8,9 +8,13 @@
 
 class CGame {
 public:
+	CGame();
+	void initLevel();
+	void process();
 private:
 	std::vector<Road*> arrRoad;
 	CPeople player;
+	int level, sizeArr;
 };
 
 #endif // !CGAME_H
