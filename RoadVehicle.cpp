@@ -25,7 +25,7 @@ void RoadVehicle::processLight() {
 	light->display(1);
 	light->changeColor(color);
 	
-	while (!EXIT) {
+	while (!END_TASK) {
 		Sleep(lightSpeed);
 		color = 1 - color;
 		light->changeColor(color);
@@ -33,10 +33,10 @@ void RoadVehicle::processLight() {
 }
 
 void RoadVehicle::processVehicle() {
-	while (true) {
-		if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {
+	while (!END_TASK) {
+		/*if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {
 			EXIT = 1; return;
-		}
+		}*/
 
 		if (!color) update();
 		Sleep(objectSpeed);

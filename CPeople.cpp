@@ -133,6 +133,8 @@ void CPeople::move(const int& stepx, const int& stepy) {
 			//	system("cls");
 			//return state;
 
+		case 27:
+			return;
 		default:
 			break;
 		}

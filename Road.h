@@ -5,6 +5,7 @@
 #include "Cell.h"
 #include "Support.h"
 #include "Screen.h"
+#include "CPeople.h"
 #include <vector>
 class Road
 {
@@ -16,6 +17,8 @@ public:
 	
 	virtual void update();//Update position of all objects
 	virtual void process();//Dont know what to do, = update + sleep
+	
+	static void CHANGE_END_TASK();
 
 	void displayOutline();//This function is used to display 2 border of each lane
 	virtual void display();
@@ -27,6 +30,7 @@ public:
 	virtual ~Road();
 protected:
 	static ObstacleFactory factory;//This factory produce the correspond instance of objects to the lane
+	static bool END_TASK;
 	int offset = 3;
 	int maxObject = 5, objRow = 5, objectSpeed = 100;
 	direction direct = Left;

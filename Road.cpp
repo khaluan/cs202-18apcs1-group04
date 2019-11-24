@@ -1,5 +1,7 @@
 #include "Road.h"
 ObstacleFactory Road::factory = ObstacleFactory();
+bool Road::END_TASK = false;
+
 Road::Road() {
 	addObject(this->type);
 }
@@ -38,10 +40,14 @@ void Road::update()
 		arr[i]->move(direct);
 }
 
+void Road::CHANGE_END_TASK() {
+	END_TASK = 1 - END_TASK;
+}
+
 void Road::process()
 {
-	while (true) {
-		if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) return;
+	while (!END_TASK) {
+		//if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) return;
 		update();
 		Sleep(objectSpeed);
 	}

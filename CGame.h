@@ -9,11 +9,12 @@
 class CGame {
 public:
 	CGame();
+	~CGame();
 	void initLevel();
 	void process();
 private:
 	std::vector<Road*> arrRoad;
-	CPeople player;
+	CPeople* player;
 	int level, sizeArr;
 };
 
