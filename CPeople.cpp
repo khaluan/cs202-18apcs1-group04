@@ -1,10 +1,11 @@
 #include "CPeople.h"
+#include "Road.h"
 
 CPeople::CPeople()
 {
 	x = 1;
-	y = 30;
-	this->shape = Cell(1, 30, readShape("Human.txt"));
+	y = 1;	
+	shape = Cell(x, y, readShape("Human.txt"));
 }
 
 CPeople::CPeople(int x, int y)
@@ -44,7 +45,6 @@ void CPeople::move(const char & c, const int & stepx, const int & stepy, const i
 */
 
 std::vector<std::vector<char>> CPeople::readShape(const std::string& dir) {
-
 	std::string directory = "Data/" + dir;
 	std::ifstream fin;
 	fin.open(directory);
@@ -63,51 +63,10 @@ std::vector<std::vector<char>> CPeople::readShape(const std::string& dir) {
 		EXIT_ERROR("File at " + directory + " not found", -1);
 }
 
-void CPeople::move(char ch) {
+void CPeople::move(const direction& d) {
 	while (!isFinish(Height))
 	{
-		switch (ch)
-		{
-		case 's':
-
-			shape.move(Down, stepX, stepY);
-			Sleep(100);
-			break;
-
-		case 'w':
-
-			shape.move(Up, stepX, stepY);
-			Sleep(100);
-			break;
-
-		case 'd':
-
-			shape.move(Right, stepX, stepY);
-			Sleep(100);
-			break;
-
-		case 'a':
-			shape.move(Left, stepX, stepY);
-			Sleep(100);
-			break;
-
-		/*case 'p':
-
-			while (1) {
-				char c = _getch();
-				if (c == 'p') break;
-			}
-			m.unlock();
-
-			break;*/
-		default:
-			break;
-		}
-
-		/*shape.remove();
-		shape.init(x,y);
-		shape.draw();*/
-		return;
+		shape.move(d);
 	}
 }
 bool CPeople::isFinish(const int & height)

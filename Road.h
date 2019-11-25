@@ -5,6 +5,7 @@
 #include "Cell.h"
 #include "Support.h"
 #include "Screen.h"
+#include "CPeople.h"
 #include <vector>
 class Road
 {
@@ -15,7 +16,10 @@ public:
 	virtual void addObject(ObstacleType type);//This function add object to array of objects
 	
 	virtual void update();//Update position of all objects
-	virtual void process();//Dont know what to do, = update + sleep
+	virtual void process(CPeople* player = nullptr);//Dont know what to do, = update + sleep
+	
+	static void CHANGE_END_TASK();
+	static void CHANGE_PAUSE();
 
 	void displayOutline();//This function is used to display 2 border of each lane
 	virtual void display();
@@ -32,8 +36,9 @@ public:
 
 protected:
 	static ObstacleFactory factory;//This factory produce the correspond instance of objects to the lane
-	bool pauseSignal = false, endSignal = false;
-	int offset = 3;
+	static bool END_TASK, PAUSE;
+	int offset = 1;
+
 	int maxObject = 5, objRow = 5, objectSpeed = 100;
 	direction direct = Left;
 	std::vector<Obstacle*> arr;

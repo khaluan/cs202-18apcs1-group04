@@ -8,7 +8,7 @@ public:
 	RoadVehicle();
 	RoadVehicle(int offset, int maxObject, ObstacleType type, int objRow, int objectSpeed, direction direct);
 	void init();
-	void process();
+	void process(CPeople* player = nullptr);
 	void processLight();
 	void processVehicle();
 private:

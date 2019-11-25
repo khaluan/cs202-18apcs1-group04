@@ -1,5 +1,8 @@
 #include "Road.h"
 ObstacleFactory Road::factory = ObstacleFactory();
+bool Road::END_TASK = false;
+bool Road::PAUSE = false;
+
 Road::Road() {
 	addObject(this->type);
 }
@@ -18,10 +21,15 @@ Road::Road(int offset,int maxObject, ObstacleType type, int objRow, int objectSp
 void Road::addObject(ObstacleType type)
 {
 	//TODO: Change the distance of the 2 consecutive objects
+	int curX = (direct == 2) ? Width : 1;
 	for (int i = 0; i < maxObject; ++i) {
 		Obstacle *ptr = nullptr;
-		if (direct == 2) ptr = factory.getInstance(type, Width + i * 3, objRow);
-		if (direct == 3) ptr = factory.getInstance(type, 1 - i * 3, objRow);
+
+		if (direct == 2) curX += random(2, 7) * 3;
+		if (direct == 3) curX -= random(2, 7) * 3;
+
+		if (direct == 2) ptr = factory.getInstance(type, curX, objRow);
+		if (direct == 3) ptr = factory.getInstance(type, curX, objRow);
 		if (ptr)
 			arr.push_back(ptr);
 	}
@@ -33,15 +41,21 @@ void Road::update()
 		arr[i]->move(direct);
 }
 
-void Road::process()
+void Road::CHANGE_END_TASK() {
+	END_TASK = 1 - END_TASK;
+}
+
+void Road::CHANGE_PAUSE() {
+	PAUSE = 1 - PAUSE;
+}
+
+void Road::process(CPeople* player)
 {
-	while (!endSignal) {
-		while (!pauseSignal) {
-			//if (GetAsyncKeyState(27) & 0x8000) return;
-			update();
-			Sleep(objectSpeed);
-		}
-	}
+	while (!END_TASK) {
+		while (PAUSE) { }
+		update();
+		Sleep(objectSpeed);
+  }
 }
 
 void Road::displayOutline()
