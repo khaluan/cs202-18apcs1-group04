@@ -29,10 +29,16 @@ public:
 	int getObjRow();
 
 	virtual ~Road();
+
+	void temporaryStop();
+	void freeStop();
+	void roadEnd();
+
 protected:
 	static ObstacleFactory factory;//This factory produce the correspond instance of objects to the lane
 	static bool END_TASK, PAUSE;
 	int offset = 1;
+
 	int maxObject = 5, objRow = 5, objectSpeed = 100;
 	direction direct = Left;
 	std::vector<Obstacle*> arr;

@@ -6,7 +6,6 @@ CPeople::CPeople()
 	x = 1;
 	y = 1;	
 	shape = Cell(x, y, readShape("Human.txt"));
-
 }
 
 CPeople::CPeople(int x, int y)
@@ -70,10 +69,9 @@ void CPeople::move(const direction& d) {
 		shape.move(d);
 	}
 }
-
 bool CPeople::isFinish(const int & height)
 {
-	if (y == Height) return true;
+	if (y == 0) return true;
 	return false;
 }
 

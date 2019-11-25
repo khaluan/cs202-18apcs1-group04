@@ -35,6 +35,7 @@ void RoadVehicle::processLight() {
 }
 
 void RoadVehicle::processVehicle() {
+
 	while (!END_TASK) {
 		while (PAUSE){ }
 

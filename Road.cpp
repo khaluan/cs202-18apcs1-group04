@@ -55,7 +55,7 @@ void Road::process(CPeople* player)
 		while (PAUSE) { }
 		update();
 		Sleep(objectSpeed);
-	}
+  }
 }
 
 void Road::displayOutline()
@@ -96,3 +96,15 @@ Road::~Road()
 		delete arr[i];
 	arr.clear();
 }
+
+void Road::temporaryStop() {
+	pauseSignal = true;
+}
+void Road::freeStop() {
+	pauseSignal = false;
+}
+
+void Road::roadEnd() {
+	endSignal = true;
+}
+
