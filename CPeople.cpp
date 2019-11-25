@@ -3,15 +3,11 @@
 
 CPeople::CPeople()
 {
-	x = 1;
-	y = 1;	
-	shape = Cell(x, y, readShape("Human.txt"));
+	shape = Cell(1, 4, readShape("Human.txt"));
 }
 
 CPeople::CPeople(int x, int y)
 {
-	this->x = x;
-	this->y = y;
 	this->shape = Cell(x, y, readShape("Human.txt"));
 }
 
@@ -64,24 +60,12 @@ std::vector<std::vector<char>> CPeople::readShape(const std::string& dir) {
 }
 
 void CPeople::move(const direction& d) {
-	while (!isFinish(Height))
-	{
 		shape.move(d);
-	}
 }
 bool CPeople::isFinish(const int & height)
 {
-	if (y == 0) return true;
+	if (shape.getY() == 0) return true;
 	return false;
-}
-
-void CPeople::display()
-{
-	gotoXY(x, y);
-	std::cout << (char)177;
-	gotoXY(x, y + 1);
-	std::cout << (char)197;
-
 }
 
 bool CPeople::isDead()
@@ -94,6 +78,21 @@ bool CPeople::isDead()
 void CPeople::update()
 {
 	//TODO: 
+}
+
+bool CPeople::getState()
+{
+	return state;
+}
+
+int CPeople::getX()
+{
+	return shape.getX();
+}
+
+int CPeople::getY()
+{
+	return shape.getY();
 }
 
 CPeople::~CPeople()

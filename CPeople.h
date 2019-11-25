@@ -17,6 +17,9 @@ public:
 	//bool isImpact(const &CAnimal);
 	//bool isImpact(const &CVehicle);
 	void update();
+	bool getState();
+	int getX();
+	int getY();
 	~CPeople();
 private:
 	Cell shape;

@@ -97,14 +97,4 @@ Road::~Road()
 	arr.clear();
 }
 
-void Road::temporaryStop() {
-	pauseSignal = true;
-}
-void Road::freeStop() {
-	pauseSignal = false;
-}
-
-void Road::roadEnd() {
-	endSignal = true;
-}
 

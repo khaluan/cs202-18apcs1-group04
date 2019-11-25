@@ -4,7 +4,7 @@
 CGame::CGame() {
 	arrRoad.clear();
 	level = 1;
-	player = new CPeople(1, 1);
+	player = new CPeople(1, 3);
 	sizeArr = 0;
 
 	initLevel();
@@ -52,17 +52,22 @@ void CGame::process() {
 	for (int i = 0; i < sizeArr; ++i)
 		th[i] = std::thread(&Road::process, arrRoad[i], player);
 
-	while (/*player->getState()*/true/*TODO*/) {
-		if (GetAsyncKeyState(VK_UP) & 0x8000) player->move(Up);
-		if (GetAsyncKeyState(VK_DOWN) & 0x8000) player->move(Down);
-		if (GetAsyncKeyState(VK_LEFT) & 0x8000) player->move(Left);
-		if (GetAsyncKeyState(VK_RIGHT) & 0x8000) player->move(Right);
+	while (player->getState()) {
+		if (GetAsyncKeyState(VK_UP) & 0x8000) 
+			player->move(Up);
+		if (GetAsyncKeyState(VK_DOWN) & 0x8000) 
+			player->move(Down);
+		if (GetAsyncKeyState(VK_LEFT) & 0x8000) 
+			player->move(Left);
+		if (GetAsyncKeyState(VK_RIGHT) & 0x8000) 
+			player->move(Right);
 		
-		if (GetAsyncKeyState(VK_PAUSE) & 0x8000) {
+		if (GetAsyncKeyState(VK_PAUSE) & 0x8000) {//TODO: Bug press any key else unpause the game
 			Road::CHANGE_PAUSE();
 			//menuPause();
 		}
 		if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) break;
+		Sleep(100);
 	}
 
 	for (int i = 0; i < sizeArr; ++i)
