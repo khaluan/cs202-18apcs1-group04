@@ -9,7 +9,7 @@ public:
 	CPeople(int x, int y);
 	//void move(const char &c,const int & stepx, const int & stepy, const int &height, const int &width);
 	std::vector<std::vector<char>> readShape(const std::string& dir);
-	void move(const int & stepx, const int & stepy);
+	void move(char ch);
 	bool isFinish(const int &height);
 	bool isDead();//Comment code
 	void display();
@@ -19,7 +19,7 @@ public:
 	~CPeople();
 private:
 	Cell shape;
-	int x, y;
+	int x, y, stepX = 4, stepY = 4;
 	bool state = true; //state true is alive, false is dead
 };
 

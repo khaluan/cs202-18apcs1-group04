@@ -25,8 +25,14 @@ public:
 	int getObjRow();
 
 	virtual ~Road();
+
+	void temporaryStop();
+	void freeStop();
+	void roadEnd();
+
 protected:
 	static ObstacleFactory factory;//This factory produce the correspond instance of objects to the lane
+	bool pauseSignal = false, endSignal = false;
 	int offset = 3;
 	int maxObject = 5, objRow = 5, objectSpeed = 100;
 	direction direct = Left;
