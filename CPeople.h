@@ -23,3 +23,4 @@ private:
 	bool state = true; //state true is alive, false is dead
 };
 
+// bool crash(Cell obj);

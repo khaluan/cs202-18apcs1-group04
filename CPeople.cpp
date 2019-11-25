@@ -1,9 +1,12 @@
 #include "CPeople.h"
+#include "Road.h"
 
 CPeople::CPeople()
 {
 	x = 1;
-	y = 1;
+	y = 1;	
+	shape = Cell(x, y, readShape("Human.txt"));
+
 }
 
 CPeople::CPeople(int x, int y)
@@ -43,7 +46,6 @@ void CPeople::move(const char & c, const int & stepx, const int & stepy, const i
 */
 
 std::vector<std::vector<char>> CPeople::readShape(const std::string& dir) {
-
 	std::string directory = "Data/" + dir;
 	std::ifstream fin;
 	fin.open(directory);
@@ -63,13 +65,14 @@ std::vector<std::vector<char>> CPeople::readShape(const std::string& dir) {
 }
 
 void CPeople::move(const int& stepx, const int& stepy) {
+	char ch1, ch2;
 	while (!isFinish(Height))
 	{
 		shape.init(x,y);
 		gotoXY(x, y);
 		shape.draw();
-		char ch = _getch();
-		switch (ch)
+		ch1 = _getch();
+		switch (ch1)
 		{
 		case 's':
 
@@ -135,6 +138,15 @@ void CPeople::move(const int& stepx, const int& stepy) {
 
 		case 27:
 			return;
+		case 'p':
+			ch2 = NULL;
+			Road::CHANGE_PAUSE();
+			while (true) {
+				ch2 = _getch();
+				if (ch2 != NULL) break;
+			}
+			Road::CHANGE_PAUSE();
+			break;
 		default:
 			break;
 		}

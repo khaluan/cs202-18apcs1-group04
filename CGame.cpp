@@ -43,14 +43,14 @@ void CGame::initLevel() {
 }
 
 void CGame::process() {
-	std::thread *th = new std::thread[sizeArr + 1];
-	
+	std::thread* th = new std::thread[sizeArr + 1];
+
 	th[sizeArr - 1] = std::thread(&CPeople::move, player, 4, 4);
-	
+
 	for (int i = 0; i < sizeArr - 1; ++i) {
-		th[i] = std::thread(&Road::process, arrRoad[i]);
+		th[i] = std::thread(&Road::process, arrRoad[i], player);
 	}
-	 
+
 	th[sizeArr - 1].join();
 
 	Road::CHANGE_END_TASK();
@@ -60,3 +60,28 @@ void CGame::process() {
 
 	delete[]th;
 }
+
+//void CGame::process() {
+//	std::thread *th = new std::thread[sizeArr];
+//	
+//	for (int i = 0; i < sizeArr; ++i)
+//		th[i] = std::thread(&Road::process, arrRoad[i], player);
+//
+//	while (player->state) {
+//		if (GetAsyncKeyState(VK_UP) & 0x8000) player->move(Up);
+//		if (GetAsyncKeyState(VK_DOWN) & 0x8000) player->move(Down);
+//		if (GetAsyncKeyState(VK_LEFT) & 0x8000) player->move(Left);
+//		if (GetAsyncKeyState(VK_RIGHT) & 0x8000) player->move(Right);
+//		
+//		if (GetAsyncKeyState(VK_PAUSE) & 0x8000) {
+//			Road::CHANGE_PAUSE();
+//			menuPause();
+//		}
+//		if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) break;
+//	}
+//
+//	for (int i = 0; i < sizeArr; ++i)
+//		th[i].join();
+//
+//	delete[]th;
+//}

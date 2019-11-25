@@ -1,6 +1,7 @@
 #include "Road.h"
 ObstacleFactory Road::factory = ObstacleFactory();
 bool Road::END_TASK = false;
+bool Road::PAUSE = false;
 
 Road::Road() {
 	addObject(this->type);
@@ -44,10 +45,14 @@ void Road::CHANGE_END_TASK() {
 	END_TASK = 1 - END_TASK;
 }
 
-void Road::process()
+void Road::CHANGE_PAUSE() {
+	PAUSE = 1 - PAUSE;
+}
+
+void Road::process(CPeople* player)
 {
 	while (!END_TASK) {
-		//if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) return;
+		while (PAUSE) { }
 		update();
 		Sleep(objectSpeed);
 	}

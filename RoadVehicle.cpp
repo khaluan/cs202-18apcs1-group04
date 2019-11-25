@@ -22,10 +22,11 @@ void RoadVehicle::init() {
 
 void RoadVehicle::processLight() {
 	if (!isLight) return;
-	light->display(1);
+	light->display(isLight);
 	light->changeColor(color);
 	
 	while (!END_TASK) {
+		while (PAUSE){ }
 		Sleep(lightSpeed);
 		color = 1 - color;
 		light->changeColor(color);
@@ -34,16 +35,14 @@ void RoadVehicle::processLight() {
 
 void RoadVehicle::processVehicle() {
 	while (!END_TASK) {
-		/*if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {
-			EXIT = 1; return;
-		}*/
+		while (PAUSE){ }
 
 		if (!color) update();
 		Sleep(objectSpeed);
 	}
 }
 
-void RoadVehicle::process() {
+void RoadVehicle::process(CPeople* player) {
 	std::thread th1(&RoadVehicle::processVehicle, this);
 	std::thread th2(&RoadVehicle::processLight, this);
 	th2.join();
