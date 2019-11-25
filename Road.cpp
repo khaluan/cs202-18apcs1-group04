@@ -35,10 +35,12 @@ void Road::update()
 
 void Road::process()
 {
-	while (true) {
-		if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) return;
-		update();
-		Sleep(objectSpeed);
+	while (!endSignal) {
+		while (!pauseSignal) {
+			//if (GetAsyncKeyState(27) & 0x8000) return;
+			update();
+			Sleep(objectSpeed);
+		}
 	}
 }
 
@@ -80,3 +82,15 @@ Road::~Road()
 		delete arr[i];
 	arr.clear();
 }
+
+void Road::temporaryStop() {
+	pauseSignal = true;
+}
+void Road::freeStop() {
+	pauseSignal = false;
+}
+
+void Road::roadEnd() {
+	endSignal = true;
+}
+

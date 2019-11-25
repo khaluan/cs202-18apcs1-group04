@@ -33,13 +33,15 @@ void RoadVehicle::processLight() {
 }
 
 void RoadVehicle::processVehicle() {
-	while (true) {
-		if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {
-			EXIT = 1; return;
-		}
+	while (!endSignal) {
+		while (!pauseSignal) {
+			if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {
+				EXIT = 1; return;
+			}
 
-		if (!color) update();
-		Sleep(objectSpeed);
+			if (!color) update();
+			Sleep(objectSpeed);
+		}
 	}
 }
 

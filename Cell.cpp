@@ -31,8 +31,8 @@ void Cell::draw(bool isLight) {
 	for (int i = 0; i < h; ++i)
 		for (int j = 0; j < w; ++j) {
 			m.lock();
-			gotoXY(x + i - 1, y + j - 1);
-			std::cout << a[i][j];
+			gotoXY(x + j - 1, y + i - 1);
+			std::cout << a[j][i];
 			m.unlock();
 		}
 }
@@ -48,7 +48,7 @@ void Cell::remove() {
 		}
 }
 
-void Cell::move(direction direct) {
+void Cell::move(direction direct, int stepX, int stepY) {
 	remove();
 	if (direct == 0) {
 		if (y == 1) y = Height - 2;

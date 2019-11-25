@@ -3,7 +3,8 @@
 CPeople::CPeople()
 {
 	x = 1;
-	y = 1;
+	y = 30;
+	this->shape = Cell(1, 30, readShape("Human.txt"));
 }
 
 CPeople::CPeople(int x, int y)
@@ -62,87 +63,56 @@ std::vector<std::vector<char>> CPeople::readShape(const std::string& dir) {
 		EXIT_ERROR("File at " + directory + " not found", -1);
 }
 
-void CPeople::move(const int& stepx, const int& stepy) {
+void CPeople::move(char ch) {
 	while (!isFinish(Height))
 	{
-		shape.init(x,y);
-		gotoXY(x, y);
-		shape.draw();
-		char ch = _getch();
 		switch (ch)
 		{
 		case 's':
 
-			if (y+stepy <= Height)
-			{
-				y += stepy;
-			}
-			else
-			{
-				y = Height;
-			}
-
-			Sleep(300);
+			shape.move(Down, stepX, stepY);
+			Sleep(100);
 			break;
-			//system("cls");
-			//return y;
 
 		case 'w':
 
-			if (y - stepy >= 0)
-			{
-				y -= stepy;
-			}
-			else
-			{
-				y = 0;
-			}
-
-			Sleep(300);
+			shape.move(Up, stepX, stepY);
+			Sleep(100);
 			break;
-			//system("cls");
-			//return state;
 
 		case 'd':
 
-			if (x + stepx <= Width)
-			{
-				x += stepx;
-			}
-			else
-			{
-				x = Width;
-			}
-			Sleep(300);
+			shape.move(Right, stepX, stepY);
+			Sleep(100);
 			break;
-			//	system("cls");
-			//return state;
 
 		case 'a':
-
-			if (x - stepx >= 0)
-			{
-				x -= stepx;
-			}
-			else
-			{
-				x = 0;
-			}
-			Sleep(300);
+			shape.move(Left, stepX, stepY);
+			Sleep(100);
 			break;
-			//	system("cls");
-			//return state;
 
+		/*case 'p':
+
+			while (1) {
+				char c = _getch();
+				if (c == 'p') break;
+			}
+			m.unlock();
+
+			break;*/
 		default:
 			break;
 		}
-		shape.remove();
+
+		/*shape.remove();
+		shape.init(x,y);
+		shape.draw();*/
+		return;
 	}
 }
-
 bool CPeople::isFinish(const int & height)
 {
-	if (y == Height) return true;
+	if (y == 0) return true;
 	return false;
 }
 
