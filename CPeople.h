@@ -9,7 +9,7 @@ public:
 	CPeople(int x, int y);
 	//void move(const char &c,const int & stepx, const int & stepy, const int &height, const int &width);
 	std::vector<std::vector<char>> readShape(const std::string& dir);
-	void move(const int & stepx, const int & stepy);
+	void move(const direction& d);
 	bool isFinish(const int &height);
 	bool isDead();//Comment code
 	void display();

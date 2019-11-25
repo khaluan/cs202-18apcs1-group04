@@ -64,93 +64,10 @@ std::vector<std::vector<char>> CPeople::readShape(const std::string& dir) {
 		EXIT_ERROR("File at " + directory + " not found", -1);
 }
 
-void CPeople::move(const int& stepx, const int& stepy) {
-	char ch1, ch2;
+void CPeople::move(const direction& d) {
 	while (!isFinish(Height))
 	{
-		shape.init(x,y);
-		gotoXY(x, y);
-		shape.draw();
-		ch1 = _getch();
-		switch (ch1)
-		{
-		case 's':
-
-			if (y+stepy <= Height)
-			{
-				y += stepy;
-			}
-			else
-			{
-				y = Height;
-			}
-
-			Sleep(300);
-			break;
-			//system("cls");
-			//return y;
-
-		case 'w':
-
-			if (y - stepy >= 0)
-			{
-				y -= stepy;
-			}
-			else
-			{
-				y = 0;
-			}
-
-			Sleep(300);
-			break;
-			//system("cls");
-			//return state;
-
-		case 'd':
-
-			if (x + stepx <= Width)
-			{
-				x += stepx;
-			}
-			else
-			{
-				x = Width;
-			}
-			Sleep(300);
-			break;
-			//	system("cls");
-			//return state;
-
-		case 'a':
-
-			if (x - stepx >= 0)
-			{
-				x -= stepx;
-			}
-			else
-			{
-				x = 0;
-			}
-			Sleep(300);
-			break;
-			//	system("cls");
-			//return state;
-
-		case 27:
-			return;
-		case 'p':
-			ch2 = NULL;
-			Road::CHANGE_PAUSE();
-			while (true) {
-				ch2 = _getch();
-				if (ch2 != NULL) break;
-			}
-			Road::CHANGE_PAUSE();
-			break;
-		default:
-			break;
-		}
-		shape.remove();
+		shape.move(d);
 	}
 }
 
