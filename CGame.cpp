@@ -55,14 +55,25 @@ void CGame::process() {
 	player->display();
 
 	while (player->getState()) {
-		if (GetAsyncKeyState(VK_UP) & 0x8000)
+		if (GetAsyncKeyState(VK_UP) & 0x8000) {
 			player->move(Up);
-		if (GetAsyncKeyState(VK_DOWN) & 0x8000)
+			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
+		}
+
+		if (GetAsyncKeyState(VK_DOWN) & 0x8000) {
 			player->move(Down);
-		if (GetAsyncKeyState(VK_LEFT) & 0x8000)
+			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
+		}
+
+		if (GetAsyncKeyState(VK_LEFT) & 0x8000) {
 			player->move(Left);
-		if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
+			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
+		}
+
+		if (GetAsyncKeyState(VK_RIGHT) & 0x8000) {
 			player->move(Right);
+			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
+		}
 
 		if (GetAsyncKeyState('P') & 0x8000) {//TODO: Bug press any key else unpause the game
 			Road::CHANGE_PAUSE();
@@ -79,7 +90,6 @@ void CGame::process() {
 		if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {
 			break;
 		}
-		Sleep(100);
 	}
 
 	Road::CHANGE_END_TASK();
