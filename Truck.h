@@ -1,4 +1,6 @@
-#pragma once
+#ifndef TRUCK_H
+#define TRUCK_H
+
 #include "Obstacle.h"
 class CTruck :
 	public Obstacle
@@ -8,3 +10,4 @@ public:
 	~CTruck();
 };
 
+#endif // !TRUCK_H

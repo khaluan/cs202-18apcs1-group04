@@ -1,6 +1,9 @@
-#pragma once
+#ifndef CPEOPLE_H
+#define CPEOPLE_H
+
 #include "Screen.h"
 #include "Cell.h"
+#include "Obstacle.h"
 
 class CPeople
 {
@@ -11,6 +14,7 @@ public:
 	std::vector<std::vector<char>> readShape(const std::string& dir);
 	void move(const direction& d);
 
+	void CheckCrash(Obstacle& a);
 	bool isFinish(const int &height);
 	bool isDead();//Comment code
 	void display();
@@ -27,4 +31,4 @@ private:
 	bool state = true; //state true is alive, false is dead
 };
 
-// bool crash(Cell obj);
+#endif // !CPEOPLE_H

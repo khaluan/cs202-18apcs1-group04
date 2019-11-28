@@ -60,12 +60,16 @@ std::vector<std::vector<char>> CPeople::readShape(const std::string& dir) {
 }
 
 void CPeople::move(const direction& d) {
-		shape.move(d);
+	shape.move(d);
 }
-bool CPeople::isFinish(const int & height)
+bool CPeople::isFinish(const int& height)
 {
 	if (shape.getY() == 0) return true;
 	return false;
+}
+
+void CPeople::CheckCrash(Obstacle& a) {
+	if (a.crash(shape)) state = false;
 }
 
 bool CPeople::isDead()
@@ -93,6 +97,10 @@ int CPeople::getX()
 int CPeople::getY()
 {
 	return shape.getY();
+}
+
+void CPeople::display() {
+	shape.draw();
 }
 
 CPeople::~CPeople()

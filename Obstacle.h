@@ -1,5 +1,8 @@
-#pragma once
+#ifndef OBSTACLE_H
+#define OBSTACLE_H
+
 #include "Cell.h"
+
 class Obstacle
 {
 public:
@@ -8,6 +11,7 @@ public:
 	void move(direction direct); //0: up 1: down 2: left 3: right
 	void display(bool isLight = false);
 	void remove();
+	bool crash(const Cell& a);
 	void changeColor(bool Color);
 	virtual void tell();
 	virtual ~Obstacle();
@@ -15,3 +19,4 @@ private:
 	Cell shape;
 };
 
+#endif // !OBSTACLE_H

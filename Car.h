@@ -1,4 +1,6 @@
-#pragma once
+#ifndef CAR_H
+#define CAR_H
+
 #include "Obstacle.h"
 class CCar :
 	public Obstacle
@@ -8,3 +10,4 @@ public:
 	~CCar();
 };
 
+#endif // !CAR_H

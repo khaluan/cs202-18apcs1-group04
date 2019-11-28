@@ -21,7 +21,6 @@ void RoadVehicle::init() {
 }
 
 void RoadVehicle::processLight() {
-	return;
 	if (!isLight) return;
 	light->display(isLight);
 	light->changeColor(color);
@@ -34,18 +33,18 @@ void RoadVehicle::processLight() {
 	}
 }
 
-void RoadVehicle::processVehicle() {
+void RoadVehicle::processVehicle(CPeople* player) {
 
 	while (!END_TASK) {
 		while (PAUSE){ }
 
-		if (!color) update();
+		if (!color) update(player);
 		Sleep(objectSpeed);
 	}
 }
 
 void RoadVehicle::process(CPeople* player) {
-	std::thread th1(&RoadVehicle::processVehicle, this);
+	std::thread th1(&RoadVehicle::processVehicle, this, player);
 	std::thread th2(&RoadVehicle::processLight, this);
 	th2.join();
 	th1.join();

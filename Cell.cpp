@@ -90,3 +90,7 @@ int Cell::getY()
 {
 	return y;
 }
+
+bool Cell::operator==(const Cell& a) {
+	return x == a.x && y == a.y;
+}

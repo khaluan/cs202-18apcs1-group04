@@ -1,5 +1,6 @@
 #ifndef CELL_H
 #define CELL_H
+
 #include <fstream>
 #include <vector>
 enum direction
@@ -23,6 +24,8 @@ public:
 	void changeColor(bool color);
 	int getX();
 	int getY();
+
+	bool operator==(const Cell &a);
 private:
 	int x = 1, y = 1;
 	int w = 3, h = 3;

@@ -4,7 +4,7 @@
 CGame::CGame() {
 	arrRoad.clear();
 	level = 1;
-	player = new CPeople(1, 3);
+	player = new CPeople(1, 27);
 	sizeArr = 0;
 
 	initLevel();
@@ -19,7 +19,7 @@ CGame::~CGame() {
 void CGame::initLevel() {
 	// int offset,int maxObject, ObstacleType type, int objRow, int objectSpeed, direction direct
 	int typeRoad;
-	sizeArr = random(5, 8);
+	sizeArr = random(5, 6);
 	for (int i = 0; i < sizeArr; ++i) {
 		typeRoad = random(0, 1);
 		if (typeRoad == 0) {
@@ -52,23 +52,37 @@ void CGame::process() {
 	for (int i = 0; i < sizeArr; ++i)
 		th[i] = std::thread(&Road::process, arrRoad[i], player);
 
+	player->display();
+
 	while (player->getState()) {
-		if (GetAsyncKeyState(VK_UP) & 0x8000) 
+		if (GetAsyncKeyState(VK_UP) & 0x8000)
 			player->move(Up);
-		if (GetAsyncKeyState(VK_DOWN) & 0x8000) 
+		if (GetAsyncKeyState(VK_DOWN) & 0x8000)
 			player->move(Down);
-		if (GetAsyncKeyState(VK_LEFT) & 0x8000) 
+		if (GetAsyncKeyState(VK_LEFT) & 0x8000)
 			player->move(Left);
-		if (GetAsyncKeyState(VK_RIGHT) & 0x8000) 
+		if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
 			player->move(Right);
-		
-		if (GetAsyncKeyState(VK_PAUSE) & 0x8000) {//TODO: Bug press any key else unpause the game
+
+		if (GetAsyncKeyState('P') & 0x8000) {//TODO: Bug press any key else unpause the game
 			Road::CHANGE_PAUSE();
+			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
+			
+			while (true) {
+				if (GetAsyncKeyState('P') & 0x8000) break;
+			}
+			Road::CHANGE_PAUSE();
+
+			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
 			//menuPause();
 		}
-		if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) break;
+		if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {
+			break;
+		}
 		Sleep(100);
 	}
+
+	Road::CHANGE_END_TASK();
 
 	for (int i = 0; i < sizeArr; ++i)
 		th[i].join();

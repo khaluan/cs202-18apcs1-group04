@@ -1,4 +1,3 @@
-#pragma once
 #ifndef CGAME_H
 #define CGAME_H
 #include <fstream>
@@ -13,6 +12,7 @@ public:
 	void initLevel();
 	void process();
 private:
+	const int SLEEP_TIME_BETWEEN_SCREEN = 200;
 	std::vector<Road*> arrRoad;
 	CPeople* player;
 	int level, sizeArr;

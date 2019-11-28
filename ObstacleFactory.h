@@ -1,3 +1,6 @@
+#ifndef OBSTACLEFACTORY_H
+#define OBSTACLEFACTORY_H
+
 #include "Obstacle.h"
 #include "CBird.h"
 #include "Truck.h"
@@ -27,3 +30,4 @@ private:
 	Obstacle * ptr = nullptr;
 };
 
+#endif // !OBSTACLEFACTORY_H

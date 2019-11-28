@@ -35,10 +35,12 @@ void Road::addObject(ObstacleType type)
 	}
 }
 
-void Road::update()
+void Road::update(CPeople* player)
 {
-	for (unsigned i = 0; i < arr.size(); ++i)
+	for (unsigned i = 0; i < arr.size(); ++i) {
+		player->CheckCrash(*arr[i]);
 		arr[i]->move(direct);
+	}
 }
 
 void Road::CHANGE_END_TASK() {
@@ -53,7 +55,7 @@ void Road::process(CPeople* player)
 {
 	while (!END_TASK) {
 		while (PAUSE) { }
-		update();
+		update(player);
 		Sleep(objectSpeed);
   }
 }

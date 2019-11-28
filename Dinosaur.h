@@ -1,4 +1,6 @@
-#pragma once
+#ifndef DINOSAUR_H
+#define DINOSAUR_H
+
 #include "Obstacle.h"
 class CDinosaur :
 	public Obstacle
@@ -8,3 +10,4 @@ public:
 	~CDinosaur();
 };
 
+#endif // !DINOSAUR_H
