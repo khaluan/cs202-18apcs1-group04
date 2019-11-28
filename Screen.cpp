@@ -1,9 +1,12 @@
 #include "Screen.h"
 #include <Windows.h>
 
+bool* Screen::screen = Screen::constructor();
 
-Screen::Screen()
-{
+Screen::Screen() {
+	for (int i = 0; i < Height; ++i)
+		for (int j = 0; j < Width; ++j)
+			screen[i * Width + j] = 255;
 }
 
 
@@ -126,4 +129,18 @@ int Screen::pauseMenu()
 		}
 	}
 	std::cin.ignore(1000, '\n');
+}
+
+bool* Screen::constructor() {
+	bool* res = new bool[5000];
+	for (int i = 0; i < 5000; ++i) res[i] = 0;
+	return res;
+}
+
+void Screen::setScreen(int i, int j, int c) {
+	screen[i * Width + j] = c;
+}
+
+bool Screen::isPixelNull(int i, int j) {
+	return screen[i * Width + j] == 0;
 }

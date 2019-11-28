@@ -15,8 +15,8 @@ public:
 	
 	virtual void addObject(ObstacleType type);//This function add object to array of objects
 	
-	virtual void update(CPeople* player);//Update position of all objects
-	virtual void process(CPeople* player);//Dont know what to do, = update + sleep
+	virtual void update(CPeople* a);//Update position of all objects
+	virtual void process(CPeople* a);//Dont know what to do, = update + sleep
 	
 	static void CHANGE_END_TASK();
 	static void CHANGE_PAUSE();

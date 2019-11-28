@@ -12,7 +12,7 @@ public:
 	void initLevel();
 	void process();
 private:
-	const int SLEEP_TIME_BETWEEN_SCREEN = 200;
+	const int SLEEP_TIME_BETWEEN_SCREEN = 100;
 	std::vector<Road*> arrRoad;
 	CPeople* player;
 	int level, sizeArr;

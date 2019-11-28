@@ -26,29 +26,40 @@ void Cell::input(std::ifstream & fin)
 	//TODO: 
 }
 
-void Cell::draw(bool isLight) {
-	if ((x < 0 || x > Width || y < 0 || y > Height) && !isLight) return;
+bool Cell::draw(bool isLight) {
+	bool res = 0;
+	if ((x < 0 || x > Width || y < 0 || y > Height) && !isLight) return 0;
 	for (int i = 0; i < h; ++i)
 		for (int j = 0; j < w; ++j) {
+			int u = x + j - 1, v = y + i - 1;
+			if ((u <= 0 || u >= Width) && !isLight) continue;
+
 			m.lock();
-			gotoXY(x + j - 1, y + i - 1);
+			if (!Screen::isPixelNull(v, u)) res = 1;
+			Screen::setScreen(v, u, 1);
+			gotoXY(u, v);
 			std::cout << a[j][i];
 			m.unlock();
 		}
+	return res;
 }
 
 void Cell::remove() {
 	if (x < 0 || x > Width || y < 0 || y > Height) return;
 	for (int i = 0; i < h; ++i)
 		for (int j = -1; j < w; ++j) {
+			int u = x + j - 1, v = y + i - 1;
+			if (u <= 0 || u >= Width) continue;
+			
 			m.lock();
-			gotoXY(x + j - 1, y + i - 1);
+			Screen::setScreen(v, u, 0);
+			gotoXY(u, v);
 			std::cout << (char)255;
 			m.unlock();
 		}
 }
 
-void Cell::move(direction direct, int stepX, int stepY) {
+bool Cell::move(direction direct, int stepX, int stepY) {
 	remove();
 	if (direct == 0) {
 		if (y - stepY >= 1)
@@ -60,15 +71,17 @@ void Cell::move(direction direct, int stepX, int stepY) {
 	}
 	else if (direct == 2) {
 		if (x <= 1) x = Width;
-		else x -= stepX;
+		else --x;
+		//else x -= stepX;
 	}
 	else if (direct == 3) {
 		if (x >= Width) x = 1;
-		else x += stepX;
+		else ++x;
+		//else x += stepX;
 	}
 	else EXIT_ERROR("Wrong drirect: " + char(direct + '0'), 1);
 
-	draw();
+	return draw();
 }
 
 void Cell::changeColor(bool color) {
@@ -89,8 +102,4 @@ int Cell::getX()
 int Cell::getY()
 {
 	return y;
-}
-
-bool Cell::operator==(const Cell& a) {
-	return x == a.x && y == a.y;
 }

@@ -60,23 +60,18 @@ std::vector<std::vector<char>> CPeople::readShape(const std::string& dir) {
 }
 
 void CPeople::move(const direction& d) {
-	shape.move(d);
+	if (shape.move(d)) state = false;
 }
+
 bool CPeople::isFinish(const int& height)
 {
 	if (shape.getY() == 0) return true;
 	return false;
 }
 
-void CPeople::CheckCrash(Obstacle& a) {
-	if (a.crash(shape)) state = false;
-}
-
-bool CPeople::isDead()
+void CPeople::turnState()
 {
-	//TODO: 
-	//return isImpact(animal) | isImpact(vehicle);
-	return false;
+	state = 1 - state;
 }
 
 void CPeople::update()

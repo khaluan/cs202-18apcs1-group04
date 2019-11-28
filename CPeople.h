@@ -14,9 +14,8 @@ public:
 	std::vector<std::vector<char>> readShape(const std::string& dir);
 	void move(const direction& d);
 
-	void CheckCrash(Obstacle& a);
 	bool isFinish(const int &height);
-	bool isDead();//Comment code
+	void turnState();//Comment code
 	void display();
 	//bool isImpact(const &CAnimal);
 	//bool isImpact(const &CVehicle);

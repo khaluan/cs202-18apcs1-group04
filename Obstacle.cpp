@@ -9,13 +9,9 @@ Obstacle::Obstacle(int x, int y, std::vector<std::vector<char>> shape)
 	this->shape = Cell(x, y, shape);
 }
 
-bool Obstacle::crash(const Cell& a) {
-	return shape == a;
-}
-
-void Obstacle::move(direction direct)
+bool Obstacle::move(direction direct)
 {
-	shape.move(direct);
+	return shape.move(direct);
 }
 
 void Obstacle::display(bool isLight)
