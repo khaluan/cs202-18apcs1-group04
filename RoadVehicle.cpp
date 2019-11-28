@@ -21,7 +21,6 @@ void RoadVehicle::init() {
 }
 
 void RoadVehicle::processLight() {
-	return;
 	if (!isLight) return;
 	light->display(isLight);
 	light->changeColor(color);

@@ -36,7 +36,7 @@ bool Cell::draw(bool isLight) {
 
 			m.lock();
 			if (!Screen::isPixelNull(v, u)) res = 1;
-			Screen::setScreen(v, u, 1);
+			if (!isLight) Screen::setScreen(v, u, 1);
 			gotoXY(u, v);
 			std::cout << a[j][i];
 			m.unlock();
