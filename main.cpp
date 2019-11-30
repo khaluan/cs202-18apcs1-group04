@@ -6,15 +6,14 @@
 #include "Screen.h"
 
 int main() {
-	/*srand(time(NULL));
+	srand(time(NULL));
 	ShowConsoleCursor(false);
 	
 	CGame a;
-	a.process();*/
+	a.process();
 
-	Screen X;
-	std::string tmp;
-	tmp = X.saveMenu();
-	std::cout << std::endl << "*************************" << std::endl << tmp << std::endl;
+	/*Screen X;
+	std::vector<std::string> tmp = X.inputPlayer_Menu();
+	std::cout << tmp[0] << "     " << tmp[1] << std::endl;*/
 	return 0;
 }

@@ -85,6 +85,23 @@ int Screen::stateMove(int& state, int n)
 	}
 }
 
+std::vector<std::string> Screen::inputPlayer_Menu() {
+	system("cls");
+	std::vector<std::string> playerInfo;
+	std::string name, time, date, now = __TIMESTAMP__;
+	time = now.substr(11, 8);
+	date = now.substr(0, 11);
+	date += now.substr(20, 4);
+	time += " " + date;
+
+	gotoXY(xPos, yPos);
+	std::cout << "Player name: ";
+	std::getline(std::cin, name, '\n');
+	playerInfo.push_back(name);
+	playerInfo.push_back(time);
+	return playerInfo;
+}
+
 pauseChoice Screen::pauseMenu()
 {
 	system("cls");
@@ -121,7 +138,7 @@ pauseChoice Screen::pauseMenu()
 			s = stateMove(state, sNum);
 			break;
 		case 3:
-			return (pauseChoice)state;
+			return (pauseChoice)(state-1);
 		}
 	}
 	std::cin.ignore(1000, '\n');
@@ -198,7 +215,7 @@ mainChoice Screen::mainMenu()
 			s = stateMove(state, sNum);
 			break;
 		case 5:
-			return (mainChoice)state;
+			return (mainChoice)(state-1);
 		}
 	}
 	std::cin.ignore(1000, '\n');
@@ -245,7 +262,7 @@ std::string Screen::saveMenu() {
 std::string Screen::loadChoice(int index) {
 	std::string dir = loadDir;
 	std::vector<std::string> load_list = read_directory(dir);
-	if (load_list.size > 0 && index = 0 && index < load_list.size()) return load_list[index];
+	if (load_list.size() > 0 && index >= 0 && index < load_list.size()) return load_list[index];
 	else return {};
 }
 
@@ -351,6 +368,7 @@ bool* Screen::constructor() {
 	bool* res = new bool[5000];
 	for (int i = 0; i < 5000; ++i) res[i] = 0;
 	return res;
+	delete[] res;
 }
 
 void Screen::setScreen(int i, int j, int c) {

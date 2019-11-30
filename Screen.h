@@ -24,12 +24,14 @@ public:
 	Screen();
 	~Screen();
 	int stateMove(int& state, int n);
+	std::vector<std::string> inputPlayer_Menu();
 	pauseChoice pauseMenu();
 	mainChoice mainMenu();
 	std::string saveMenu();
 	std::string loadMenu();
 	std::string loadChoice(int index);
 	std::vector<std::string> loadList();
+
 	static bool* constructor();
 	static void setScreen(int i, int j, int c);
 	static bool isPixelNull(int i, int j);
