@@ -39,3 +39,23 @@ void ShowConsoleCursor(bool showFlag) {
 	cursorInfo.bVisible = showFlag; // set the cursor visibility
 	SetConsoleCursorInfo(out, &cursorInfo);
 }
+
+std::vector<std::string> read_directory(const std::string& directory)
+{
+	std::vector<std::string> v;
+	std::string pattern(directory), x;
+	pattern.append("\\*");
+	WIN32_FIND_DATA data;
+	HANDLE hFind;
+	if ((hFind = FindFirstFile(pattern.c_str(), &data)) != INVALID_HANDLE_VALUE) {
+
+		do {
+			x = data.cFileName;
+			if (x.length() <= 4) continue;
+			v.push_back(data.cFileName);
+
+		} while (FindNextFile(hFind, &data) != 0);
+		FindClose(hFind);
+	}
+	return v;
+}

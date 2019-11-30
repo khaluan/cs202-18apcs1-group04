@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include <mutex>
+#include <fstream>
+#include <vector>
 
 #define GREEN 10
 #define BLUE 11
@@ -25,5 +27,5 @@ void fixConsoleScreen();
 void gotoXY(int x, int y);
 int random(int l, int r);
 void ShowConsoleCursor(bool showFlag);
-
+std::vector<std::string> read_directory(const std::string& directory);
 #endif
