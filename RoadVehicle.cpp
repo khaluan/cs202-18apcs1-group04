@@ -25,7 +25,7 @@ void RoadVehicle::processLight() {
 	light->display(isLight);
 	light->changeColor(color);
 	
-	while (!END_TASK) {
+	while (!EXIT) {
 		while (PAUSE){ }
 		Sleep(lightSpeed);
 		color = 1 - color;
@@ -35,9 +35,8 @@ void RoadVehicle::processLight() {
 
 void RoadVehicle::processVehicle(CPeople* a) {
 
-	while (!END_TASK) {
+	while (!EXIT) {
 		while (PAUSE){ }
-
 		if (!color) update(a);
 		Sleep(objectSpeed);
 	}

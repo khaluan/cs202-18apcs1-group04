@@ -33,6 +33,8 @@ public:
 	std::vector<std::string> loadList();
 
 	static bool* constructor();
+	static void destructor();
+
 	static void setScreen(int i, int j, int c);
 	static bool isPixelNull(int i, int j);
 private:

@@ -18,8 +18,8 @@ public:
 	virtual void update(CPeople* a);//Update position of all objects
 	virtual void process(CPeople* a);//Dont know what to do, = update + sleep
 	
-	static void CHANGE_END_TASK();
 	static void CHANGE_PAUSE();
+	static void CHANGE_EXIT();
 
 	void displayOutline();//This function is used to display 2 border of each lane
 	virtual void display();
@@ -36,7 +36,7 @@ public:
 
 protected:
 	static ObstacleFactory factory;//This factory produce the correspond instance of objects to the lane
-	static bool END_TASK, PAUSE;
+	static bool PAUSE, EXIT;
 	int offset = 1;
 
 	int maxObject = 5, objRow = 5, objectSpeed = 100;

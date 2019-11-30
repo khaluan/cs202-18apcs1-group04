@@ -12,6 +12,8 @@ int main() {
 	CGame a;
 	a.process();
 
+	Screen::destructor();
+
 	/*Screen X;
 	std::vector<std::string> tmp = X.inputPlayer_Menu();
 	std::cout << tmp[0] << "     " << tmp[1] << std::endl;*/

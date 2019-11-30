@@ -15,7 +15,7 @@ public:
 	void processVehicle(CPeople* a);
 private:
 	Obstacle* light;
-	bool isLight, color = 0, EXIT = 0;
+	bool isLight, color = 0;
 	int lightSpeed;
 };
 

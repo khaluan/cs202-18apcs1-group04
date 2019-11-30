@@ -1,13 +1,13 @@
 #include "Road.h"
 ObstacleFactory Road::factory = ObstacleFactory();
-bool Road::END_TASK = false;
 bool Road::PAUSE = false;
+bool Road::EXIT = false;
 
 Road::Road() {
 	addObject(this->type);
 }
 
-Road::Road(int offset,int maxObject, ObstacleType type, int objRow, int objectSpeed, direction direct)
+Road::Road(int offset, int maxObject, ObstacleType type, int objRow, int objectSpeed, direction direct)
 {
 	this->offset = offset;
 	this->maxObject = maxObject;
@@ -23,7 +23,7 @@ void Road::addObject(ObstacleType type)
 	//TODO: Change the distance of the 2 consecutive objects
 	int curX = (direct == 2) ? Width : 1;
 	for (int i = 0; i < maxObject; ++i) {
-		Obstacle *ptr = nullptr;
+		Obstacle* ptr = nullptr;
 
 		if (direct == 2) curX += random(2, 7) * 3;
 		if (direct == 3) curX -= random(2, 7) * 3;
@@ -41,21 +41,21 @@ void Road::update(CPeople* a) {
 	}
 }
 
-void Road::CHANGE_END_TASK() {
-	END_TASK = 1 - END_TASK;
-}
-
 void Road::CHANGE_PAUSE() {
 	PAUSE = 1 - PAUSE;
 }
 
+void Road::CHANGE_EXIT() {
+	EXIT = 1 - EXIT;
+}
+
 void Road::process(CPeople* a)
 {
-	while (!END_TASK) {
-		while (PAUSE) { }
+	while (!EXIT) {
+		while (PAUSE) {}
 		update(a);
 		Sleep(objectSpeed);
-  }
+	}
 }
 
 void Road::displayOutline()

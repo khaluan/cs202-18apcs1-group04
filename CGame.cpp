@@ -57,22 +57,22 @@ void CGame::process() {
 	player->display();
 
 	while (player->getState()) {
-		if (GetAsyncKeyState(VK_UP) & 0x8000) {
+		if ((GetAsyncKeyState(VK_UP) | GetAsyncKeyState('W')) & 0x8000) {
 			player->move(Up);
 			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
 		}
 
-		if (GetAsyncKeyState(VK_DOWN) & 0x8000) {
+		if ((GetAsyncKeyState(VK_DOWN) | GetAsyncKeyState('S')) & 0x8000) {
 			player->move(Down);
 			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
 		}
 
-		if (GetAsyncKeyState(VK_LEFT) & 0x8000) {
+		if ((GetAsyncKeyState(VK_LEFT) | GetAsyncKeyState('A')) & 0x8000) {
 			player->move(Left);
 			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
 		}
 
-		if (GetAsyncKeyState(VK_RIGHT) & 0x8000) {
+		if ((GetAsyncKeyState(VK_RIGHT) | GetAsyncKeyState('D')) & 0x8000) {
 			player->move(Right);
 			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
 		}
@@ -94,7 +94,7 @@ void CGame::process() {
 		}
 	}
 
-	Road::CHANGE_END_TASK();
+	Road::CHANGE_EXIT();
 
 	for (int i = 0; i < sizeArr; ++i)
 		th[i].join();

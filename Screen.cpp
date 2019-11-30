@@ -365,13 +365,18 @@ std::string Screen::loadMenu() {
 
 
 bool* Screen::constructor() {
-	bool* res = new bool[5000];
-	for (int i = 0; i < 5000; ++i) res[i] = 0;
+	bool* res = new bool[10000];
+	for (int i = 0; i < 10000; ++i) res[i] = 0;
 	return res;
-	delete[] res;
+}
+
+void Screen::destructor() {
+	delete[] screen;
 }
 
 void Screen::setScreen(int i, int j, int c) {
+	if (i * Width + j >= 10000 || i * Width + j < 0) EXIT_ERROR("index screen out of range", 1);
+	if (!screen) EXIT_ERROR("Screen null", 1);
 	screen[i * Width + j] = c;
 }
 

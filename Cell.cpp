@@ -46,13 +46,14 @@ bool Cell::draw(bool isLight) {
 
 void Cell::remove() {
 	if (x < 0 || x > Width || y < 0 || y > Height) return;
+
 	for (int i = 0; i < h; ++i)
 		for (int j = -1; j < w; ++j) {
 			int u = x + j - 1, v = y + i - 1;
 			if (u <= 0 || u >= Width) continue;
 			
 			m.lock();
-			Screen::setScreen(v, u, 0);
+			if (j != -1) Screen::setScreen(v, u, 0);
 			gotoXY(u, v);
 			std::cout << (char)255;
 			m.unlock();
