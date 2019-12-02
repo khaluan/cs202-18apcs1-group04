@@ -4,9 +4,6 @@
 bool* Screen::screen = Screen::constructor();
 
 Screen::Screen() {
-	for (int i = 0; i < Height; ++i)
-		for (int j = 0; j < Width; ++j)
-			screen[i * Width + j] = 255;
 }
 
 

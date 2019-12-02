@@ -11,10 +11,11 @@
 class CGame {
 public:
 	CGame();
+	CGame(int level);
 	~CGame();
 	void saveGame(const std::string& gameName);
 	void loadGame(const std::string& gameName);
-	void initLevel();
+	void initLevel(int level);
 	void process();
 private:
 	const int SLEEP_TIME_BETWEEN_SCREEN = 100;

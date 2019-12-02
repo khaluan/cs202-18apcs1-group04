@@ -10,6 +10,7 @@ int main() {
 	ShowConsoleCursor(false);
 	
 	CGame a;
+	a.initLevel(1);
 	a.process();
 
 	Screen::destructor();

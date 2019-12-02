@@ -20,7 +20,7 @@ public:
 
 private:
 	Obstacle* light;
-	bool isLight, color = 0;
+	bool isLight = 1, color = 0;
 	int lightSpeed;
 };
 

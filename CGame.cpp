@@ -6,9 +6,18 @@ CGame::CGame() {
 	level = 1;
 	player = new CPeople(1, 27);
 	sizeArr = 0;
-
-	initLevel();
 }
+
+CGame::CGame(int level)
+{
+	arrRoad.clear();
+	this->level = level;
+	player = new CPeople(1, 27);
+	sizeArr = 0;
+	initLevel(level);
+}
+
+
 
 CGame::~CGame() {
 	delete player;
@@ -51,16 +60,17 @@ void CGame::loadGame(const std::string & gameName)
 			else
 				arrRoad[i] = new RoadVehicle;
 			arrRoad[i]->load(gameFile);
-
-			player->load(gameFile);
 		}
+		player->load(gameFile);
+		for (int i = 0; i < arrRoad.size(); ++i)
+			arrRoad[i]->displayOutline();
 		gameFile.close();
 	}
 	else
 		EXIT_ERROR("Can open file " + gameName + " to load game", -1);
 }
 
-void CGame::initLevel() {
+void CGame::initLevel(int level) {
 	// int offset,int maxObject, ObstacleType type, int objRow, int objectSpeed, direction direct
 	int typeRoad;
 
@@ -93,6 +103,7 @@ void CGame::initLevel() {
 
 
 void CGame::process() {
+	//loadGame("SavedGame/test.txt");
 	std::thread *th = new std::thread[sizeArr];
 	
 	for (int i = 0; i < sizeArr; ++i)
@@ -124,13 +135,17 @@ void CGame::process() {
 		if (GetAsyncKeyState('P') & 0x8000) {//TODO: Bug press any key else unpause the game
 			Road::CHANGE_PAUSE();
 			Sleep(100);
-			
-			while (true) {
-				if (GetAsyncKeyState('P') & 0x8000) break;
+		
+			pauseChoice choice = scr.pauseMenu();
+			if (choice == YES) {
+				for (int i = 0; i < sizeArr; ++i)
+					arrRoad[i]->displayOutline();
+				
+				Road::CHANGE_PAUSE();
 			}
-			Road::CHANGE_PAUSE();
+			else
+				break;
 
-			//screen.pauseMenu();
 			Sleep(100);
 		}
 		if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {

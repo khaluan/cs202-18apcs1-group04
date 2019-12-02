@@ -3,7 +3,7 @@
 #include <thread>
 
 RoadVehicle::RoadVehicle() {
-	init();
+	
 }
 
 RoadVehicle::RoadVehicle(int offset, int maxObject, ObstacleType type, int objRow, int objectSpeed, direction direct) 
@@ -12,7 +12,7 @@ RoadVehicle::RoadVehicle(int offset, int maxObject, ObstacleType type, int objRo
 }
 
 void RoadVehicle::init() {
-	isLight = random(0, 1);
+	isLight = 1;
 	lightSpeed = random(5, 10) * 400;
 
 	if (direct == Left) light = factory.getInstance(Light, Width + 3, objRow);
@@ -53,6 +53,8 @@ void RoadVehicle::load(std::ifstream & fileGame)
 {
 	Road::load(fileGame);
 	fileGame >> color >> lightSpeed;
+	if (direct == Left) light = factory.getInstance(Light, Width + 3, objRow);
+	else if (direct == Right) light = factory.getInstance(Light, Width + 3, objRow);
 }
 
 void RoadVehicle::process(CPeople* a) {

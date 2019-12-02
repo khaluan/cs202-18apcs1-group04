@@ -88,7 +88,7 @@ void Road::save(std::ofstream & gameFile)
 
 void Road::saveHelper(std::ofstream & gameFile)
 {
-	gameFile << offset << " " << maxObject << " " << objRow << " "
+	gameFile << offset << " " << arr.size() << " " << objRow << " "
 		<< objectSpeed << " " << direct << " " << type << std::endl;
 	for (unsigned i = 0; i < arr.size(); ++i)
 		arr[i]->save(gameFile);
@@ -100,8 +100,12 @@ void Road::load(std::ifstream & gameFile)
 	gameFile >> offset >> maxObject >> objRow >> objectSpeed >> directVal >> typeVal;
 	direct = (direction)directVal;
 	type = (ObstacleType)typeVal;
-	for (unsigned i = 0; i < arr.size(); ++i)
-		arr[i]->load(gameFile);
+	arr.resize(maxObject);
+	for (unsigned i = 0; i < arr.size(); ++i) {
+		int x, y;
+		gameFile >> x >> y;
+		arr[i] = Road::factory.getInstance(type, x, y);
+	}
 }
 
 direction Road::getDirection()
