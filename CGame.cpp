@@ -137,11 +137,10 @@ void CGame::process() {
 			Sleep(100);
 		
 			pauseChoice choice = scr.pauseMenu();
+			Road::CHANGE_PAUSE();
 			if (choice == YES) {
 				for (int i = 0; i < sizeArr; ++i)
 					arrRoad[i]->displayOutline();
-				
-				Road::CHANGE_PAUSE();
 			}
 			else
 				break;

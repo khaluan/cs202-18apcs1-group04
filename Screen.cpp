@@ -113,6 +113,7 @@ pauseChoice Screen::pauseMenu()
 			gotoXY(xPos, yPos + s);
 			std::cout << pauseChoice_list[s - 1];
 			setColor(7);
+
 			for (int i = 0; i < sNum; ++i) {
 				if (i == (s - 1)) continue;
 				
