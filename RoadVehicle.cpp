@@ -12,7 +12,7 @@ RoadVehicle::RoadVehicle(int offset, int maxObject, ObstacleType type, int objRo
 }
 
 void RoadVehicle::init() {
-	isLight = random(0, 1);
+	isLight = 1;
 	lightSpeed = random(5, 10) * 400;
 
 	if (direct == Left) light = factory.getInstance(Light, Width + 5, objRow);

@@ -103,117 +103,52 @@ pauseChoice Screen::pauseMenu()
 {
 	system("cls");
 	Sleep(sleepTime);
-	int state = 1, s = 1, sNum = 2;
+	int state = 1, s = 1, sNum = pauseChoice_list.size();
 	gotoXY(xPos, yPos);
 	std::cout << "Do you want to continue ?" << std::endl;
 	while (1)
 	{
-		switch (s)
-		{
-
-		case 1:
+		if (s <= sNum) {
 			setColor(10);
-			gotoXY(xPos, yPos+1);
-			std::cout << "YES";
+			gotoXY(xPos, yPos + s);
+			std::cout << pauseChoice_list[s - 1];
 			setColor(7);
 
-			gotoXY(xPos, yPos+2);
-			std::cout << "NO";
-
-			s = stateMove(state, sNum);
-			break;
-		case 2:
-			gotoXY(xPos, yPos+1);
-			std::cout << "YES";
-
-			setColor(10);
-			gotoXY(xPos, yPos+2);
-			std::cout << "NO";
-			setColor(7);
-
-
-			s = stateMove(state, sNum);
-			break;
-		case 3:
-			return (pauseChoice)(state - 1);
+			for (int i = 0; i < sNum; ++i) {
+				if (i == (s - 1)) continue;
+				
+				gotoXY(xPos, yPos + (i + 1));
+				std::cout << pauseChoice_list[i];
+			}
 		}
+		else return (pauseChoice)(state - 1);
+
+		s = stateMove(state, sNum);
 	}
-	std::cin.ignore(1000, '\n');
 }
 
 mainChoice Screen::mainMenu()
 {
 	system("cls");
 	Sleep(sleepTime);
-	int state = 1, s = 1, sNum = 4;
+	int state = 1, s = 1, sNum = mainChoice_list.size();
 	while (1)
 	{
-		switch (s)
-		{
-
-		case 1:
+		if (s <= sNum) {
 			setColor(10);
-			gotoXY(xPos, yPos);
-			std::cout << "New game";
+			gotoXY(xPos, yPos + s);
+			std::cout << mainChoice_list[s - 1];
 			setColor(7);
+			for (int i = 0; i < sNum; ++i) {
+				if (i == (s - 1)) continue;
 
-			gotoXY(xPos, yPos + 1);
-			std::cout << "Load game";
-			gotoXY(xPos, yPos + 2);
-			std::cout << "Setting";
-
-			gotoXY(xPos, yPos + 5);
-			std::cout << "Exit";
-			s = stateMove(state, sNum);
-			break;
-		case 2:
-			gotoXY(xPos, yPos);
-			std::cout << "New game";
-
-			setColor(10);
-			gotoXY(xPos, yPos + 1);
-			std::cout << "Load game";
-			setColor(7);
-			
-			gotoXY(xPos, yPos + 2);
-			std::cout << "Setting";
-
-			gotoXY(xPos, yPos + 5);
-			std::cout << "Exit";
-			s = stateMove(state, sNum);
-			break;
-		case 3:
-			gotoXY(xPos, yPos);
-			std::cout << "New game";
-			gotoXY(xPos, yPos + 1);
-			std::cout << "Load game";
-			
-			setColor(10);
-			gotoXY(xPos, yPos + 2);
-			std::cout << "Setting";
-			setColor(7);
-
-			gotoXY(xPos, yPos + 5);
-			std::cout << "Exit";
-			s = stateMove(state, sNum);
-			break;
-		case 4:
-			gotoXY(xPos, yPos);
-			std::cout << "New game";
-			gotoXY(xPos, yPos + 1);
-			std::cout << "Load game";
-			gotoXY(xPos, yPos + 2);
-			std::cout << "Setting";
-
-			setColor(10);
-			gotoXY(xPos, yPos + 5);
-			std::cout << "Exit";
-			setColor(7);
-			s = stateMove(state, sNum);
-			break;
-		case 5:
-			return (mainChoice)(state - 1);
+				gotoXY(xPos, yPos + (i + 1));
+				std::cout << mainChoice_list[i];
+			}
 		}
+		else return (mainChoice)(state - 1);
+
+		s = stateMove(state, sNum);
 	}
 	std::cin.ignore(1000, '\n');
 }
@@ -382,3 +317,100 @@ void Screen::setScreen(int i, int j, int c) {
 bool Screen::isPixelNull(int i, int j) {
 	return screen[i * Width + j] == 0;
 }
+
+/*	switch (s)
+		{
+
+		case 1:
+			setColor(10);
+			gotoXY(xPos, yPos+1);
+			std::cout << "YES";
+			setColor(7);
+
+			gotoXY(xPos, yPos+2);
+			std::cout << "No";
+
+			s = stateMove(state, sNum);
+			break;
+		case 2:
+			gotoXY(xPos, yPos+1);
+			std::cout << "YES";
+
+			setColor(10);
+			gotoXY(xPos, yPos+2);
+			std::cout << "No";
+			setColor(7);
+
+
+			s = stateMove(state, sNum);
+			break;
+		case 3:
+			return (pauseChoice)(state - 1);
+		}*/
+
+//switch (s)
+//{
+//
+//case 1:
+//	setColor(10);
+//	gotoXY(xPos, yPos);
+//	std::cout << "New game";
+//	setColor(7);
+//
+//	gotoXY(xPos, yPos + 1);
+//	std::cout << "Load game";
+//	gotoXY(xPos, yPos + 2);
+//	std::cout << "Setting";
+//
+//	gotoXY(xPos, yPos + 5);
+//	std::cout << "Exit";
+//	s = stateMove(state, sNum);
+//	break;
+//case 2:
+//	gotoXY(xPos, yPos);
+//	std::cout << "New game";
+//
+//	setColor(10);
+//	gotoXY(xPos, yPos + 1);
+//	std::cout << "Load game";
+//	setColor(7);
+//
+//	gotoXY(xPos, yPos + 2);
+//	std::cout << "Setting";
+//
+//	gotoXY(xPos, yPos + 5);
+//	std::cout << "Exit";
+//	s = stateMove(state, sNum);
+//	break;
+//case 3:
+//	gotoXY(xPos, yPos);
+//	std::cout << "New game";
+//	gotoXY(xPos, yPos + 1);
+//	std::cout << "Load game";
+//
+//	setColor(10);
+//	gotoXY(xPos, yPos + 2);
+//	std::cout << "Setting";
+//	setColor(7);
+//
+//	gotoXY(xPos, yPos + 5);
+//	std::cout << "Exit";
+//	s = stateMove(state, sNum);
+//	break;
+//case 4:
+//	gotoXY(xPos, yPos);
+//	std::cout << "New game";
+//	gotoXY(xPos, yPos + 1);
+//	std::cout << "Load game";
+//	gotoXY(xPos, yPos + 2);
+//	std::cout << "Setting";
+//
+//	setColor(10);
+//	gotoXY(xPos, yPos + 5);
+//	std::cout << "Exit";
+//	setColor(7);
+//	s = stateMove(state, sNum);
+//	break;
+//case 5:
+//	return (mainChoice)(state - 1);
+//}

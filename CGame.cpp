@@ -17,6 +17,8 @@ CGame::CGame(int level)
 	initLevel(level);
 }
 
+
+
 CGame::~CGame() {
 	delete player;
 	for (int i = 0; i < sizeArr; ++i)
@@ -74,7 +76,6 @@ void CGame::initLevel(int level) {
 
 	sizeArr = random(4, 5);
 	//sizeArr = 1;
-
 	for (int i = 1; i <= sizeArr; ++i) {
 		typeRoad = random(0, 1);
 		if (typeRoad == 0) {
@@ -88,7 +89,7 @@ void CGame::initLevel(int level) {
 		else if (typeRoad == 1) {
 			switch (level) {
 			case 1:
-				arrRoad.push_back(new RoadVehicle(3, random(4, 6), ObstacleType(random(0, 1)), 2 + 6 * i, random(1, 3) * 100, direction(random(2, 3))));
+				arrRoad.push_back(new RoadVehicle(3, random(4, 6), ObstacleType(random(0, 1)), 2 + 6 * i, random(1, 3) * 100, direction(random(2, 3))))
 			default:
 				break;
 			}

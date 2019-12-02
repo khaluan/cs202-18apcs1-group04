@@ -30,6 +30,7 @@ bool Cell::draw(bool isLight) {
 	idPic %= a.size();
 
 	m.unlock();
+
 	return res;
 }
 
