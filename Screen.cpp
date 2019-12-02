@@ -118,7 +118,7 @@ pauseChoice Screen::pauseMenu()
 			setColor(7);
 
 			gotoXY(xPos, yPos+2);
-			std::cout << "No";
+			std::cout << "NO";
 
 			s = stateMove(state, sNum);
 			break;
@@ -128,7 +128,7 @@ pauseChoice Screen::pauseMenu()
 
 			setColor(10);
 			gotoXY(xPos, yPos+2);
-			std::cout << "No";
+			std::cout << "NO";
 			setColor(7);
 
 
