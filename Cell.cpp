@@ -14,40 +14,40 @@ Cell::Cell(int x, int y, std::vector<std::vector<std::vector<char>>> shape) {
 bool Cell::draw(bool isLight) {
 	bool res = 0;
 	if ((x < 0 || x > Width || y < 0 || y > Height) && !isLight) return 0;
-	m.lock();
 	for (int i = 0; i < h; ++i)
-		for (int j = 0; j < w; ++j) {
+		for (int j = 0; j < w; ++j) if (a[idPic][i][j] != 255) {
 			int u = x + j - w/2, v = y + i - h/2;
 			if ((u <= 0 || u >= Width) && !isLight) continue;
 
 			if (!Screen::isPixelNull(v, u)) res = 1;
-			if (!isLight) Screen::setScreen(v, u, 1);
+			if (!isLight ) Screen::setScreen(v, u, 1);
+			m.lock();
 			gotoXY(u, v);
 			std::cout << a[idPic][i][j];
+			m.unlock();
 		}
 
 	++idPic;
 	idPic %= a.size();
 
-	m.unlock();
-
+	
 	return res;
 }
 
 void Cell::remove() {
 	if (x < 0 || x > Width || y < 0 || y > Height) return;
 
-	m.lock();
 	for (int i = 0; i < h; ++i)
 		for (int j = -1; j < w; ++j) {
 			int u = x + j - w/2, v = y + i - h/2;
 			if (u <= 0 || u >= Width) continue;
 			
 			if (j != -1) Screen::setScreen(v, u, 0);
+			m.lock();
 			gotoXY(u, v);
 			std::cout << (char)255;
+			m.unlock();
 		}
-	m.unlock();
 }
 
 bool Cell::move(direction direct, int stepX, int stepY) {
