@@ -12,7 +12,12 @@ public:
 	void init();
 	void process(CPeople* a);
 	void processLight();
-	void processVehicle(CPeople* a);
+	void processVehicle(CPeople* player);
+
+
+	void save(std::ofstream &fileGame);
+	void load(std::ifstream &fileGame);
+
 private:
 	Obstacle* light;
 	bool isLight, color = 0;

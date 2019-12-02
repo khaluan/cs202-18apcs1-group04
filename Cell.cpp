@@ -104,3 +104,17 @@ int Cell::getY()
 {
 	return y;
 }
+
+bool Cell::operator==(const Cell& a) {
+	return x == a.x && y == a.y;
+}
+
+void Cell::save(std::ofstream & fileGame)
+{
+	fileGame << x << " " << y << std::endl;
+}
+
+void Cell::load(std::ifstream & fileGame)
+{
+	fileGame >> x >> y;
+}

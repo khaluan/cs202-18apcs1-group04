@@ -16,6 +16,50 @@ CGame::~CGame() {
 		delete arrRoad[i];
 }
 
+void CGame::saveGame(const std::string & gameName)
+{
+	std::ofstream fileSave;
+	fileSave.open(gameName);
+	if (fileSave.is_open()) {
+		auto time = std::chrono::system_clock::now();
+		std::time_t save_time = std::chrono::system_clock::to_time_t(time);
+		fileSave << save_time << std::endl;
+		fileSave << level << std::endl;
+		fileSave << sizeArr << std::endl;
+		for (int i = 0; i < sizeArr; ++i)
+			arrRoad[i]->save(fileSave);
+		player->save(fileSave);
+		fileSave.close();
+	}
+	else
+		EXIT_ERROR("Cant open file to save", -1);
+}
+
+void CGame::loadGame(const std::string & gameName)
+{
+	std::ifstream gameFile;
+	gameFile.open(gameName);
+	if (gameFile.is_open()) {
+		std::time_t time;
+		gameFile >> time;
+		gameFile >> level >> sizeArr;
+		arrRoad.resize(sizeArr);
+		for (int i = 0; i < sizeArr; ++i) {
+			int type; gameFile >> type;
+			if (type == 0)
+				arrRoad[i] = new Road;
+			else
+				arrRoad[i] = new RoadVehicle;
+			arrRoad[i]->load(gameFile);
+
+			player->load(gameFile);
+		}
+		gameFile.close();
+	}
+	else
+		EXIT_ERROR("Can open file " + gameName + " to load game", -1);
+}
+
 void CGame::initLevel() {
 	// int offset,int maxObject, ObstacleType type, int objRow, int objectSpeed, direction direct
 	int typeRoad;
@@ -86,8 +130,8 @@ void CGame::process() {
 			}
 			Road::CHANGE_PAUSE();
 
+			//screen.pauseMenu();
 			Sleep(100);
-			//menuPause();
 		}
 		if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {
 			break;

@@ -138,7 +138,7 @@ pauseChoice Screen::pauseMenu()
 			s = stateMove(state, sNum);
 			break;
 		case 3:
-			return (pauseChoice)(state-1);
+			return (pauseChoice)(state - 1);
 		}
 	}
 	std::cin.ignore(1000, '\n');
@@ -215,7 +215,7 @@ mainChoice Screen::mainMenu()
 			s = stateMove(state, sNum);
 			break;
 		case 5:
-			return (mainChoice)(state-1);
+			return (mainChoice)(state - 1);
 		}
 	}
 	std::cin.ignore(1000, '\n');

@@ -42,6 +42,19 @@ void RoadVehicle::processVehicle(CPeople* a) {
 	}
 }
 
+void RoadVehicle::save(std::ofstream & fileGame)
+{
+	fileGame << 1 << std::endl;
+	Road::saveHelper(fileGame);
+	fileGame << color << " " << lightSpeed << std::endl;
+}
+
+void RoadVehicle::load(std::ifstream & fileGame)
+{
+	Road::load(fileGame);
+	fileGame >> color >> lightSpeed;
+}
+
 void RoadVehicle::process(CPeople* a) {
 	std::thread th1(&RoadVehicle::processVehicle, this, a);
 	std::thread th2(&RoadVehicle::processLight, this);

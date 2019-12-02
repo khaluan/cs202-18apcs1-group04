@@ -24,6 +24,10 @@ public:
 	void changeColor(bool color);
 	int getX();
 	int getY();
+
+	bool operator==(const Cell &a);
+	void save(std::ofstream &fileGame);
+	void load(std::ifstream &fileGame);
 private:
 	int x = 1, y = 1;
 	int w = 3, h = 3;

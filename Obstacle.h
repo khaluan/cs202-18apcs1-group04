@@ -12,6 +12,10 @@ public:
 	void display(bool isLight = false);
 	void remove();
 	void changeColor(bool Color);
+	
+	void save(std::ofstream &fileGame);
+	void load(std::ifstream &fileGame);
+
 	virtual void tell();
 	virtual ~Obstacle();
 private:

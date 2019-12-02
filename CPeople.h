@@ -23,6 +23,8 @@ public:
 	bool getState();
 	int getX();
 	int getY();
+	void save(std::ofstream &fileGame);
+	void load(std::ifstream &fileGame);
 	~CPeople();
 private:
 	Cell shape;

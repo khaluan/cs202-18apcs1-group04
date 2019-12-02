@@ -28,6 +28,16 @@ void Obstacle::changeColor(bool Color) {
 	shape.changeColor(Color);
 }
 
+void Obstacle::save(std::ofstream & fileGame)
+{
+	shape.save(fileGame);
+}
+
+void Obstacle::load(std::ifstream & fileGame)
+{
+	shape.load(fileGame);
+}
+
 void Obstacle::tell()
 {
 }

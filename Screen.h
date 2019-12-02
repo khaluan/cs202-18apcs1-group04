@@ -45,4 +45,5 @@ private:
 	static bool* screen;
 };
 
+
 #endif // !SCREEN_H

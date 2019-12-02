@@ -1,14 +1,19 @@
 #ifndef CGAME_H
 #define CGAME_H
 #include <fstream>
+#include <ctime>
+#include <chrono>
 #include "Road.h"
 #include "RoadVehicle.h"
 #include "CPeople.h"
+#include "Screen.h"
 
 class CGame {
 public:
 	CGame();
 	~CGame();
+	void saveGame(const std::string& gameName);
+	void loadGame(const std::string& gameName);
 	void initLevel();
 	void process();
 private:
@@ -16,6 +21,7 @@ private:
 	std::vector<Road*> arrRoad;
 	CPeople* player;
 	int level, sizeArr;
+	Screen scr;
 };
 
 //class Data {

@@ -80,6 +80,30 @@ void Road::remove()
 		arr[i]->remove();
 }
 
+void Road::save(std::ofstream & gameFile)
+{
+	gameFile << 0 << std::endl;
+	saveHelper(gameFile);
+}
+
+void Road::saveHelper(std::ofstream & gameFile)
+{
+	gameFile << offset << " " << maxObject << " " << objRow << " "
+		<< objectSpeed << " " << direct << " " << type << std::endl;
+	for (unsigned i = 0; i < arr.size(); ++i)
+		arr[i]->save(gameFile);
+}
+
+void Road::load(std::ifstream & gameFile)
+{
+	int directVal, typeVal;
+	gameFile >> offset >> maxObject >> objRow >> objectSpeed >> directVal >> typeVal;
+	direct = (direction)directVal;
+	type = (ObstacleType)typeVal;
+	for (unsigned i = 0; i < arr.size(); ++i)
+		arr[i]->load(gameFile);
+}
+
 direction Road::getDirection()
 {
 	return direct;

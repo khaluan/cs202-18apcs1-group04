@@ -98,6 +98,16 @@ void CPeople::display() {
 	shape.draw();
 }
 
+void CPeople::save(std::ofstream & fileGame)
+{
+	shape.save(fileGame);
+}
+
+void CPeople::load(std::ifstream & fileGame)
+{
+	shape.load(fileGame);
+}
+
 CPeople::~CPeople()
 {
 }

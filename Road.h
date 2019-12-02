@@ -25,14 +25,14 @@ public:
 	virtual void display();
 	void remove();
 
+	virtual void save(std::ofstream& gameFile);
+	void saveHelper(std::ofstream& gameFile);
+	virtual void load(std::ifstream &gameFile);
+
 	direction getDirection();
 	int getObjRow();
 
 	virtual ~Road();
-
-	void temporaryStop();
-	void freeStop();
-	void roadEnd();
 
 protected:
 	static ObstacleFactory factory;//This factory produce the correspond instance of objects to the lane
