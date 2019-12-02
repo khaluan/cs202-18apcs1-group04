@@ -3,7 +3,7 @@
 #include <thread>
 
 RoadVehicle::RoadVehicle() {
-	init();
+	
 }
 
 RoadVehicle::RoadVehicle(int offset, int maxObject, ObstacleType type, int objRow, int objectSpeed, direction direct) 
@@ -15,36 +15,51 @@ void RoadVehicle::init() {
 	isLight = random(0, 1);
 	lightSpeed = random(5, 10) * 400;
 
-	if (direct == Left) light = factory.getInstance(Light, Width + 3, objRow);
-	else if (direct == Right) light = factory.getInstance(Light, Width + 3, objRow);
+	if (direct == Left) light = factory.getInstance(Light, Width + 5, objRow);
+	else if (direct == Right) light = factory.getInstance(Light, Width + 5, objRow);
 	else EXIT_ERROR("FUCK", -1);
 }
 
 void RoadVehicle::processLight() {
+	return;
 	if (!isLight) return;
-	light->display(1);
+	light->display(isLight);
 	light->changeColor(color);
 	
-	while (!END_TASK) {
+	while (!EXIT) {
+		while (PAUSE){ }
 		Sleep(lightSpeed);
 		color = 1 - color;
 		light->changeColor(color);
 	}
 }
 
-void RoadVehicle::processVehicle() {
-	while (!END_TASK) {
-		/*if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {
-			EXIT = 1; return;
-		}*/
+void RoadVehicle::processVehicle(CPeople* a) {
 
-		if (!color) update();
+	while (!EXIT) {
+		while (PAUSE){ }
+		if (!color) update(a);
 		Sleep(objectSpeed);
 	}
 }
 
-void RoadVehicle::process() {
-	std::thread th1(&RoadVehicle::processVehicle, this);
+void RoadVehicle::save(std::ofstream & fileGame)
+{
+	fileGame << 1 << std::endl;
+	Road::saveHelper(fileGame);
+	fileGame << color << " " << lightSpeed << std::endl;
+}
+
+void RoadVehicle::load(std::ifstream & fileGame)
+{
+	Road::load(fileGame);
+	fileGame >> color >> lightSpeed;
+	if (direct == Left) light = factory.getInstance(Light, Width + 3, objRow);
+	else if (direct == Right) light = factory.getInstance(Light, Width + 3, objRow);
+}
+
+void RoadVehicle::process(CPeople* a) {
+	std::thread th1(&RoadVehicle::processVehicle, this, a);
 	std::thread th2(&RoadVehicle::processLight, this);
 	th2.join();
 	th1.join();

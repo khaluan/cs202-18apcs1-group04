@@ -1,3 +1,6 @@
+#ifndef OBSTACLEFACTORY_H
+#define OBSTACLEFACTORY_H
+
 #include "Obstacle.h"
 #include "CBird.h"
 #include "Truck.h"
@@ -20,10 +23,11 @@ class ObstacleFactory
 public:
 	ObstacleFactory();
 	Obstacle* getInstance(ObstacleType type, int x, int y);
-	std::vector<std::vector<char>> readShape(std::string& dir);
+	std::vector<std::vector<std::vector<char>>> readShape(std::string& dir);
 	~ObstacleFactory();
 private:
-	std::vector < std::vector<std::vector<char>> >pattern;
+	std::vector<std::vector < std::vector<std::vector<char>> >>pattern;
 	Obstacle * ptr = nullptr;
 };
 
+#endif // !OBSTACLEFACTORY_H

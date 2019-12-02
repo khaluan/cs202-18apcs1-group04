@@ -1,12 +1,13 @@
 #include "Road.h"
 ObstacleFactory Road::factory = ObstacleFactory();
-bool Road::END_TASK = false;
+bool Road::PAUSE = false;
+bool Road::EXIT = false;
 
 Road::Road() {
 	addObject(this->type);
 }
 
-Road::Road(int offset,int maxObject, ObstacleType type, int objRow, int objectSpeed, direction direct)
+Road::Road(int offset, int maxObject, ObstacleType type, int objRow, int objectSpeed, direction direct)
 {
 	this->offset = offset;
 	this->maxObject = maxObject;
@@ -22,10 +23,10 @@ void Road::addObject(ObstacleType type)
 	//TODO: Change the distance of the 2 consecutive objects
 	int curX = (direct == 2) ? Width : 1;
 	for (int i = 0; i < maxObject; ++i) {
-		Obstacle *ptr = nullptr;
+		Obstacle* ptr = nullptr;
 
-		if (direct == 2) curX += random(2, 7) * 3;
-		if (direct == 3) curX -= random(2, 7) * 3;
+		if (direct == 2) curX += random(3, 4) * 9;
+		if (direct == 3) curX -= random(3, 4) * 9;
 
 		if (direct == 2) ptr = factory.getInstance(type, curX, objRow);
 		if (direct == 3) ptr = factory.getInstance(type, curX, objRow);
@@ -34,21 +35,25 @@ void Road::addObject(ObstacleType type)
 	}
 }
 
-void Road::update()
-{
-	for (unsigned i = 0; i < arr.size(); ++i)
-		arr[i]->move(direct);
+void Road::update(CPeople* a) {
+	for (unsigned i = 0; i < arr.size(); ++i) {
+		if (arr[i]->move(direct)) a->turnState();
+	}
 }
 
-void Road::CHANGE_END_TASK() {
-	END_TASK = 1 - END_TASK;
+void Road::CHANGE_PAUSE() {
+	PAUSE = 1 - PAUSE;
 }
 
-void Road::process()
+void Road::CHANGE_EXIT() {
+	EXIT = 1 - EXIT;
+}
+
+void Road::process(CPeople* a)
 {
-	while (!END_TASK) {
-		//if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) return;
-		update();
+	while (!EXIT) {
+		while (PAUSE) {}
+		update(a);
 		Sleep(objectSpeed);
 	}
 }
@@ -75,6 +80,34 @@ void Road::remove()
 		arr[i]->remove();
 }
 
+void Road::save(std::ofstream & gameFile)
+{
+	gameFile << 0 << std::endl;
+	saveHelper(gameFile);
+}
+
+void Road::saveHelper(std::ofstream & gameFile)
+{
+	gameFile << offset << " " << arr.size() << " " << objRow << " "
+		<< objectSpeed << " " << direct << " " << type << std::endl;
+	for (unsigned i = 0; i < arr.size(); ++i)
+		arr[i]->save(gameFile);
+}
+
+void Road::load(std::ifstream & gameFile)
+{
+	int directVal, typeVal;
+	gameFile >> offset >> maxObject >> objRow >> objectSpeed >> directVal >> typeVal;
+	direct = (direction)directVal;
+	type = (ObstacleType)typeVal;
+	arr.resize(maxObject);
+	for (unsigned i = 0; i < arr.size(); ++i) {
+		int x, y;
+		gameFile >> x >> y;
+		arr[i] = Road::factory.getInstance(type, x, y);
+	}
+}
+
 direction Road::getDirection()
 {
 	return direct;
@@ -91,3 +124,5 @@ Road::~Road()
 		delete arr[i];
 	arr.clear();
 }
+
+

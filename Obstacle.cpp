@@ -4,14 +4,14 @@ Obstacle::Obstacle()
 {
 }
 
-Obstacle::Obstacle(int x, int y, std::vector<std::vector<char>> shape)
+Obstacle::Obstacle(int x, int y, std::vector<std::vector<std::vector<char>>> shape)
 {
 	this->shape = Cell(x, y, shape);
 }
 
-void Obstacle::move(direction direct)
+bool Obstacle::move(direction direct)
 {
-	shape.move(direct);
+	return shape.move(direct);
 }
 
 void Obstacle::display(bool isLight)
@@ -26,6 +26,16 @@ void Obstacle::remove()
 
 void Obstacle::changeColor(bool Color) {
 	shape.changeColor(Color);
+}
+
+void Obstacle::save(std::ofstream & fileGame)
+{
+	shape.save(fileGame);
+}
+
+void Obstacle::load(std::ifstream & fileGame)
+{
+	shape.load(fileGame);
 }
 
 void Obstacle::tell()

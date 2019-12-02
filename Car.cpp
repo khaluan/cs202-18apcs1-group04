@@ -2,7 +2,7 @@
 
 
 
-CCar::CCar(int x, int y, std::vector<std::vector<char>> shape)
+CCar::CCar(int x, int y, std::vector<std::vector<std::vector<char>>> shape)
 	:Obstacle(x, y, shape)
 {
 }

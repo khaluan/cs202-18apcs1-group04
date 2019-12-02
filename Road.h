@@ -15,23 +15,30 @@ public:
 	
 	virtual void addObject(ObstacleType type);//This function add object to array of objects
 	
-	virtual void update();//Update position of all objects
-	virtual void process();//Dont know what to do, = update + sleep
+	virtual void update(CPeople* a);//Update position of all objects
+	virtual void process(CPeople* a);//Dont know what to do, = update + sleep
 	
-	static void CHANGE_END_TASK();
+	static void CHANGE_PAUSE();
+	static void CHANGE_EXIT();
 
 	void displayOutline();//This function is used to display 2 border of each lane
 	virtual void display();
 	void remove();
 
+	virtual void save(std::ofstream& gameFile);
+	void saveHelper(std::ofstream& gameFile);
+	virtual void load(std::ifstream &gameFile);
+
 	direction getDirection();
 	int getObjRow();
 
 	virtual ~Road();
+
 protected:
 	static ObstacleFactory factory;//This factory produce the correspond instance of objects to the lane
-	static bool END_TASK;
-	int offset = 3;
+	static bool PAUSE, EXIT;
+	int offset = 1;
+
 	int maxObject = 5, objRow = 5, objectSpeed = 100;
 	direction direct = Left;
 	std::vector<Obstacle*> arr;

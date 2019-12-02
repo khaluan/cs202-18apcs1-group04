@@ -5,7 +5,7 @@ class CBird :
 	public Obstacle
 {
 public:
-	CBird(int x, int y, std::vector<std::vector<char>> shape);
+	CBird(int x, int y, std::vector<std::vector<std::vector<char>>> shape);
 	void tell();
 	~CBird();
 private:

@@ -2,7 +2,7 @@
 
 
 
-CDinosaur::CDinosaur(int x, int y, std::vector<std::vector<char>> shape)
+CDinosaur::CDinosaur(int x, int y, std::vector<std::vector<std::vector<char>>> shape)
 	:Obstacle(x, y, shape)
 {
 }

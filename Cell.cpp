@@ -3,72 +3,75 @@
 #include "Screen.h"
 #include <iostream>
 
-Cell::Cell(int x, int y, std::vector<std::vector<char>> shape) {
+Cell::Cell(int x, int y, std::vector<std::vector<std::vector<char>>> shape) {
 	this->x = x; this->y = y;
 	this->a = shape;
-	this->h = shape.size();
-	this->w = shape[0].size();
+	this->h = shape[0].size();
+	this->w = shape[0][0].size();
+	idPic = 0;
 }
 
-Cell::Cell(int x, int y)
-{
-	this->x = x;
-	this->y = y;
-}
-
-void Cell::init(int x, int y) {
-	this->x = x;
-	this->y = y;
-}
-
-void Cell::input(std::ifstream & fin)
-{
-	//TODO: 
-}
-
-void Cell::draw(bool isLight) {
-	if ((x < 0 || x > Width || y < 0 || y > Height) && !isLight) return;
+bool Cell::draw(bool isLight) {
+	bool res = 0;
+	if ((x < 0 || x > Width || y < 0 || y > Height) && !isLight) return 0;
+	m.lock();
 	for (int i = 0; i < h; ++i)
 		for (int j = 0; j < w; ++j) {
-			m.lock();
-			gotoXY(x + i - 1, y + j - 1);
-			std::cout << a[i][j];
-			m.unlock();
+			int u = x + j - w/2, v = y + i - h/2;
+			if ((u <= 0 || u >= Width) && !isLight) continue;
+
+			if (!Screen::isPixelNull(v, u)) res = 1;
+			if (!isLight) Screen::setScreen(v, u, 1);
+			gotoXY(u, v);
+			std::cout << a[idPic][i][j];
 		}
+
+	++idPic;
+	idPic %= a.size();
+
+	m.unlock();
+	return res;
 }
 
 void Cell::remove() {
 	if (x < 0 || x > Width || y < 0 || y > Height) return;
+
+	m.lock();
 	for (int i = 0; i < h; ++i)
 		for (int j = -1; j < w; ++j) {
-			m.lock();
-			gotoXY(x + j - 1, y + i - 1);
+			int u = x + j - w/2, v = y + i - h/2;
+			if (u <= 0 || u >= Width) continue;
+			
+			if (j != -1) Screen::setScreen(v, u, 0);
+			gotoXY(u, v);
 			std::cout << (char)255;
-			m.unlock();
 		}
+	m.unlock();
 }
 
-void Cell::move(direction direct) {
+bool Cell::move(direction direct, int stepX, int stepY) {
 	remove();
 	if (direct == 0) {
-		if (y == 1) y = Height - 2;
-		else y -= 3;
+		if (y - stepY >= 1)
+			y -= stepY;
 	}
 	else if (direct == 1) {
-		if (y == Height - 2) y = 1;
-		else y += 3;
+		if (y + stepY <= Height)
+			y += stepY;
 	}
 	else if (direct == 2) {
-		if (x == 1) x = Width;
-		else x -= 3;
+		if (x <= 1) x = Width;
+		//else --x;
+		else x -= stepX;
 	}
 	else if (direct == 3) {
-		if (x == Width) x = 1;
-		else x += 3;
+		if (x >= Width) x = 1;
+		//else ++x;
+		else x += stepX;
 	}
 	else EXIT_ERROR("Wrong drirect: " + char(direct + '0'), 1);
 
-	draw();
+	return draw();
 }
 
 void Cell::changeColor(bool color) {
@@ -76,7 +79,31 @@ void Cell::changeColor(bool color) {
 	gotoXY(x , y - 1);
 	if (color) setColor(RED);
 	else setColor(GREEN);
-	std::cout << a[1][1];
+	std::cout << a[0][1][1];
 	setColor(WHITE);
 	m.unlock();
+}
+
+int Cell::getX()
+{
+	return x;
+}
+
+int Cell::getY()
+{
+	return y;
+}
+
+bool Cell::operator==(const Cell& a) {
+	return x == a.x && y == a.y;
+}
+
+void Cell::save(std::ofstream & fileGame)
+{
+	fileGame << x << " " << y << std::endl;
+}
+
+void Cell::load(std::ifstream & fileGame)
+{
+	fileGame >> x >> y;
 }

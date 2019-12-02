@@ -1,15 +1,13 @@
 #include "CPeople.h"
+#include "Road.h"
 
 CPeople::CPeople()
 {
-	x = 1;
-	y = 1;
+	shape = Cell(4, 4, readShape("Human.txt"));
 }
 
 CPeople::CPeople(int x, int y)
 {
-	this->x = x;
-	this->y = y;
 	this->shape = Cell(x, y, readShape("Human.txt"));
 }
 
@@ -42,19 +40,19 @@ void CPeople::move(const char & c, const int & stepx, const int & stepy, const i
 }
 */
 
-std::vector<std::vector<char>> CPeople::readShape(const std::string& dir) {
-
+std::vector<std::vector<std::vector<char>>> CPeople::readShape(const std::string& dir) {
 	std::string directory = "Data/" + dir;
 	std::ifstream fin;
 	fin.open(directory);
 	if (fin.is_open()) {
-		int h, w; fin >> h >> w;
-		std::vector<std::vector<char>> tmp(h, std::vector<char>(w));
-		for (int i = 0; i < h; ++i)
-			for (int j = 0; j < w; ++j) {
-				int val; fin >> val;
-				tmp[j][i] = char(val);
-			}
+		int num, h, w; fin >> num >> h >> w;
+		std::vector<std::vector<std::vector<char>>> tmp(num, std::vector<std::vector<char>>(h, std::vector<char>(w)));
+		for (int k = 0; k < num; ++k)
+			for (int i = 0; i < h; ++i)
+				for (int j = 0; j < w; ++j) {
+					int val; fin >> val;
+					tmp[k][i][j] = char(val);
+				}
 		fin.close();
 		return tmp;
 	}
@@ -62,111 +60,53 @@ std::vector<std::vector<char>> CPeople::readShape(const std::string& dir) {
 		EXIT_ERROR("File at " + directory + " not found", -1);
 }
 
-void CPeople::move(const int& stepx, const int& stepy) {
-	while (!isFinish(Height))
-	{
-		shape.init(x,y);
-		gotoXY(x, y);
-		shape.draw();
-		char ch = _getch();
-		switch (ch)
-		{
-		case 's':
-
-			if (y+stepy <= Height)
-			{
-				y += stepy;
-			}
-			else
-			{
-				y = Height;
-			}
-
-			Sleep(300);
-			break;
-			//system("cls");
-			//return y;
-
-		case 'w':
-
-			if (y - stepy >= 0)
-			{
-				y -= stepy;
-			}
-			else
-			{
-				y = 0;
-			}
-
-			Sleep(300);
-			break;
-			//system("cls");
-			//return state;
-
-		case 'd':
-
-			if (x + stepx <= Width)
-			{
-				x += stepx;
-			}
-			else
-			{
-				x = Width;
-			}
-			Sleep(300);
-			break;
-			//	system("cls");
-			//return state;
-
-		case 'a':
-
-			if (x - stepx >= 0)
-			{
-				x -= stepx;
-			}
-			else
-			{
-				x = 0;
-			}
-			Sleep(300);
-			break;
-			//	system("cls");
-			//return state;
-
-		case 27:
-			return;
-		default:
-			break;
-		}
-		shape.remove();
-	}
+void CPeople::move(const direction& d) {
+	if (shape.move(d)) state = false;
 }
 
-bool CPeople::isFinish(const int & height)
+bool CPeople::isFinish(const int& height)
 {
-	if (y == Height) return true;
+	if (shape.getY() == 0) return true;
 	return false;
 }
 
-void CPeople::display()
+void CPeople::turnState()
 {
-	gotoXY(x, y);
-	std::cout << (char)177;
-	gotoXY(x, y + 1);
-	std::cout << (char)197;
-
-}
-
-bool CPeople::isDead()
-{
-	//TODO: 
-	//return isImpact(animal) | isImpact(vehicle);
-	return false;
+	state = 1 - state;
 }
 
 void CPeople::update()
 {
 	//TODO: 
+}
+
+bool CPeople::getState()
+{
+	return state;
+}
+
+int CPeople::getX()
+{
+	return shape.getX();
+}
+
+int CPeople::getY()
+{
+	return shape.getY();
+}
+
+void CPeople::display() {
+	shape.draw();
+}
+
+void CPeople::save(std::ofstream& fileGame)
+{
+	shape.save(fileGame);
+}
+
+void CPeople::load(std::ifstream& fileGame)
+{
+	shape.load(fileGame);
 }
 
 CPeople::~CPeople()
