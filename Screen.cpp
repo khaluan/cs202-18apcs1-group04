@@ -298,7 +298,7 @@ std::string Screen::loadMenu() {
 
 bool* Screen::constructor() {
 	bool* res = new bool[20000];
-	for (int i = 0; i < 20000; ++i) res[i] = 0;
+	for (int i = 0; i < 20000; ++i) res[i] = false;
 	return res;
 }
 
@@ -306,7 +306,7 @@ void Screen::destructor() {
 	delete[] screen;
 }
 
-void Screen::setScreen(int i, int j, int c) {
+void Screen::setScreen(int i, int j, bool c) {
 	if (i * Width + j >= 20000 || i * Width + j < 0) {
 		EXIT_ERROR("index screen out of range", 1);
 	}
@@ -315,7 +315,7 @@ void Screen::setScreen(int i, int j, int c) {
 }
 
 bool Screen::isPixelNull(int i, int j) {
-	return screen[i * Width + j] == 0;
+	return !screen[i * Width + j];
 }
 
 /*	switch (s)

@@ -81,7 +81,7 @@ void CGame::initLevel(int level) {
 		if (typeRoad == 0) {
 			switch (level){
 			case 1:
-				arrRoad.push_back(new Road(3, random(4, 6), ObstacleType(random(3, 3)), 2 + 6 * i, random(1, 3) * 100, direction(random(2, 3))));
+				arrRoad.push_back(new Road(3, random(4, 6), ObstacleType(random(3, 3)), 2 + 6 * i, random(1, 3) * 120, direction(random(2, 3))));
 			default:
 				break;
 			}
@@ -89,7 +89,7 @@ void CGame::initLevel(int level) {
 		else if (typeRoad == 1) {
 			switch (level) {
 			case 1:
-				arrRoad.push_back(new RoadVehicle(3, random(4, 6), ObstacleType(random(1, 1)), 2 + 6 * i, random(1, 3) * 100, direction(random(2, 2))));
+				arrRoad.push_back(new RoadVehicle(3, random(4, 6), ObstacleType(random(1, 1)), 2 + 6 * i, random(1, 3) * 120, direction(random(2, 2))));
 			default:
 				break;
 			}

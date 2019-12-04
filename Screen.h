@@ -41,7 +41,7 @@ public:
 	static bool* constructor();
 	static void destructor();
 
-	static void setScreen(int i, int j, int c);
+	static void setScreen(int i, int j, bool c);
 	static bool isPixelNull(int i, int j);
 private:
 	const int height = 30, width = 100, sleepTime = 200, xPos = 20, yPos = 10; //Fix later
