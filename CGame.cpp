@@ -80,17 +80,15 @@ void CGame::initLevel(int level) {
 		typeRoad = random(0, 1);
 		if (typeRoad == 0) {
 			switch (level){
-			case 1:
-				arrRoad.push_back(new Road(3, random(4, 6), ObstacleType(random(3, 3)), 2 + 6 * i, random(1, 3) * 120, direction(random(2, 3))));
 			default:
+				arrRoad.push_back(new Road(2, random(4, 7), ObstacleType(random(2, 3)), 3 + 4 * i, random(1, 3) * 60, direction(random(2, 3))));
 				break;
 			}
 		}
 		else if (typeRoad == 1) {
 			switch (level) {
-			case 1:
-				arrRoad.push_back(new RoadVehicle(3, random(4, 6), ObstacleType(random(1, 1)), 2 + 6 * i, random(1, 3) * 120, direction(random(2, 2))));
 			default:
+				arrRoad.push_back(new RoadVehicle(2, random(4, 7), ObstacleType(random(0, 1)), 3 + 4 * i, random(1, 3) * 60, direction(random(2, 3))));
 				break;
 			}
 		}
@@ -99,11 +97,11 @@ void CGame::initLevel(int level) {
 
 	for (int i = 0; i < sizeArr; ++i)
 		arrRoad[i]->displayOutline();
+	player = new CPeople(1, 27);
 }
 
 
-void CGame::process() {
-	//loadGame("SavedGame/test.txt");
+levelState CGame::process() {
 	std::thread *th = new std::thread[sizeArr];
 	
 	for (int i = 0; i < sizeArr; ++i)
@@ -111,7 +109,7 @@ void CGame::process() {
 
 	player->display();
 
-	while (player->getState()) {
+	while (player->getState() && !player->isFinish()) {
 		if ((GetAsyncKeyState(VK_UP) | GetAsyncKeyState('W')) & 0x8000) {
 			player->move(Up);
 			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
@@ -142,8 +140,10 @@ void CGame::process() {
 				for (int i = 0; i < sizeArr; ++i)
 					arrRoad[i]->displayOutline();
 			}
-			else
+			else {
+				return EXIT;
 				break;
+			}
 
 			Sleep(100);
 		}
@@ -158,5 +158,84 @@ void CGame::process() {
 		th[i].join();
 
 	delete[]th;
+	if (player->isFinish())
+		return WIN;
+	else if (!player->getState())
+		return LOSE;
+	else
+		return EXIT;
+}
+
+void CGame::reset()
+{
+	for (int i = 0; i < arrRoad.size(); ++i)
+		delete arrRoad[i];
+	delete player;
+	arrRoad.resize(0);
+	Screen::reset();
+}
+
+void CGame::Run()
+{
+	mainChoice choice = scr.mainMenu();
+	switch (choice)
+	{
+	case NEWGAME:
+		this->level = 1;
+		system("cls");
+		this->Play(false);
+		break;
+	case LOADGAME: {
+		std::string dir = scr.loadMenu();
+		system("cls");
+		this->loadGame(dir);
+		this->Play(true);
+		break;
+	}
+	case SETTING:
+		break;
+	default:
+		break;
+	}
+	return;
+}
+
+void CGame::Play(bool loadGame)
+{
+	while (this->level < this->maxLevel) {
+		if (!loadGame) {
+			this->initLevel(level);
+			loadGame = false;
+		}
+		levelState state = this->process();
+		switch (state)	
+		{
+		case WIN:
+			++level;
+			system("cls");
+			break;
+		case LOSE: {
+			pauseChoice choice = scr.pauseMenu();
+			switch (choice)
+			{
+			case YES:
+				break;
+			case NO:
+				Run();
+				return;
+			default:
+				break;
+			}
+			break;
+		}
+		case EXIT:
+			Run();
+			return;
+			break;
+		default:
+			break;
+		}
+		reset();
+	}
 }
 

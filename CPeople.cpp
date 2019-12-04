@@ -64,9 +64,9 @@ void CPeople::move(const direction& d) {
 	if (shape.move(d)) state = false;
 }
 
-bool CPeople::isFinish(const int& height)
+bool CPeople::isFinish()
 {
-	if (shape.getY() == 0) return true;
+	if (shape.getY() <= 3) return true;
 	return false;
 }
 

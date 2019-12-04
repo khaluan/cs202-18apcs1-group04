@@ -9,18 +9,9 @@ int main() {
 	initScreen();
 	
 	CGame a;
-	a.initLevel(1);
-	a.process();
-
+	a.Run();
 	Screen::destructor();
 
-	/*Screen X;
-	std::vector<std::string> tmp = X.inputPlayer_Menu();
-	std::cout << tmp[0] << "     " << tmp[1] << std::endl;*/
-	/*Screen X;
-	std::string tmp;
-	tmp = X.saveMenu();
-	std::cout << std::endl << "*************************" << std::endl << tmp << std::endl;*/
 
 	return 0;
 }

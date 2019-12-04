@@ -7,21 +7,31 @@
 #include "RoadVehicle.h"
 #include "CPeople.h"
 #include "Screen.h"
+enum levelState
+{
+	WIN,
+	EXIT,
+	LOSE
+};
 
 class CGame {
 public:
+
 	CGame();
 	CGame(int level);
 	~CGame();
 	void saveGame(const std::string& gameName);
 	void loadGame(const std::string& gameName);
 	void initLevel(int level);
-	void process();
+	levelState process();
+	void reset();
+	void Run();
+	void Play(bool loadGame); //if loadGame is true, then we dont need to initialize a level
 private:
 	const int SLEEP_TIME_BETWEEN_SCREEN = 100;
 	std::vector<Road*> arrRoad;
 	CPeople* player;
-	int level, sizeArr;
+	int level, sizeArr, maxLevel = 30;
 	Screen scr;
 };
 

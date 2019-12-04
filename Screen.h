@@ -43,6 +43,7 @@ public:
 
 	static void setScreen(int i, int j, bool c);
 	static bool isPixelNull(int i, int j);
+	static void reset(int size = 10000);
 private:
 	const int height = 30, width = 100, sleepTime = 200, xPos = 20, yPos = 10; //Fix later
 	std::string saveDir = "Data/";

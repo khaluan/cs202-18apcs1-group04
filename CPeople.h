@@ -14,7 +14,7 @@ public:
 	std::vector<std::vector<std::vector<char>>> readShape(const std::string& dir);
 	void move(const direction& d);
 
-	bool isFinish(const int &height);
+	bool isFinish();
 	void turnState();//Comment code
 	void display();
 	//bool isImpact(const &CAnimal);
