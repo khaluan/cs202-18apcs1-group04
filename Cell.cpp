@@ -15,7 +15,7 @@ bool Cell::draw(bool isLight) {
 	bool res = 0;
 	if ((x < 0 || x > Width || y < 0 || y > Height) && !isLight) return 0;
 	for (int i = 0; i < h; ++i)
-		for (int j = 0; j < w; ++j) if (a[idPic][i][j] != char(255)) {
+		for (int j = 0; j < w; ++j) {
 			int u = x + j - w/2, v = y + i - h/2;
 			if ((u <= 0 || u >= Width) && !isLight) continue;
 
@@ -34,7 +34,7 @@ void Cell::remove() {
 	if (x < 0 || x > Width || y < 0 || y > Height) return;
 
 	for (int i = 0; i < h; ++i)
-		for (int j = -1; j < w; ++j) if ((j == -1) || (j != -1 && a[idPic][i][j] != char(255))) {
+		for (int j = -1; j < w; ++j) {
 			int u = x + j - w/2, v = y + i - h/2;
 			if (u <= 0 || u >= Width) continue;
 			
