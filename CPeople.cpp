@@ -66,7 +66,7 @@ void CPeople::move(const direction& d) {
 
 bool CPeople::isFinish()
 {
-	if (shape.getY() <= 3) return true;
+	if (shape.getY() == 0) return true;
 	return false;
 }
 

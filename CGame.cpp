@@ -17,8 +17,6 @@ CGame::CGame(int level)
 	initLevel(level);
 }
 
-
-
 CGame::~CGame() {
 	delete player;
 	for (int i = 0; i < sizeArr; ++i)
@@ -80,15 +78,17 @@ void CGame::initLevel(int level) {
 		typeRoad = random(0, 1);
 		if (typeRoad == 0) {
 			switch (level){
+			case 1:
+				arrRoad.push_back(new Road(3, random(4, 6), ObstacleType(random(3, 3)), 2 + 6 * i, random(1, 3) * 120, direction(random(2, 3))));
 			default:
-				arrRoad.push_back(new Road(2, random(4, 7), ObstacleType(random(2, 3)), 3 + 4 * i, random(1, 3) * 60, direction(random(2, 3))));
 				break;
 			}
 		}
 		else if (typeRoad == 1) {
 			switch (level) {
+			case 1:
+				arrRoad.push_back(new RoadVehicle(3, random(4, 6), ObstacleType(random(1, 1)), 2 + 6 * i, random(1, 3) * 120, direction(random(2, 2))));
 			default:
-				arrRoad.push_back(new RoadVehicle(2, random(4, 7), ObstacleType(random(0, 1)), 3 + 4 * i, random(1, 3) * 60, direction(random(2, 3))));
 				break;
 			}
 		}
@@ -97,7 +97,6 @@ void CGame::initLevel(int level) {
 
 	for (int i = 0; i < sizeArr; ++i)
 		arrRoad[i]->displayOutline();
-	player = new CPeople(1, 27);
 }
 
 
@@ -109,7 +108,7 @@ levelState CGame::process() {
 
 	player->display();
 
-	while (player->getState() && !player->isFinish()) {
+	while (player->getState()) {
 		if ((GetAsyncKeyState(VK_UP) | GetAsyncKeyState('W')) & 0x8000) {
 			player->move(Up);
 			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
@@ -140,7 +139,7 @@ levelState CGame::process() {
 				for (int i = 0; i < sizeArr; ++i)
 					arrRoad[i]->displayOutline();
 			}
-			else {
+			else{
 				return EXIT;
 				break;
 			}
@@ -182,6 +181,7 @@ void CGame::Run()
 	{
 	case NEWGAME:
 		this->level = 1;
+		this->initLevel(level);
 		system("cls");
 		this->Play(false);
 		break;
@@ -208,7 +208,7 @@ void CGame::Play(bool loadGame)
 			loadGame = false;
 		}
 		levelState state = this->process();
-		switch (state)	
+		switch (state)
 		{
 		case WIN:
 			++level;

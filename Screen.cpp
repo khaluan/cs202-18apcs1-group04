@@ -219,7 +219,7 @@ std::vector<std::string> Screen::loadList() {
 }
 
 std::string Screen::loadMenu() {
-	std::vector<std::string> load_list = read_directory("SavedGame");
+	std::vector<std::string> load_list = read_directory("Data.txt");
 	system("cls");
 	Sleep(sleepTime);
 	int state = 1, s = 1, sNum = 4;
@@ -318,6 +318,12 @@ bool Screen::isPixelNull(int i, int j) {
 	return !screen[i * Width + j];
 }
 
+void Screen::reset(int size)
+{
+	for (int i = 0; i < size; ++i)
+		screen[i] = 0;
+}
+
 /*	switch (s)
 		{
 
@@ -414,9 +420,3 @@ bool Screen::isPixelNull(int i, int j) {
 //case 5:
 //	return (mainChoice)(state - 1);
 //}
-void Screen::reset(int size)
-{
-	for (int i = 0; i < size; ++i)
-		screen[i] = 0;
-}
-

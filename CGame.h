@@ -7,6 +7,7 @@
 #include "RoadVehicle.h"
 #include "CPeople.h"
 #include "Screen.h"
+
 enum levelState
 {
 	WIN,
@@ -14,9 +15,9 @@ enum levelState
 	LOSE
 };
 
+
 class CGame {
 public:
-
 	CGame();
 	CGame(int level);
 	~CGame();
