@@ -11,6 +11,7 @@ class Road
 {
 public:
 	Road();
+	virtual ~Road();
 	Road(int offset, int maxObject, ObstacleType type, int objRow, int objectSpeed, direction direct);
 	
 	virtual void addObject(ObstacleType type);//This function add object to array of objects
@@ -31,9 +32,6 @@ public:
 
 	direction getDirection();
 	int getObjRow();
-
-	virtual ~Road();
-
 protected:
 	static ObstacleFactory factory;//This factory produce the correspond instance of objects to the lane
 	static bool PAUSE, EXIT;

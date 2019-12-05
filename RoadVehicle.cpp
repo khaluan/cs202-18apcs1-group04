@@ -13,7 +13,7 @@ RoadVehicle::RoadVehicle(int offset, int maxObject, ObstacleType type, int objRo
 
 void RoadVehicle::init() {
 	isLight = 1;
-	lightSpeed = random(5, 10) * 400;
+	lightSpeed = random(10, 20) * 400;
 
 	if (direct == Left) light = factory.getInstance(Light, Width + 5, objRow);
 	else if (direct == Right) light = factory.getInstance(Light, Width + 5, objRow);
@@ -21,14 +21,24 @@ void RoadVehicle::init() {
 }
 
 void RoadVehicle::processLight() {
-	return;
 	if (!isLight) return;
 	light->display(isLight);
 	light->changeColor(color);
 	
+	bool ok = 0;
+
 	while (!EXIT) {
-		while (PAUSE){ }
 		Sleep(lightSpeed);
+
+		if (PAUSE) ok = 1;
+
+		while (PAUSE) { }
+
+		if (ok) {
+			ok = 0;
+			light->display(isLight);
+		}
+
 		color = 1 - color;
 		light->changeColor(color);
 	}
@@ -37,7 +47,7 @@ void RoadVehicle::processLight() {
 void RoadVehicle::processVehicle(CPeople* a) {
 
 	while (!EXIT) {
-		while (PAUSE){ }
+		while (PAUSE) {}
 		if (!color) update(a);
 		Sleep(objectSpeed);
 	}

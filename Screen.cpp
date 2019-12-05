@@ -99,15 +99,14 @@ std::vector<std::string> Screen::inputPlayer_Menu() {
 	return playerInfo;
 }
 
-pauseChoice Screen::pauseMenu()
-{
+pauseChoice Screen::pauseMenu() {
 	system("cls");
+
 	Sleep(sleepTime);
 	int state = 1, s = 1, sNum = pauseChoice_list.size();
 	gotoXY(xPos, yPos);
 	std::cout << "Do you want to continue ?" << std::endl;
-	while (1)
-	{
+	while (1) {
 		if (s <= sNum) {
 			setColor(10);
 			gotoXY(xPos, yPos + s);

@@ -17,7 +17,7 @@ bool Cell::draw(bool isLight) {
 	
 
 	for (int i = 0; i < h; ++i)
-		for (int j = 0; j < w; ++j) {
+		for (int j = 0; j < w; ++j) if (a[idPic][i][j] != char(255)){
 			int u = x + j - w/2, v = y + i - h/2;
 			if ((u <= 0 || u >= Width) && !isLight) continue;
 
@@ -29,6 +29,7 @@ bool Cell::draw(bool isLight) {
 			m.unlock();
 		}
 
+
 	return res;
 }
 
@@ -36,7 +37,7 @@ void Cell::remove() {
 	if (x < 0 || x > Width || y < 0 || y > Height) return;
 
 	for (int i = 0; i < h; ++i)
-		for (int j = -1; j < w; ++j) {
+		for (int j = 0; j < w; ++j) if (a[idPic][i][j] != char(255)){
 			int u = x + j - w/2, v = y + i - h/2;
 			if (u <= 0 || u >= Width) continue;
 			
@@ -78,10 +79,15 @@ bool Cell::move(direction direct, int stepX, int stepY) {
 
 void Cell::changeColor(bool color) {
 	m.lock();
-	gotoXY(x , y - 1);
 	if (color) setColor(RED);
 	else setColor(GREEN);
+
+	gotoXY(x, y);
 	std::cout << a[0][1][1];
+
+	gotoXY(x, y - 1);
+	std::cout << a[0][1][1];
+
 	setColor(WHITE);
 	m.unlock();
 }

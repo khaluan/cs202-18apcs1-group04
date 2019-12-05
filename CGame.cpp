@@ -6,6 +6,7 @@ CGame::CGame() {
 	level = 1;
 	player = new CPeople(4, 38);
 	sizeArr = 0;
+	initLevel(level);
 }
 
 CGame::CGame(int level)
@@ -19,8 +20,9 @@ CGame::CGame(int level)
 
 CGame::~CGame() {
 	delete player;
-	for (int i = 0; i < sizeArr; ++i)
-		delete arrRoad[i];
+	for (auto i : arrRoad)
+		delete i;
+	arrRoad.clear();
 }
 
 void CGame::saveGame(const std::string & gameName)
@@ -131,20 +133,24 @@ levelState CGame::process() {
 
 		if (GetAsyncKeyState('P') & 0x8000) {//TODO: Bug press any key else unpause the game
 			Road::CHANGE_PAUSE();
-			Sleep(100);
-		
+
 			pauseChoice choice = scr.pauseMenu();
-			Road::CHANGE_PAUSE();
+						
+			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
+
 			if (choice == YES) {
+				m.lock();
+				system("cls");
 				for (int i = 0; i < sizeArr; ++i)
 					arrRoad[i]->displayOutline();
+				player->display();
+				m.unlock();
+				Road::CHANGE_PAUSE();
 			}
-			else{
-				return EXIT;
+			else {
+				Road::CHANGE_PAUSE();
 				break;
 			}
-
-			Sleep(100);
 		}
 		if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {
 			break;

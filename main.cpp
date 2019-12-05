@@ -9,7 +9,7 @@ int main() {
 	initScreen();
 
 	CGame a;
-	a.Run();
+	a.process();
 	Screen::destructor();
 
 	/*Screen X;

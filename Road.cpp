@@ -7,6 +7,12 @@ Road::Road() {
 	addObject(this->type);
 }
 
+Road::~Road() {
+	for (auto p : arr)
+		delete p;
+	arr.clear();
+}
+
 Road::Road(int offset, int maxObject, ObstacleType type, int objRow, int objectSpeed, direction direct)
 {
 	this->offset = offset;
@@ -117,12 +123,4 @@ int Road::getObjRow()
 {
 	return objRow;
 }
-
-Road::~Road()
-{
-	for (unsigned i = 0; i < arr.size(); ++i)
-		delete arr[i];
-	arr.clear();
-}
-
 

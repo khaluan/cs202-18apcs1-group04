@@ -14,6 +14,7 @@ enum direction
 class Cell{
 public:
 	Cell() = default;
+
 	Cell(int x, int y, std::vector<std::vector<std::vector<char>>> shape);
 	bool draw(bool isLight = false);
 	void remove(); 
