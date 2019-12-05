@@ -73,7 +73,6 @@ void CGame::loadGame(const std::string & gameName)
 void CGame::initLevel(int level) {
 	// int offset,int maxObject, ObstacleType type, int objRow, int objectSpeed, direction direct
 	int typeRoad;
-
 	sizeArr = random(4, 5);
 	//sizeArr = 1;
 	for (int i = 1; i <= sizeArr; ++i) {
@@ -97,18 +96,22 @@ void CGame::initLevel(int level) {
 		else EXIT_ERROR("CGAME::CGAME()", -1);
 	}
 
-	for (int i = 0; i < sizeArr; ++i)
-		arrRoad[i]->displayOutline();
 }
 
-
-levelState CGame::process() {
-	std::thread *th = new std::thread[sizeArr];
-	
-	for (int i = 0; i < sizeArr; ++i)
-		th[i] = std::thread(&Road::process, arrRoad[i], player);
+void CGame::drawGame() {
+	m.lock();
+	system("cls");
 
 	player->display();
+
+	for (int i = 0; i < sizeArr; ++i)
+		arrRoad[i]->displayOutline();
+	m.unlock();
+}
+
+levelState CGame::process() {
+	drawGame();
+	std::thread* th = createRoad();
 
 	while (player->getState()) {
 		if ((GetAsyncKeyState(VK_UP) | GetAsyncKeyState('W')) & 0x8000) {
@@ -132,37 +135,33 @@ levelState CGame::process() {
 		}
 
 		if (GetAsyncKeyState('P') & 0x8000) {//TODO: Bug press any key else unpause the game
-			Road::CHANGE_PAUSE();
+			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
+
+			Road::CHANGE_EXIT();
+			deallocateRoad(th);
 
 			pauseChoice choice = scr.pauseMenu();
 						
-			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
-
 			if (choice == YES) {
-				m.lock();
-				system("cls");
-				for (int i = 0; i < sizeArr; ++i)
-					arrRoad[i]->displayOutline();
-				player->display();
-				m.unlock();
-				Road::CHANGE_PAUSE();
+				Road::CHANGE_EXIT();
+				drawGame();
+				th = createRoad();
 			}
 			else {
-				Road::CHANGE_PAUSE();
+				Road::CHANGE_EXIT();
+				deallocateRoad(th);
 				break;
 			}
 		}
-		if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {
+		
+		if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) 
 			break;
-		}
 	}
 
 	Road::CHANGE_EXIT();
 
-	for (int i = 0; i < sizeArr; ++i)
-		th[i].join();
+	if (th != nullptr) deallocateRoad(th);
 
-	delete[]th;
 	if (player->isFinish())
 		return WIN;
 	else if (!player->getState())
@@ -245,3 +244,21 @@ void CGame::Play(bool loadGame)
 	}
 }
 
+std::thread* CGame::createRoad() {
+	std::thread* th = new std::thread[sizeArr];
+
+	for (int i = 0; i < sizeArr; ++i)
+		th[i] = std::thread(&Road::process, arrRoad[i], player);
+	return th;
+}
+
+void CGame::deallocateRoad(std::thread*& th) {
+	if (th == nullptr) return;
+
+	for (int i = 0; i < sizeArr; ++i) {
+		th[i].join();
+	}
+
+	delete[] th;
+	th = nullptr;
+}

@@ -27,6 +27,11 @@ public:
 	levelState process();
 	void reset();
 	void Run();
+	void drawGame();
+	
+	std::thread* createRoad();
+	void deallocateRoad(std::thread*& th);
+	
 	void Play(bool loadGame); //if loadGame is true, then we dont need to initialize a level
 private:
 	const int SLEEP_TIME_BETWEEN_SCREEN = 100;
