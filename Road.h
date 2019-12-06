@@ -30,6 +30,8 @@ public:
 	void saveHelper(std::ofstream& gameFile);
 	virtual void load(std::ifstream &gameFile);
 
+	static bool isPause();
+	static bool isExit();
 	direction getDirection();
 	int getObjRow();
 protected:

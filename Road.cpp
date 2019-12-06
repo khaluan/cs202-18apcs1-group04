@@ -26,13 +26,12 @@ Road::Road(int offset, int maxObject, ObstacleType type, int objRow, int objectS
 
 void Road::addObject(ObstacleType type)
 {
-	//TODO: Change the distance of the 2 consecutive objects
-	int curX = (direct == 2) ? Width : 1;
+	int curX = (direct == 2) ? 1 : Width;
 	for (int i = 0; i < maxObject; ++i) {
 		Obstacle* ptr = nullptr;
 
-		if (direct == 2) curX += random(3, 4) * 9;
-		if (direct == 3) curX -= random(3, 4) * 9;
+		if (direct == 2) curX += random(2, 4) * 9;
+		if (direct == 3) curX -= random(2, 4) * 9;
 
 		if (direct == 2) ptr = factory.getInstance(type, curX, objRow);
 		if (direct == 3) ptr = factory.getInstance(type, curX, objRow);
@@ -112,6 +111,16 @@ void Road::load(std::ifstream & gameFile)
 		gameFile >> x >> y;
 		arr[i] = Road::factory.getInstance(type, x, y);
 	}
+}
+
+bool Road::isPause()
+{
+	return PAUSE;
+}
+
+bool Road::isExit()
+{
+	return EXIT;
 }
 
 direction Road::getDirection()

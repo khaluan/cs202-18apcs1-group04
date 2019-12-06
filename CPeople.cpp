@@ -3,8 +3,16 @@
 
 CPeople::CPeople()
 {
-	shape = Cell(4, 4, readShape("Human.txt"));
+	shape = Cell(0, 0, readShape("Human.txt"));
 }
+
+CPeople::CPeople(const CPeople & src)
+{
+	this->shape = src.shape;
+	this->state = src.state;
+}
+
+
 
 CPeople::CPeople(int x, int y)
 {
@@ -66,7 +74,7 @@ void CPeople::move(const direction& d) {
 
 bool CPeople::isFinish()
 {
-	if (shape.getY() == 0) return true;
+	if (shape.getY() <= 3) return true;
 	return false;
 }
 
@@ -107,6 +115,11 @@ void CPeople::save(std::ofstream& fileGame)
 void CPeople::load(std::ifstream& fileGame)
 {
 	shape.load(fileGame);
+}
+
+void CPeople::setXY(int x, int y)
+{
+	shape.setXY(x, y);
 }
 
 CPeople::~CPeople()

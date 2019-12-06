@@ -9,6 +9,7 @@ class CPeople
 {
 public:
 	CPeople();
+	CPeople(const CPeople& src);
 	CPeople(int x, int y);
 	//void move(const char &c,const int & stepx, const int & stepy, const int &height, const int &width);
 	std::vector<std::vector<std::vector<char>>> readShape(const std::string& dir);
@@ -25,6 +26,7 @@ public:
 	int getY();
 	void save(std::ofstream &fileGame);
 	void load(std::ifstream &fileGame);
+	void setXY(int x, int y);
 	~CPeople();
 private:
 	Cell shape;

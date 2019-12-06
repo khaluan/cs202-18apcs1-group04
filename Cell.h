@@ -22,6 +22,7 @@ public:
 	void changeColor(bool color);
 	int getX();
 	int getY();
+	void setXY(int x, int y);
 
 	bool operator==(const Cell &a);
 	void save(std::ofstream &fileGame);

@@ -1,182 +1,50 @@
 #include "CGame.h"
 #include <thread>
+#include "Level.h"
 
 CGame::CGame() {
-	arrRoad.clear();
-	level = 1;
-	player = new CPeople(4, 38);
-	sizeArr = 0;
-	initLevel(level);
+
 }
 
-CGame::CGame(int level)
+levelState CGame::playLevel(Level& gameLevel)
 {
-	arrRoad.clear();
-	this->level = level;
-	player = new CPeople(4, 38);
-	sizeArr = 0;
-	initLevel(level);
+	while (true) {
+		levelState state = gameLevel.process();
+		switch (state)
+		{
+		case WIN:
+			return WIN;
+			break;
+		case PAUSEGAME: {
+			pauseChoice choice = scr.pauseMenu();
+			if (choice == NO) {
+				Road::CHANGE_EXIT();
+				return EXIT;
+			}
+			else
+				Road::CHANGE_PAUSE();
+			break;
+		}
+		case EXIT:
+			return EXIT;
+			break;
+		case LOSE: {
+			pauseChoice choice = scr.pauseMenu();
+			if (choice == NO)
+				return EXIT;
+			else
+				return LOSE;
+			break;
+		}
+		default:
+			break;
+		}
+	}
 }
+
 
 CGame::~CGame() {
-	delete player;
-	for (auto i : arrRoad)
-		delete i;
-	arrRoad.clear();
-}
 
-void CGame::saveGame(const std::string & gameName)
-{
-	std::ofstream fileSave;
-	fileSave.open(gameName);
-	if (fileSave.is_open()) {
-		auto time = std::chrono::system_clock::now();
-		std::time_t save_time = std::chrono::system_clock::to_time_t(time);
-		fileSave << save_time << std::endl;
-		fileSave << level << std::endl;
-		fileSave << sizeArr << std::endl;
-		for (int i = 0; i < sizeArr; ++i)
-			arrRoad[i]->save(fileSave);
-		player->save(fileSave);
-		fileSave.close();
-	}
-	else
-		EXIT_ERROR("Cant open file to save", -1);
-}
-
-void CGame::loadGame(const std::string & gameName)
-{
-	std::ifstream gameFile;
-	gameFile.open(gameName);
-	if (gameFile.is_open()) {
-		std::time_t time;
-		gameFile >> time;
-		gameFile >> level >> sizeArr;
-		arrRoad.resize(sizeArr);
-		for (int i = 0; i < sizeArr; ++i) {
-			int type; gameFile >> type;
-			if (type == 0)
-				arrRoad[i] = new Road;
-			else
-				arrRoad[i] = new RoadVehicle;
-			arrRoad[i]->load(gameFile);
-		}
-		player->load(gameFile);
-		for (int i = 0; i < arrRoad.size(); ++i)
-			arrRoad[i]->displayOutline();
-		gameFile.close();
-	}
-	else
-		EXIT_ERROR("Can open file " + gameName + " to load game", -1);
-}
-
-void CGame::initLevel(int level) {
-	// int offset,int maxObject, ObstacleType type, int objRow, int objectSpeed, direction direct
-	int typeRoad;
-	sizeArr = random(4, 5);
-	//sizeArr = 1;
-	for (int i = 1; i <= sizeArr; ++i) {
-		typeRoad = random(0, 1);
-		if (typeRoad == 0) {
-			switch (level){
-			case 1:
-				arrRoad.push_back(new Road(3, random(4, 6), ObstacleType(random(3, 3)), 2 + 6 * i, random(1, 3) * 120, direction(random(2, 3))));
-			default:
-				break;
-			}
-		}
-		else if (typeRoad == 1) {
-			switch (level) {
-			case 1:
-				arrRoad.push_back(new RoadVehicle(3, random(4, 6), ObstacleType(random(1, 1)), 2 + 6 * i, random(1, 3) * 120, direction(random(2, 2))));
-			default:
-				break;
-			}
-		}
-		else EXIT_ERROR("CGAME::CGAME()", -1);
-	}
-
-}
-
-void CGame::drawGame() {
-	m.lock();
-	system("cls");
-
-	player->display();
-
-	for (int i = 0; i < sizeArr; ++i)
-		arrRoad[i]->displayOutline();
-	m.unlock();
-}
-
-levelState CGame::process() {
-	drawGame();
-	std::thread* th = createRoad();
-
-	while (player->getState()) {
-		if ((GetAsyncKeyState(VK_UP) | GetAsyncKeyState('W')) & 0x8000) {
-			player->move(Up);
-			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
-		}
-
-		if ((GetAsyncKeyState(VK_DOWN) | GetAsyncKeyState('S')) & 0x8000) {
-			player->move(Down);
-			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
-		}
-
-		if ((GetAsyncKeyState(VK_LEFT) | GetAsyncKeyState('A')) & 0x8000) {
-			player->move(Left);
-			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
-		}
-
-		if ((GetAsyncKeyState(VK_RIGHT) | GetAsyncKeyState('D')) & 0x8000) {
-			player->move(Right);
-			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
-		}
-
-		if (GetAsyncKeyState('P') & 0x8000) {//TODO: Bug press any key else unpause the game
-			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
-
-			Road::CHANGE_EXIT();
-			deallocateRoad(th);
-
-			pauseChoice choice = scr.pauseMenu();
-						
-			if (choice == YES) {
-				Road::CHANGE_EXIT();
-				drawGame();
-				th = createRoad();
-			}
-			else {
-				Road::CHANGE_EXIT();
-				deallocateRoad(th);
-				break;
-			}
-		}
-		
-		if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) 
-			break;
-	}
-
-	Road::CHANGE_EXIT();
-
-	if (th != nullptr) deallocateRoad(th);
-
-	if (player->isFinish())
-		return WIN;
-	else if (!player->getState())
-		return LOSE;
-	else
-		return EXIT;
-}
-
-void CGame::reset()
-{
-	for (int i = 0; i < arrRoad.size(); ++i)
-		delete arrRoad[i];
-	delete player;
-	arrRoad.resize(0);
-	Screen::reset();
 }
 
 void CGame::Run()
@@ -185,17 +53,11 @@ void CGame::Run()
 	switch (choice)
 	{
 	case NEWGAME:
-		this->level = 1;
-		this->initLevel(level);
-		system("cls");
-		this->Play(false);
+		Play();
 		break;
 	case LOADGAME: {
-		std::string dir = scr.loadMenu();
-		system("cls");
-		this->loadGame(dir);
-		this->Play(true);
-		break;
+		std::string saveGameName = scr.loadMenu();
+		playLoadGame(saveGameName);
 	}
 	case SETTING:
 		break;
@@ -205,19 +67,15 @@ void CGame::Run()
 	return;
 }
 
-void CGame::Play(bool loadGame)
+void CGame::Play()
 {
-	while (this->level < this->maxLevel) {
-		if (!loadGame) {
-			this->initLevel(level);
-			loadGame = false;
-		}
-		levelState state = this->process();
+	while (curLevel < maxLevel) {
+		Level gameLevel(curLevel);
+		levelState state = playLevel(gameLevel);
 		switch (state)
 		{
 		case WIN:
-			++level;
-			system("cls");
+			++curLevel;
 			break;
 		case LOSE: {
 			pauseChoice choice = scr.pauseMenu();
@@ -233,6 +91,23 @@ void CGame::Play(bool loadGame)
 			}
 			break;
 		}
+		case SAVEGAME:
+			break;
+		case LOAD:
+			break;
+		case PAUSEGAME: {
+			pauseChoice choice = scr.pauseMenu();
+			switch (choice)
+			{
+			case YES:
+				break;
+			case NO:
+				Run();
+				return;
+			default:
+				break;
+			}
+		}
 		case EXIT:
 			Run();
 			return;
@@ -240,25 +115,63 @@ void CGame::Play(bool loadGame)
 		default:
 			break;
 		}
-		reset();
+	}
+	//TODO: Win screen
+}
+
+void CGame::playLoadGame(std::string & loadFilename)
+{
+	Level gameLevel;
+	gameLevel.loadGame(loadFilename);
+
+	while (curLevel < maxLevel) {
+		levelState state = playLevel(gameLevel);
+		switch (state)
+		{
+		case WIN:
+			++curLevel;
+			gameLevel = Level(curLevel);
+			break;
+		case LOSE: {
+			pauseChoice choice = scr.pauseMenu();
+			switch (choice)
+			{
+			case YES:
+				break;
+			case NO:
+				Run();
+				return;
+			default:
+				break;
+			}
+			break;
+		}
+		case PAUSE: {
+			pauseChoice choice = scr.pauseMenu();
+			switch (choice)
+			{
+			case YES:
+				break;
+			case NO:
+				Run();
+				return;
+			default:
+				break;
+			}
+		}
+		case EXIT:
+			Run();
+			return;
+			break;
+		default:
+			break;
+		}
 	}
 }
 
-std::thread* CGame::createRoad() {
-	std::thread* th = new std::thread[sizeArr];
-
-	for (int i = 0; i < sizeArr; ++i)
-		th[i] = std::thread(&Road::process, arrRoad[i], player);
-	return th;
-}
-
-void CGame::deallocateRoad(std::thread*& th) {
-	if (th == nullptr) return;
-
-	for (int i = 0; i < sizeArr; ++i) {
-		th[i].join();
-	}
-
-	delete[] th;
-	th = nullptr;
-}
+//void Level::resetScreen()
+//{
+//	for (int i = 0; i < Height; ++i)
+//		for (int j = 0; j < Width; ++j)
+//			screen[i][j] = 0;
+//}

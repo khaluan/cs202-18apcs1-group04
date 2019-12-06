@@ -1,6 +1,7 @@
 #include "Cell.h"
 #include "Support.h"
 #include "Screen.h"
+#include "Level.h"
 #include <iostream>
 
 Cell::Cell(int x, int y, std::vector<std::vector<std::vector<char>>> shape) {
@@ -14,16 +15,16 @@ Cell::Cell(int x, int y, std::vector<std::vector<std::vector<char>>> shape) {
 bool Cell::draw(bool isLight) {
 	bool res = 0;
 	if ((x < 0 || x > Width || y < 0 || y > Height) && !isLight) return 0;
-	
+
 
 	for (int i = 0; i < h; ++i)
-		for (int j = 0; j < w; ++j) if (a[idPic][i][j] != char(255)){
-			int u = x + j - w/2, v = y + i - h/2;
+		for (int j = 0; j < w; ++j) if (a[idPic][i][j] != char(255)) {
+			int u = x + j - w / 2, v = y + i - h / 2;
 			if ((u <= 0 || u >= Width) && !isLight) continue;
 
 			m.lock();
-			if (!Screen::isPixelNull(v, u)) res = 1;
-			if (!isLight) Screen::setScreen(v, u, true);
+			if (u >= 0 && u < Width && v >= 0 && v < Height && !Level::isPixelNull(v, u)) res = 1;
+			if (!isLight && u >= 0 && u < Width && v >= 0 && v < Height) Level::setScreen(v, u, true);
 			gotoXY(u, v);
 			std::cout << a[idPic][i][j];
 			m.unlock();
@@ -39,10 +40,10 @@ void Cell::remove() {
 	for (int i = 0; i < h; ++i)
 		for (int j = 0; j < w; ++j) if (a[idPic][i][j] != char(255)){
 			int u = x + j - w/2, v = y + i - h/2;
-			if (u <= 0 || u >= Width) continue;
+			if (u < 0 || u >= Width || v < 0  || v >= Height) continue;
 			
 			m.lock();
-			Screen::setScreen(v, u, false);
+			Level::setScreen(v, u, false);
 			gotoXY(u, v);
 			std::cout << (char)255;
 			m.unlock();
@@ -100,6 +101,12 @@ int Cell::getX()
 int Cell::getY()
 {
 	return y;
+}
+
+void Cell::setXY(int x, int y)
+{
+	this->x = x;
+	this->y = y;
 }
 
 bool Cell::operator==(const Cell& a) {

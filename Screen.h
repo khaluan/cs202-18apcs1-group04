@@ -3,7 +3,7 @@
 
 #include "Support.h"
 
-const int Height = 40;
+const int Height = 50;
 const int Width = 180;
 
 enum mainChoice {
@@ -38,20 +38,16 @@ public:
 
 	template<class T>
 	T menu(const menuType& type, T init);
-	static bool* constructor();
-	static void destructor();
-
-	static void setScreen(int i, int j, bool c);
-	static bool isPixelNull(int i, int j);
-	static void reset(int size = 10000);
+	
+	
 private:
 	const int height = 30, width = 100, sleepTime = 200, xPos = 20, yPos = 10; //Fix later
-	std::string saveDir = "Data/";
-	std::string loadDir = "Data/";
+	std::string saveDir = "SavedGame/";
+	std::string loadDir = "SavedGame/";
 	std::string loadChoice_Dir = "Data/";
 	std::vector<std::string> pauseChoice_list{ "YES", "NO" };
 	std::vector<std::string> mainChoice_list{ "New game", "Load game", "Setting", "Exit" };
-	static bool* screen;
+	
 };
 
 template<class T>

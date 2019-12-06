@@ -1,7 +1,6 @@
 #include "Screen.h"
 #include <Windows.h>
 
-bool* Screen::screen = Screen::constructor();
 
 Screen::Screen() {
 }
@@ -193,7 +192,7 @@ std::string Screen::saveMenu() {
 std::string Screen::loadChoice(int index) {
 	std::string dir = loadDir;
 	std::vector<std::string> load_list = read_directory(dir);
-	if (load_list.size() > 0 && index >= 0 && index < load_list.size()) return load_list[index];
+	if (load_list.size() > 0 && index >= 0 && index < load_list.size()) return dir + load_list[index];
 	else return {};
 }
 
@@ -218,7 +217,7 @@ std::vector<std::string> Screen::loadList() {
 }
 
 std::string Screen::loadMenu() {
-	std::vector<std::string> load_list = read_directory("Data.txt");
+	std::vector<std::string> load_list = read_directory("SavedGame");
 	system("cls");
 	Sleep(sleepTime);
 	int state = 1, s = 1, sNum = 4;
@@ -288,39 +287,10 @@ std::string Screen::loadMenu() {
 			break;
 		case 5:
 			if (state == 4) return {};
-			return loadChoice(state);
+			return loadChoice(state - 1);
 		}
 	}
 	std::cin.ignore(1000, '\n');
-}
-
-
-bool* Screen::constructor() {
-	bool* res = new bool[20000];
-	for (int i = 0; i < 20000; ++i) res[i] = false;
-	return res;
-}
-
-void Screen::destructor() {
-	delete[] screen;
-}
-
-void Screen::setScreen(int i, int j, bool c) {
-	if (i * Width + j >= 20000 || i * Width + j < 0) {
-		EXIT_ERROR("index screen out of range", 1);
-	}
-	if (!screen) EXIT_ERROR("Screen null", 1);
-	screen[i * Width + j] = c;
-}
-
-bool Screen::isPixelNull(int i, int j) {
-	return !screen[i * Width + j];
-}
-
-void Screen::reset(int size)
-{
-	for (int i = 0; i < size; ++i)
-		screen[i] = 0;
 }
 
 /*	switch (s)

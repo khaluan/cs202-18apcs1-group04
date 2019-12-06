@@ -4,13 +4,15 @@
 #include "CPeople.h"
 #include <thread>
 #include "Screen.h"
+#include "Level.h"
 
 int main() {
 	initScreen();
 
-	CGame a;
-	a.process();
-	Screen::destructor();
+	CGame game;
+	game.Run();
+	//Screen scr;
+	//std::string dir = scr.saveMenu();
 
 	/*Screen X;
 	std::vector<std::string> tmp = X.inputPlayer_Menu();
