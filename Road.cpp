@@ -62,7 +62,7 @@ void Road::process(CPeople* a)
 		Sleep(objectSpeed);
 	}
 }
-
+	
 void Road::displayOutline()
 {
 	for (int i = 0; i < Width; i++) {

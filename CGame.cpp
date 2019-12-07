@@ -84,6 +84,7 @@ void CGame::Play()
 			case YES:
 				break;
 			case NO:
+				gameLevel.~Level();
 				Run();
 				return;
 			default:
@@ -102,6 +103,7 @@ void CGame::Play()
 			case YES:
 				break;
 			case NO:
+				gameLevel.~Level();
 				Run();
 				return;
 			default:
@@ -139,6 +141,7 @@ void CGame::playLoadGame(std::string & loadFilename)
 			case YES:
 				break;
 			case NO:
+				gameLevel.~Level();
 				Run();
 				return;
 			default:

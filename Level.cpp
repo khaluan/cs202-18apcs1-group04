@@ -20,6 +20,7 @@ Level & Level::operator=(Level src)
 
 Level::Level(int level)
 {
+	this->level = level;
 	// int offset,int maxObject, ObstacleType type, int objRow, int objectSpeed, direction direct
 	int typeRoad;
 	sizeArr = random(4, 5);
@@ -124,6 +125,8 @@ void Level::loadGame(const std::string & gameName)
 void Level::drawGame() {
 	m.lock();
 	system("cls");
+	gotoXY(70, 6 * sizeArr + 15);
+	std::cout << "LEVEL " << level;
 
 	player->display();
 
@@ -135,12 +138,12 @@ void Level::drawGame() {
 levelState Level::process() {
 	drawGame();
 	std::vector<std::thread> th = createRoad();
-	for (int i = 0; i < sizeArr; ++i)
-		th[i] = std::thread(&Road::process, arrRoad[i], player);
 	if (Road::isPause())
 		Road::CHANGE_PAUSE();
 	if (Road::isExit())
 		Road::CHANGE_EXIT();
+	for (int i = 0; i < sizeArr; ++i)
+		th[i] = std::thread(&Road::process, arrRoad[i], player);
 	while (player->getState() && !player->isFinish()) {
 		if ((GetAsyncKeyState(VK_UP) | GetAsyncKeyState('W')) & 0x8000) {
 			player->move(Up);
@@ -177,8 +180,15 @@ levelState Level::process() {
 				th[i].join();
 			}
 			return SAVEGAME;
+		}*/
+		if (GetAsyncKeyState('Q') & 0x8000) {
+			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
+			std::ofstream fout;
+			fout.open("Log.rtf");
+			log(fout);
+			fout.close();
 		}
-		if (GetAsyncKeyState('T') & 0x8000) {
+		/*if (GetAsyncKeyState('T') & 0x8000) {
 			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
 			Road::CHANGE_EXIT();
 			for (int i = 0; i < sizeArr; ++i) {
