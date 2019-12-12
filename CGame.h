@@ -9,19 +9,19 @@
 #include "Screen.h"
 #include "Level.h"
 
-
 class CGame {
 public:
 	CGame();
 	void Run();
-	void Play();
-	void playLoadGame(std::string &loadFilename);
-	levelState playLevel(Level &level);
+	void Play(std::string dir = "");
+	//void playLoadGame(std::string &loadFilename);
+	levelState playLevel(std::string & dir = Null);
 
 	~CGame();
 	
 private:
 	int curLevel = 1, maxLevel = 15;
+	static std::string Null;
 	Screen scr;
 };
 

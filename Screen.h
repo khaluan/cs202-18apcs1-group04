@@ -31,8 +31,8 @@ public:
 	std::vector<std::string> inputPlayer_Menu();
 	pauseChoice pauseMenu();
 	mainChoice mainMenu();
+	pauseChoice loseMenu();
 	std::string saveMenu();
-	std::string saveChoice();
 	std::string loadMenu();
 	std::string loadChoice(int index);
 	std::vector<std::string> loadList();

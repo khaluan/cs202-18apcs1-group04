@@ -149,6 +149,34 @@ mainChoice Screen::mainMenu()
 	std::cin.ignore(1000, '\n');
 }
 
+pauseChoice Screen::loseMenu()
+{
+	system("cls");
+
+	Sleep(sleepTime);
+	int state = 1, s = 1, sNum = pauseChoice_list.size();
+	gotoXY(xPos, yPos);
+	std::cout << "Do you want to replay this level ?" << std::endl;
+	while (1) {
+		if (s <= sNum) {
+			setColor(10);
+			gotoXY(xPos, yPos + s);
+			std::cout << pauseChoice_list[s - 1];
+			setColor(7);
+
+			for (int i = 0; i < sNum; ++i) {
+				if (i == (s - 1)) continue;
+
+				gotoXY(xPos, yPos + (i + 1));
+				std::cout << pauseChoice_list[i];
+			}
+		}
+		else return (pauseChoice)(state - 1);
+
+		s = stateMove(state, sNum);
+	}
+}
+
 std::string Screen::saveMenu() {
 	system("cls");
 	Sleep(sleepTime);

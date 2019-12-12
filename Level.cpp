@@ -76,6 +76,11 @@ Level::Level(int level)
 	player = new CPeople(2, 6 * sizeArr + 8);
 }
 
+int Level::getLevel()
+{
+	return level;
+}
+
 void Level::saveGame(const std::string & gameName)
 {
 	std::ofstream fileSave;
@@ -130,8 +135,10 @@ void Level::drawGame() {
 
 	player->display();
 
-	for (int i = 0; i < sizeArr; ++i)
+	for (int i = 0; i < sizeArr; ++i) {
 		arrRoad[i]->displayOutline();
+		//arrRoad[i]->display();
+	}
 	m.unlock();
 }
 
@@ -173,14 +180,14 @@ levelState Level::process() {
 			}
 			return PAUSEGAME;
 		}
-		/*if (GetAsyncKeyState('L') & 0x8000) {
+		if (GetAsyncKeyState('L') & 0x8000) {
 			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
 			Road::CHANGE_EXIT();
 			for (int i = 0; i < sizeArr; ++i) {
 				th[i].join();
 			}
 			return SAVEGAME;
-		}*/
+		}
 		if (GetAsyncKeyState('Q') & 0x8000) {
 			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
 			std::ofstream fout;
@@ -188,14 +195,14 @@ levelState Level::process() {
 			log(fout);
 			fout.close();
 		}
-		/*if (GetAsyncKeyState('T') & 0x8000) {
+		if (GetAsyncKeyState('T') & 0x8000) {
 			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
 			Road::CHANGE_EXIT();
 			for (int i = 0; i < sizeArr; ++i) {
 				th[i].join();
 			}
 			return LOAD;
-		}*/
+		}
 
 		if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
 			break;

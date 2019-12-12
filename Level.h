@@ -22,6 +22,9 @@ public:
 	Level(const Level& src);
 	Level& operator=(Level src);
 	Level(int level);
+
+	int getLevel();
+
 	void saveGame(const std::string& gameName);
 	void loadGame(const std::string& gameName);
 	levelState process();
