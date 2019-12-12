@@ -55,15 +55,21 @@ void RoadVehicle::processVehicle(CPeople* a) {
 
 void RoadVehicle::save(std::ofstream & fileGame)
 {
-	fileGame << 1 << std::endl;
+	//fileGame << 1 << std::endl;
+	int tmp = 1;
+	fileGame.write((char*)&tmp, sizeof(tmp));
 	Road::saveHelper(fileGame);
-	fileGame << color << " " << lightSpeed << std::endl;
+	//fileGame << color << " " << lightSpeed << std::endl;
+	fileGame.write((char*)&color, sizeof(color));
+	fileGame.write((char*)&lightSpeed, sizeof(lightSpeed));
 }
 
 void RoadVehicle::load(std::ifstream & fileGame)
 {
 	Road::load(fileGame);
-	fileGame >> color >> lightSpeed;
+	//fileGame >> color >> lightSpeed;
+	fileGame.read((char*)&color, sizeof(color));
+	fileGame.read((char*)&lightSpeed, sizeof(lightSpeed));
 	if (direct == Left) light = factory.getInstance(Light, Width + 3, objRow);
 	else if (direct == Right) light = factory.getInstance(Light, Width + 3, objRow);
 }

@@ -87,14 +87,23 @@ void Road::remove()
 
 void Road::save(std::ofstream & gameFile)
 {
-	gameFile << 0 << std::endl;
+	//gameFile << 0 << std::endl;
+	int tmp = 0;
+	gameFile.write((char*)&tmp, sizeof(tmp));
 	saveHelper(gameFile);
 }
 
 void Road::saveHelper(std::ofstream & gameFile)
 {
-	gameFile << offset << " " << arr.size() << " " << objRow << " "
-		<< objectSpeed << " " << direct << " " << type << std::endl;
+	/*gameFile << offset << " " << arr.size() << " " << objRow << " "
+		<< objectSpeed << " " << direct << " " << type << std::endl;*/
+	gameFile.write((char*)&offset, sizeof(offset));
+	gameFile.write((char*)&maxObject, sizeof(maxObject));
+	gameFile.write((char*)&objRow, sizeof(objRow));
+	gameFile.write((char*)&objectSpeed, sizeof(objectSpeed));
+	gameFile.write((char*)&direct, sizeof(direct));
+	gameFile.write((char*)&type, sizeof(type));
+
 	for (unsigned i = 0; i < arr.size(); ++i)
 		arr[i]->save(gameFile);
 }
@@ -102,13 +111,21 @@ void Road::saveHelper(std::ofstream & gameFile)
 void Road::load(std::ifstream & gameFile)
 {
 	int directVal, typeVal;
-	gameFile >> offset >> maxObject >> objRow >> objectSpeed >> directVal >> typeVal;
+	//gameFile >> offset >> maxObject >> objRow >> objectSpeed >> directVal >> typeVal;
+	gameFile.read((char*)&offset, sizeof(offset));
+	gameFile.read((char*)&maxObject, sizeof(maxObject));
+	gameFile.read((char*)&objRow, sizeof(objRow));
+	gameFile.read((char*)&objectSpeed, sizeof(objectSpeed));
+	gameFile.read((char*)&directVal, sizeof(directVal));
+	gameFile.read((char*)&typeVal, sizeof(typeVal));
 	direct = (direction)directVal;
 	type = (ObstacleType)typeVal;
 	arr.resize(maxObject);
 	for (unsigned i = 0; i < arr.size(); ++i) {
 		int x, y;
-		gameFile >> x >> y;
+		//gameFile >> x >> y;
+		gameFile.read((char*)&x, sizeof(x));
+		gameFile.read((char*)&y, sizeof(y));
 		arr[i] = Road::factory.getInstance(type, x, y);
 	}
 }

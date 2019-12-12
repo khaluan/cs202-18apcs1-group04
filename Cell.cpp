@@ -115,10 +115,14 @@ bool Cell::operator==(const Cell& a) {
 
 void Cell::save(std::ofstream & fileGame)
 {
-	fileGame << x << " " << y << std::endl;
+	//fileGame << x << " " << y << std::endl;
+	fileGame.write((char*)&x, sizeof(x));
+	fileGame.write((char*)&y, sizeof(y));
 }
 
 void Cell::load(std::ifstream & fileGame)
 {
-	fileGame >> x >> y;
+	//fileGame >> x >> y;
+	fileGame.read((char*)&x, sizeof(x));
+	fileGame.read((char*)&y, sizeof(y));
 }

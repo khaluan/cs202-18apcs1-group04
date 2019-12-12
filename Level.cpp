@@ -84,13 +84,16 @@ int Level::getLevel()
 void Level::saveGame(const std::string & gameName)
 {
 	std::ofstream fileSave;
-	fileSave.open(gameName);
+	fileSave.open(gameName, std::ios_base::binary);
 	if (fileSave.is_open()) {
 		auto time = std::chrono::system_clock::now();
 		std::time_t save_time = std::chrono::system_clock::to_time_t(time);
-		fileSave << save_time << std::endl;
-		fileSave << level << std::endl;
-		fileSave << sizeArr << std::endl;
+		//fileSave << save_time << std::endl;
+		fileSave.write((char*)&save_time, sizeof(save_time));
+		//fileSave << level << std::endl;
+		//fileSave << sizeArr << std::endl;
+		fileSave.write((char*)&level, sizeof(level));
+		fileSave.write((char*)&sizeArr, sizeof(level));
 		for (int i = 0; i < sizeArr; ++i)
 			arrRoad[i]->save(fileSave);
 		player->save(fileSave);
@@ -103,14 +106,19 @@ void Level::saveGame(const std::string & gameName)
 void Level::loadGame(const std::string & gameName)
 {
 	std::ifstream gameFile;
-	gameFile.open(gameName);
+	gameFile.open(gameName, std::ios_base::binary);
 	if (gameFile.is_open()) {
 		std::time_t time;
-		gameFile >> time;
-		gameFile >> level >> sizeArr;
+		//gameFile >> time;
+		gameFile.read((char*)&time, sizeof(time_t));
+		//gameFile >> level >> sizeArr;
+		gameFile.read((char*)&level, sizeof(level));
+		gameFile.read((char*)&sizeArr, sizeof(sizeArr));
 		arrRoad.resize(sizeArr);
 		for (int i = 0; i < sizeArr; ++i) {
-			int type; gameFile >> type;
+			int type; 
+			//gameFile >> type;
+			gameFile.read((char*)&type, sizeof(type));
 			if (type == 0)
 				arrRoad[i] = new Road;
 			else
