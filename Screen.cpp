@@ -13,14 +13,12 @@ Screen::~Screen()
 
 int Screen::stateMove(int& state, int n)
 {
-	//ShowConsoleCursor(false);
 
 	while (1)
 	{
-		char ch = _getch();
-		switch (ch)
-		{
-		case 72:
+
+		if ((GetAsyncKeyState(VK_UP) | GetAsyncKeyState('W')) & 0x8000) {
+			Sleep(400);
 
 			if (state > 1)
 			{
@@ -30,11 +28,10 @@ int Screen::stateMove(int& state, int n)
 			{
 				state = n;
 			}
-
-			Sleep(300);
 			return state;
-
-		case 75:
+		}
+		if ((GetAsyncKeyState(VK_LEFT) | GetAsyncKeyState('A')) & 0x8000) {
+			Sleep(400);
 
 			if (state > 1)
 			{
@@ -44,11 +41,10 @@ int Screen::stateMove(int& state, int n)
 			{
 				state = n;
 			}
-
-			Sleep(300);
 			return state;
-
-		case 77:
+		}
+		if ((GetAsyncKeyState(VK_DOWN) | GetAsyncKeyState('S')) & 0x8000) {
+			Sleep(400);
 
 			if (state < n)
 			{
@@ -58,10 +54,10 @@ int Screen::stateMove(int& state, int n)
 			{
 				state = 1;
 			}
-			Sleep(300);
 			return state;
-
-		case 80:
+		}
+		if ((GetAsyncKeyState(VK_RIGHT) | GetAsyncKeyState('D')) & 0x8000) {
+			Sleep(400);
 
 			if (state < n)
 			{
@@ -71,12 +67,11 @@ int Screen::stateMove(int& state, int n)
 			{
 				state = 1;
 			}
-			Sleep(300);
 			return state;
-
-		case 13:
+		}
+		if (GetAsyncKeyState(VK_RETURN) & 0x8000) {
+			Sleep(400);
 			return n + 1;
-
 		}
 	}
 }
@@ -127,6 +122,7 @@ pauseChoice Screen::pauseMenu() {
 
 mainChoice Screen::mainMenu()
 {
+	//tmp_changeScreen(-7, 20);
 	system("cls");
 	Sleep(sleepTime);
 	int state = 1, s = 1, sNum = mainChoice_list.size();
@@ -144,8 +140,10 @@ mainChoice Screen::mainMenu()
 				std::cout << mainChoice_list[i];
 			}
 		}
-		else return (mainChoice)(state - 1);
-
+		else {
+			//tmp_changeScreen(0,12);
+			return (mainChoice)(state - 1);
+		}
 		s = stateMove(state, sNum);
 	}
 	std::cin.ignore(1000, '\n');
@@ -158,8 +156,8 @@ std::string Screen::saveMenu() {
 	int isDir_Valid = 0;
 	while (1) {
 		gotoXY(xPos, yPos);
-		std::cout << "Please input the name file you want to save your process !";
-		gotoXY(xPos, yPos + 1);
+		std::cout << "Please choose the name file you want to save your process !" << std::endl;
+		/*gotoXY(xPos, yPos + 1);
 		for (int i = 0; i <= dir.length() + 11; ++i) {
 			std::cout << " ";
 		}
@@ -185,7 +183,8 @@ std::string Screen::saveMenu() {
 			gotoXY(xPos+4, yPos + 5);
 			std::cout << "Please recheck your directory !";
 			setColor(7);
-		}
+		}*/
+		return loadMenu();
 	}
 }
 
@@ -217,7 +216,7 @@ std::vector<std::string> Screen::loadList() {
 }
 
 std::string Screen::loadMenu() {
-	std::vector<std::string> load_list = read_directory("SavedGame");
+	std::vector<std::string> load_list = read_directory(loadDir);
 	system("cls");
 	Sleep(sleepTime);
 	int state = 1, s = 1, sNum = 4;

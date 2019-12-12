@@ -32,6 +32,7 @@ public:
 	pauseChoice pauseMenu();
 	mainChoice mainMenu();
 	std::string saveMenu();
+	std::string saveChoice();
 	std::string loadMenu();
 	std::string loadChoice(int index);
 	std::vector<std::string> loadList();
