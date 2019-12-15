@@ -7,18 +7,21 @@
 #include "Level.h"
 
 int main() {
-	initScreen();
+	fixScreen();
 
 	CGame game;
 	game.Run();
-	//Screen scr;
+	
+
+	/*Screen X;*/
+	//instruction();
+
 	//std::string dir = scr.saveMenu();
 
-	/*Screen X;
-	std::vector<std::string> tmp = X.inputPlayer_Menu();
+	/*std::vector<std::string> tmp = X.inputPlayer_Menu();
 	std::cout << tmp[0] << "     " << tmp[1] << std::endl;*/
-	/*Screen X;
-	std::string tmp;
+	
+	/*std::string tmp;
 	tmp = X.saveMenu();
 	std::cout << std::endl << "*************************" << std::endl << tmp << std::endl;*/
 

@@ -138,7 +138,8 @@ void Level::loadGame(const std::string & gameName)
 void Level::drawGame() {
 	m.lock();
 	system("cls");
-	gotoXY(70, 6 * sizeArr + 15);
+	instruction();
+	gotoXY(225, 48);
 	std::cout << "LEVEL " << level;
 
 	player->display();
@@ -151,7 +152,7 @@ void Level::drawGame() {
 }
 
 levelState Level::process() {
-	drawGame();
+	//drawGame();
 	std::vector<std::thread> th = createRoad();
 	if (Road::isPause())
 		Road::CHANGE_PAUSE();
