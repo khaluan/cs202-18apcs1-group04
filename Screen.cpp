@@ -94,8 +94,8 @@ std::vector<std::string> Screen::inputPlayer_Menu() {
 }
 
 pauseChoice Screen::pauseMenu() {
+	//initScreen(24);
 	system("cls");
-
 	Sleep(sleepTime);
 	int state = 1, s = 1, sNum = pauseChoice_list.size();
 	gotoXY(xPos, yPos);
@@ -122,7 +122,7 @@ pauseChoice Screen::pauseMenu() {
 
 mainChoice Screen::mainMenu()
 {
-	//tmp_changeScreen(-7, 20);
+	//initScreen(24);
 	system("cls");
 	Sleep(sleepTime);
 	int state = 1, s = 1, sNum = mainChoice_list.size();
@@ -140,10 +140,7 @@ mainChoice Screen::mainMenu()
 				std::cout << mainChoice_list[i];
 			}
 		}
-		else {
-			//tmp_changeScreen(0,12);
-			return (mainChoice)(state - 1);
-		}
+		else return (mainChoice)(state - 1);
 		s = stateMove(state, sNum);
 	}
 	std::cin.ignore(1000, '\n');
@@ -151,6 +148,7 @@ mainChoice Screen::mainMenu()
 
 pauseChoice Screen::loseMenu()
 {
+	//initScreen(24);
 	system("cls");
 
 	Sleep(sleepTime);
@@ -172,7 +170,6 @@ pauseChoice Screen::loseMenu()
 			}
 		}
 		else return (pauseChoice)(state - 1);
-
 		s = stateMove(state, sNum);
 	}
 }
@@ -225,28 +222,40 @@ std::string Screen::loadChoice(int index) {
 
 std::vector<std::string> Screen::loadList() {
 	
-	std::vector<std::string> loadList;
-	std::string dir = loadChoice_Dir, tmp;
+	std::vector<std::string> loadList, loadChoice = read_directory(loadDir);
+	std::string name;
+	int size = 0;
+	char * tmp;
 	
-	std::ifstream fin(dir);
-	if (!fin.is_open()) {
-		std::cout << "Cannot open " << dir << std::endl;
-		system("pause");
-		return {};
+	std::ifstream fin;
+	for (int i = 0; i < loadChoice.size(); ++i) {
+		fin.open(loadDir + loadChoice[i], std::ios::binary);
+		if (!fin.is_open()) {
+			std::cout << "Cannot open " << loadDir + loadChoice[i] << std::endl;
+			system("pause");
+			return {};
+		}
+		fin.read((char*)size, 4);
+		tmp = new char[size];
+		fin.read(tmp, size);
+		name = tmp;
+		loadList.push_back(name);
+		delete tmp;
+		tmp = nullptr;
+		fin.close();
 	}
-	while (!fin.eof()) {
-		tmp.clear();
-		std::getline(fin, tmp, '\n');
-		loadList.push_back(tmp);
-	}
-
 	return loadList;
 }
 
 std::string Screen::loadMenu() {
-	std::vector<std::string> load_list = read_directory(loadDir);
+	//initScreen(24);
+	//std::vector<std::string> load_list = read_directory(loadDir);
+	std::vector<std::string> load_list = loadList();
 	system("cls");
 	Sleep(sleepTime);
+	for (int i = 0; i < load_list.size(); ++i) {
+		if (load_list[i] == "") load_list[i] = "Empty slot";
+	}
 	int state = 1, s = 1, sNum = 4;
 	while (1)
 	{
@@ -319,6 +328,8 @@ std::string Screen::loadMenu() {
 	}
 	std::cin.ignore(1000, '\n');
 }
+
+
 
 /*	switch (s)
 		{

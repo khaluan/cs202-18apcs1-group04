@@ -45,7 +45,7 @@ private:
 	const int height = 30, width = 100, sleepTime = 200, xPos = 20, yPos = 10; //Fix later
 	std::string saveDir = "SavedGame/";
 	std::string loadDir = "SavedGame/";
-	std::string loadChoice_Dir = "Data/";
+	std::string loadChoice_Dir = "Data/loadChoice.txt";
 	std::vector<std::string> pauseChoice_list{ "YES", "NO" };
 	std::vector<std::string> mainChoice_list{ "New game", "Load game", "Setting", "Exit" };
 	
