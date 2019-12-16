@@ -7,6 +7,7 @@
 #include <ctime>
 enum levelState
 {
+	DEFAULT,
 	WIN,
 	SAVEGAME,
 	LOAD,

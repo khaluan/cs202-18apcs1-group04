@@ -5,7 +5,7 @@
 std::string CGame::Null = "";
 
 CGame::CGame() {
-
+	ConfigData::load();
 }
 
 levelState CGame::playLevel(std::string & dir)
@@ -60,11 +60,12 @@ levelState CGame::playLevel(std::string & dir)
 
 
 CGame::~CGame() {
-
+	ConfigData::save();
 }
 
 void CGame::Run()
 {
+	PlaySound(TEXT("Data/GamesSong.wav"), NULL, SND_ASYNC | SND_LOOP);
 	while (true) {
 		initScreen(24);
 		mainChoice choice = scr.mainMenu();
@@ -81,9 +82,10 @@ void CGame::Run()
 			system("cls");
 			if (saveGameName == "") break;
 			Play(saveGameName);
+			break;
 		}
 		case SETTING:
-			//initScreen(24);
+			scr.settingMenu();
 			break;
 		default:
 			return;
@@ -93,99 +95,46 @@ void CGame::Run()
 
 void CGame::Play(std::string dir)
 {
+	levelState state = DEFAULT;
 	while (curLevel < maxLevel) {
-		levelState state = playLevel(dir);
-		switch (state)
-		{
-		case WIN:
-			++curLevel;
-			break;
-		case LOSE: {
-			initScreen(24);
-			pauseChoice choice = scr.loseMenu();
-			switch (choice)
-			{
-				case YES:
-					initScreen(12);
-					system("cls");
-					break;
-				case NO:
-					curLevel = 1;
-					return;
-				default:
-					break;
-			}
-			break;
-		}
-		case LOAD: {
+		if (state == LOAD) {
 			initScreen(24);
 			std::string dir = scr.loadMenu();
-			playLevel(dir);
-			break;
+			state = playLevel(dir);
+			continue;
 		}
-		case EXIT:
-			return;
-		default:
-			break;
+		else {
+			switch (state)
+			{
+			case WIN:
+				++curLevel;
+				break;
+			case LOSE: {
+				initScreen(24);
+				pauseChoice choice = scr.loseMenu();
+				switch (choice)
+				{
+					case YES:
+						initScreen(12);
+						system("cls");
+						break;
+					case NO:
+						curLevel = 1;
+						return;
+					default:
+						break;
+				}
+				break;
+			}
+			case LOAD:
+				continue;
+			case EXIT:
+				return;
+			default:
+				break;
+			}
+			state = playLevel(dir);
 		}
 	}
 	//TODO: Win screen
 }
-
-//void CGame::playLoadGame(std::string & loadFilename)
-//{
-//	Level gameLevel;
-//	gameLevel.loadGame(loadFilename);
-//
-//	while (curLevel < maxLevel) {
-//		levelState state = playLevel(gameLevel);
-//		switch (state)
-//		{
-//		case WIN:
-//			++curLevel;
-//			gameLevel = Level(curLevel);
-//			break;
-//		case LOSE: {
-//			pauseChoice choice = scr.pauseMenu();
-//			switch (choice)
-//			{
-//			case YES:
-//				break;
-//			case NO:
-//				gameLevel.~Level();
-//				Run();
-//				return;
-//			default:
-//				break;
-//			}
-//			break;
-//		}
-//		case PAUSE: {
-//			pauseChoice choice = scr.pauseMenu();
-//			switch (choice)
-//			{
-//			case YES:
-//				break;
-//			case NO:
-//				Run();
-//				return;
-//			default:
-//				break;
-//			}
-//		}
-//		case EXIT:
-//			Run();
-//			return;
-//			break;
-//		default:
-//			break;
-//		}
-//	}
-//}
-
-//void Level::resetScreen()
-//{
-//	for (int i = 0; i < Height; ++i)
-//		for (int j = 0; j < Width; ++j)
-//			screen[i][j] = 0;
-//}

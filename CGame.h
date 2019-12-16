@@ -1,5 +1,6 @@
 #ifndef CGAME_H
 #define CGAME_H
+#pragma comment(lib, "winmm.lib")
 #include <fstream>
 #include <ctime>
 #include <chrono>
@@ -8,6 +9,7 @@
 #include "CPeople.h"
 #include "Screen.h"
 #include "Level.h"
+#include <Windows.h>
 
 class CGame {
 public:

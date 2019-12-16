@@ -5,17 +5,20 @@
 #include <thread>
 #include "Screen.h"
 #include "Level.h"
-
+#include <Windows.h>
+#include <sstream>
+#include <iomanip>
+#include <time.h>
 int main() {
 	fixScreen();
 
 	CGame game;
 	game.Run();
 	
-
-	/*Screen X;*/
+	
+	//Screen X;
+	//X.settingMenu();
 	//instruction();
-
 	//std::string dir = scr.saveMenu();
 
 	/*std::vector<std::string> tmp = X.inputPlayer_Menu();

@@ -2,9 +2,19 @@
 #define SCREEN_H
 
 #include "Support.h"
+#include <iomanip>
+#include <sstream>
 
 const int Height = 50;
 const int Width = 180;
+
+struct ConfigData {
+	static std::string playerName;
+	static bool soundOn;
+	static int difficulty;
+	static void load();
+	static void save(bool Default = false);
+};
 
 enum mainChoice {
 	NEWGAME,
@@ -35,7 +45,9 @@ public:
 	std::string saveMenu();
 	std::string loadMenu();
 	std::string loadChoice(int index);
-	std::vector<std::string> loadList();
+	std::vector<std::vector<std::string>> loadList();
+
+	void settingMenu();
 
 	template<class T>
 	T menu(const menuType& type, T init);
@@ -48,6 +60,8 @@ private:
 	std::string loadChoice_Dir = "Data/loadChoice.txt";
 	std::vector<std::string> pauseChoice_list{ "YES", "NO" };
 	std::vector<std::string> mainChoice_list{ "New game", "Load game", "Setting", "Exit" };
+	std::vector<std::string> settingChoice_list{ "Sound On/Off", "Change Name", "Difficulty", "Exit" };
+
 	
 };
 

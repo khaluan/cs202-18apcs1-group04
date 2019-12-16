@@ -30,8 +30,8 @@ void Road::addObject(ObstacleType type)
 	for (int i = 0; i < maxObject; ++i) {
 		Obstacle* ptr = nullptr;
 
-		if (direct == 2) curX += random(2, 4) * 9;
-		if (direct == 3) curX -= random(2, 4) * 9;
+		if (direct == 2) curX += random(2, 3) * 9;
+		if (direct == 3) curX -= random(2, 3) * 9;
 
 		if (direct == 2) ptr = factory.getInstance(type, curX, objRow);
 		if (direct == 3) ptr = factory.getInstance(type, curX, objRow);

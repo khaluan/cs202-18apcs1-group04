@@ -86,6 +86,9 @@ void Level::saveGame(const std::string & gameName)
 	std::ofstream fileSave;
 	fileSave.open(gameName, std::ios_base::binary);
 	if (fileSave.is_open()) {
+		int tmp = ConfigData::playerName.size();
+		fileSave.write((char*)&tmp, sizeof(tmp));
+		fileSave.write(ConfigData::playerName.c_str(), tmp);
 		auto time = std::chrono::system_clock::now();
 		std::time_t save_time = std::chrono::system_clock::to_time_t(time);
 		//fileSave << save_time << std::endl;
@@ -108,6 +111,13 @@ void Level::loadGame(const std::string & gameName)
 	std::ifstream gameFile;
 	gameFile.open(gameName, std::ios_base::binary);
 	if (gameFile.is_open()) {
+		int tmp;
+		gameFile.read((char*)&tmp, sizeof(tmp));
+		if (tmp == 0) {
+			EXIT_ERROR("This slot is empty", -2);
+			return;
+		}
+		gameFile.read((char*)&ConfigData::playerName, tmp);
 		std::time_t time;
 		//gameFile >> time;
 		gameFile.read((char*)&time, sizeof(time_t));

@@ -1,6 +1,9 @@
 #include "Screen.h"
 #include <Windows.h>
 
+std::string ConfigData::playerName = "Default";
+int ConfigData::difficulty = 0;
+bool ConfigData::soundOn = true;
 
 Screen::Screen() {
 }
@@ -87,6 +90,7 @@ std::vector<std::string> Screen::inputPlayer_Menu() {
 
 	gotoXY(xPos, yPos);
 	std::cout << "Player name: ";
+	std::cin.ignore(100, '\n');
 	std::getline(std::cin, name, '\n');
 	playerInfo.push_back(name);
 	playerInfo.push_back(time);
@@ -220,12 +224,12 @@ std::string Screen::loadChoice(int index) {
 	else return {};
 }
 
-std::vector<std::string> Screen::loadList() {
+std::vector<std::vector<std::string>> Screen::loadList() {
 	
-	std::vector<std::string> loadList, loadChoice = read_directory(loadDir);
-	std::string name;
+	std::vector<std::string> loadChoice = read_directory(loadDir);
+	std::vector<std::vector<std::string>> loadList(loadChoice.size(), std::vector<std::string>());
+	std::string name, date, level;
 	int size = 0;
-	char * tmp;
 	
 	std::ifstream fin;
 	for (int i = 0; i < loadChoice.size(); ++i) {
@@ -235,42 +239,148 @@ std::vector<std::string> Screen::loadList() {
 			system("pause");
 			return {};
 		}
-		fin.read((char*)size, 4);
-		tmp = new char[size];
-		fin.read(tmp, size);
-		name = tmp;
-		loadList.push_back(name);
-		delete tmp;
-		tmp = nullptr;
+		fin.read((char*)&size, 4);
+		if (size == 0) {
+			name = "";
+			date = "";
+			level = "";
+		}
+		else {
+			char buffer[100];
+			fin.read(buffer, size);
+			buffer[size] = '\0';
+			name = std::string(buffer);
+			time_t time;
+			fin.read((char*)&time, sizeof(time));
+			std::tm* t = std::gmtime(&time);
+			std::stringstream ss;
+			ss << std::put_time(t, "%Y-%m-%d %I:%M:%S %p");
+			date = ss.str();
+			ss.str("");
+			int l;
+			fin.read((char*)&l, sizeof(l));
+			ss << l;
+			ss >> level;
+			level = "Level " + level;
+		}
 		fin.close();
+		loadList[i].push_back(name);
+		loadList[i].push_back(level);
+		loadList[i].push_back(date);
 	}
 	return loadList;
+}
+
+void Screen::settingMenu()
+{
+	gotoXY(xPos, yPos);
+	int s = 1, sNum = settingChoice_list.size(), state = 1;
+	std::cout << "Setting" << std::endl;
+	while (1) {
+		if (s > sNum) {
+			switch (state) {
+			case 1: {
+				if (!ConfigData::soundOn) {
+					PlaySound(TEXT("Data/GamesSong.wav"), NULL, SND_LOOP | SND_ASYNC);
+				}
+				else {
+					PlaySound(NULL, NULL, SND_LOOP | SND_ASYNC);
+				}
+				ConfigData::soundOn = !ConfigData::soundOn;
+				s = 1;
+				break;
+			}
+			case 2: {
+				auto res = inputPlayer_Menu();// Name and timestamp
+				ConfigData::playerName = res[0];
+				Sleep(200);
+				s = 2;
+				break;
+			}
+			case 3: {
+				/*TODO*/
+				s = 3;
+			}
+			default:
+				return;
+			}
+		}
+		system("cls");
+		setColor(10);
+		gotoXY(xPos, yPos + s);
+		std::cout << settingChoice_list[s - 1];
+		setColor(7);
+
+		for (int i = 0; i < sNum; ++i) {
+			if (i == (s - 1)) continue;
+
+			gotoXY(xPos, yPos + (i + 1));
+			std::cout << settingChoice_list[i];
+		}
+		s = stateMove(state, sNum);
+	}
 }
 
 std::string Screen::loadMenu() {
 	//initScreen(24);
 	//std::vector<std::string> load_list = read_directory(loadDir);
-	std::vector<std::string> load_list = loadList();
+	std::vector < std::vector<std::string> > load_list = loadList();
 	system("cls");
 	Sleep(sleepTime);
 	for (int i = 0; i < load_list.size(); ++i) {
-		if (load_list[i] == "") load_list[i] = "Empty slot";
+		if (load_list[i][0] == "") load_list[i][0] = "Empty slot";
 	}
 	int state = 1, s = 1, sNum = 4;
-	while (1)
+	while (true) {
+		for (int i = 1; i <= load_list.size(); ++i) {
+			if (i == s) {
+				setColor(10);
+			}
+			for (int j = 0; j < load_list[i - 1].size(); ++j) {
+				gotoXY(xPos + 20 * j, yPos + i);
+				std::cout << load_list[i - 1][j];
+			}
+			if (i == s) {
+				setColor(7);
+			}
+		}
+
+		if (s == load_list.size() + 1)
+			setColor(10);
+		gotoXY(xPos, yPos + 5);
+		std::cout << "Exit";
+		if (s == load_list.size() + 1)
+			setColor(7);
+		if (s == load_list.size() + 2) {
+			if (state == load_list.size() + 1)
+				return { };
+			else
+				return loadChoice(state - 1);
+		}
+
+		s = stateMove(state, sNum);
+	}
+	/*while (1)
 	{
 		switch (s)
 		{
 		case 1:
 			setColor(10);
 			gotoXY(xPos, yPos);
-			std::cout << load_list[0];
+			std::cout << load_list[0][0];
+			gotoXY(xPos + 15, yPos);
+			std::cout << load_list[0][1];
 			setColor(7);
 
 			gotoXY(xPos, yPos + 1);
-			std::cout << load_list[1];
+			std::cout << load_list[1][0];
+			gotoXY(xPos + 15, yPos + 1);
+			std::cout << load_list[1][1];
+
 			gotoXY(xPos, yPos + 2);
-			std::cout << load_list[2];
+			std::cout << load_list[2][0];
+			gotoXY(xPos + 15, yPos + 2);
+			std::cout << load_list[2][1];
 
 			gotoXY(xPos, yPos + 5);
 			std::cout << "Exit";
@@ -278,15 +388,21 @@ std::string Screen::loadMenu() {
 			break;
 		case 2:
 			gotoXY(xPos, yPos);
-			std::cout << load_list[0];
+			std::cout << load_list[0][0];
+			gotoXY(xPos + 15, yPos);
+			std::cout << load_list[0][1];
 
 			setColor(10);
 			gotoXY(xPos, yPos + 1);
-			std::cout << load_list[1];
+			std::cout << load_list[1][0];
+			gotoXY(xPos + 15, yPos + 1);
+			std::cout << load_list[1][1];
 			setColor(7);
 
 			gotoXY(xPos, yPos + 2);
-			std::cout << load_list[2];
+			std::cout << load_list[2][0];
+			gotoXY(xPos + 15, yPos + 2);
+			std::cout << load_list[2][1];
 
 			gotoXY(xPos, yPos + 5);
 			std::cout << "Exit";
@@ -294,13 +410,19 @@ std::string Screen::loadMenu() {
 			break;
 		case 3:
 			gotoXY(xPos, yPos);
-			std::cout << load_list[0];
+			std::cout << load_list[0][0];
+			gotoXY(xPos + 15, yPos);
+			std::cout << load_list[0][1];
 			gotoXY(xPos, yPos + 1);
-			std::cout << load_list[1];
+			std::cout << load_list[1][0];
+			gotoXY(xPos + 15, yPos + 1);
+			std::cout << load_list[1][1];
 
 			setColor(10);
 			gotoXY(xPos, yPos + 2);
-			std::cout << load_list[2];
+			std::cout << load_list[2][0];
+			gotoXY(xPos + 15, yPos + 2);
+			std::cout << load_list[2][1];
 			setColor(7);
 
 			gotoXY(xPos, yPos + 5);
@@ -309,11 +431,17 @@ std::string Screen::loadMenu() {
 			break;
 		case 4:
 			gotoXY(xPos, yPos);
-			std::cout << load_list[0];
+			std::cout << load_list[0][0];
+			gotoXY(xPos + 15, yPos);
+			std::cout << load_list[0][1];
 			gotoXY(xPos, yPos + 1);
-			std::cout << load_list[1];
+			std::cout << load_list[1][0];
+			gotoXY(xPos + 15, yPos);
+			std::cout << load_list[1][1];
 			gotoXY(xPos, yPos + 2);
-			std::cout << load_list[2];
+			std::cout << load_list[2][0];
+			gotoXY(xPos + 15, yPos);
+			std::cout << load_list[2][1];
 
 			setColor(10);
 			gotoXY(xPos, yPos + 5);
@@ -325,7 +453,7 @@ std::string Screen::loadMenu() {
 			if (state == 4) return {};
 			return loadChoice(state - 1);
 		}
-	}
+	}*/
 	std::cin.ignore(1000, '\n');
 }
 
@@ -427,3 +555,46 @@ std::string Screen::loadMenu() {
 //case 5:
 //	return (mainChoice)(state - 1);
 //}
+
+void ConfigData::load(){
+	std::ifstream fin;
+	fin.open("Data/config.dat", std::ios_base::binary);
+	if (fin.is_open()) {
+		int size; 
+		fin.read((char*)&size, sizeof(size));
+		char * tmp;
+		tmp = new char[size + 1];
+		tmp[size] = '\0';
+		fin.read(tmp, size);
+		playerName = std::string(tmp);
+
+		fin.read((char*)&ConfigData::soundOn, sizeof(ConfigData::soundOn));
+		fin.read((char*)&ConfigData::difficulty, sizeof(ConfigData::difficulty));
+		fin.close();	
+	}
+	else
+		save(true);
+}
+
+void ConfigData::save(bool Default)
+{
+	std::ofstream fout;
+	fout.open("Data/config.dat");
+	if (Default) {
+		char tmp[] = "Default";
+		int size = strlen(tmp);
+		fout.write((char*)&size, sizeof(size));
+		fout.write(tmp, size);
+		bool soundOn = true;
+		fout.write((char*)&soundOn, sizeof(soundOn));
+		int dif = 0;
+		fout.write((char*)&dif, sizeof(dif));
+	}
+	else {
+		int size = ConfigData::playerName.size();
+		fout.write((char*)&size, sizeof(size));
+		fout.write(ConfigData::playerName.c_str(), size);
+		fout.write((char*)&ConfigData::soundOn, sizeof(ConfigData::soundOn));
+		fout.write((char*)&ConfigData::difficulty, sizeof(ConfigData::difficulty));
+	}
+}
