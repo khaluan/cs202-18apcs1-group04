@@ -45,7 +45,6 @@ private:
 	CPeople* player = nullptr;
 	int level, sizeArr;
 	static std::vector<std::vector<bool>> screen;
-	//std::vector<std::thread> th; //thread controll
 };
 
 #endif // !__LEVEL_H__

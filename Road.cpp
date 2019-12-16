@@ -30,9 +30,12 @@ void Road::addObject(ObstacleType type)
 	for (int i = 0; i < maxObject; ++i) {
 		Obstacle* ptr = nullptr;
 
-		if (direct == 2) curX += random(2, 3) * 9;
-		if (direct == 3) curX -= random(2, 3) * 9;
-
+		int distance =  ((180 - maxObject * 9) / maxObject);
+		if (direct == 2) curX += distance;
+		if (direct == 3) curX -= distance;
+		//if (direct == 3) curX -= random(2, 3) * 9;
+		if (curX < 0 || curX > 180)
+			system("pause");
 		if (direct == 2) ptr = factory.getInstance(type, curX, objRow);
 		if (direct == 3) ptr = factory.getInstance(type, curX, objRow);
 		if (ptr)
@@ -71,6 +74,9 @@ void Road::displayOutline()
 		gotoXY(i, objRow + offset);
 		std::cout << (char)205;
 	}
+	///*Debug*/
+	//gotoXY(189, this->objRow);
+	//std::cout << "No car: " << this->maxObject;
 }
 
 void Road::display()

@@ -298,7 +298,8 @@ void Screen::settingMenu()
 				break;
 			}
 			case 3: {
-				/*TODO*/
+				system("cls");
+				difficultMenu();
 				s = 3;
 			}
 			default:
@@ -316,6 +317,40 @@ void Screen::settingMenu()
 
 			gotoXY(xPos, yPos + (i + 1));
 			std::cout << settingChoice_list[i];
+		}
+		s = stateMove(state, sNum);
+	}
+}
+
+void Screen::difficultMenu()
+{
+	system("cls");
+	gotoXY(xPos, yPos);
+	std::cout << "Choose difficulty";
+	const std::vector<std::string> option{ "Easy", "Normal", "Hard", "Expert" };
+	int state = 1, s = 1, sNum = 4;
+	while (true) {
+		for (int i = 1; i <= option.size(); ++i) {
+			if (i == s) {
+				setColor(10);
+			}
+			gotoXY(xPos, yPos + i);
+			std::cout << option[i - 1];
+			if (i == s) {
+				setColor(7);
+			}
+		}
+
+		if (s == option.size())
+			setColor(10);
+		gotoXY(xPos, yPos + 5);
+		std::cout << "Exit";
+		if (s == option.size())
+			setColor(7);
+		if (s == option.size() + 1) {
+			if (state < option.size() + 1)
+				ConfigData::difficulty = state - 1;
+			return;
 		}
 		s = stateMove(state, sNum);
 	}

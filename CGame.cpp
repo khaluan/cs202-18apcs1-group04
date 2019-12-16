@@ -113,6 +113,7 @@ void CGame::Play(std::string dir)
 				break;
 			case LOSE: {
 				initScreen(24);
+				/*TODO: LOSE EFFECT HERE*/
 				scr.losescreen();
 				pauseChoice choice = scr.loseMenu();
 				switch (choice)

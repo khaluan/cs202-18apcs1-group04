@@ -85,7 +85,6 @@ void CPeople::turnState()
 
 void CPeople::update()
 {
-	//TODO: 
 }
 
 bool CPeople::getState()

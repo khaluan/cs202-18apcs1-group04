@@ -23,57 +23,57 @@ Level::Level(int level)
 	this->level = level;
 	// int offset,int maxObject, ObstacleType type, int objRow, int objectSpeed, direction direct
 	int typeRoad;
-	sizeArr = random(4, 5);
+	sizeArr = random(max(3, level / 4 + 3), min(level / 4 + 4, 5));
 	arrRoad.resize(sizeArr);
 	for (int i = 1; i <= sizeArr; ++i) {
 		typeRoad = random(0, 1);
 		if (typeRoad == 0) {
-			switch (level % 5) {
+			switch ((level + ConfigData::difficulty) / 3) {
 			case 0:
-				arrRoad[i - 1] = new Road(3, random(1, 3), ObstacleType(random(2, 3)), 2 + 6 * i, random(175, 200), direction(random(2, 3)));
+				arrRoad[i - 1] = new Road(3, random(2, 3), ObstacleType(random(2, 3)), 2 + 6 * i, random(175, 200), direction(random(2, 3)));
 				break;
 			case 1:
-				arrRoad[i - 1] = new Road(3, random(2, 4), ObstacleType(random(2, 3)), 2 + 6 * i, random(150, 175), direction(random(2, 3)));
+				arrRoad[i - 1] = new Road(3, random(3, 4), ObstacleType(random(2, 3)), 2 + 6 * i, random(150, 175), direction(random(2, 3)));
 				break;
 			case 2:
-				arrRoad[i - 1] = new Road(3, random(3, 6), ObstacleType(random(2, 3)), 2 + 6 * i, random(125, 150), direction(random(2, 3)));
+				arrRoad[i - 1] = new Road(3, random(4, 5), ObstacleType(random(2, 3)), 2 + 6 * i, random(125, 150), direction(random(2, 3)));
 				break;
 			case 3:
-				arrRoad[i - 1] = new Road(3, random(4, 7), ObstacleType(random(2, 3)), 2 + 6 * i, random(100, 150), direction(random(2, 3)));
+				arrRoad[i - 1] = new Road(3, random(5, 6), ObstacleType(random(2, 3)), 2 + 6 * i, random(100, 150), direction(random(2, 3)));
 				break;
 			case 4:
 				arrRoad[i - 1] = new Road(3, 7, ObstacleType(random(2, 3)), 2 + 6 * i, random(50, 60), direction(random(2, 3)));
 				break;
 			default:
-				arrRoad[i - 1] = new Road(3, random(4, 6), ObstacleType(random(3, 3)), 2 + 6 * i, random(1, 3) * 120, direction(random(2, 3)));
+				arrRoad[i - 1] = new Road(3, 8, ObstacleType(random(3, 3)), 2 + 6 * i, random(1, 3) * 120, direction(random(2, 3)));
 				break;
 			}
 		}
 		else if (typeRoad == 1) {
-			switch (level % 5) {
+			switch ((level + ConfigData::difficulty) / 3) {
 			case 0:
-				arrRoad[i - 1] = new RoadVehicle(3, random(1, 3), ObstacleType(random(0, 1)), 2 + 6 * i, random(175, 200), direction(random(2, 3)));
+				arrRoad[i - 1] = new RoadVehicle(3, random(2, 3), ObstacleType(random(2, 3)), 2 + 6 * i, random(175, 200), direction(random(2, 3)));
 				break;
 			case 1:
-				arrRoad[i - 1] = new RoadVehicle(3, random(2, 4), ObstacleType(random(0, 1)), 2 + 6 * i, random(150, 175), direction(random(2, 3)));
+				arrRoad[i - 1] = new RoadVehicle(3, random(3, 4), ObstacleType(random(2, 3)), 2 + 6 * i, random(150, 175), direction(random(2, 3)));
 				break;
 			case 2:
-				arrRoad[i - 1] = new RoadVehicle(3, random(3, 4), ObstacleType(random(0, 1)), 2 + 6 * i, random(125, 150), direction(random(2, 3)));
+				arrRoad[i - 1] = new RoadVehicle(3, random(4, 5), ObstacleType(random(2, 3)), 2 + 6 * i, random(125, 150), direction(random(2, 3)));
 				break;
 			case 3:
-				arrRoad[i - 1] = new RoadVehicle(3, random(3, 5), ObstacleType(random(0, 1)), 2 + 6 * i, random(100, 150), direction(random(2, 3)));
+				arrRoad[i - 1] = new RoadVehicle(3, random(5, 6), ObstacleType(random(2, 3)), 2 + 6 * i, random(100, 150), direction(random(2, 3)));
 				break;
 			case 4:
-				arrRoad[i - 1] = new RoadVehicle(3, 5, ObstacleType(random(0, 1)), 2 + 6 * i, random(100, 125), direction(random(2, 3)));
+				arrRoad[i - 1] = new RoadVehicle(3, 7, ObstacleType(random(2, 3)), 2 + 6 * i, random(50, 60), direction(random(2, 3)));
 				break;
 			default:
-				arrRoad[i - 1] = new RoadVehicle(3, random(4, 6), ObstacleType(random(0, 1)), 2 + 6 * i, random(1, 3) * 120, direction(random(2, 2)));
+				arrRoad[i - 1] = new RoadVehicle(3, 8, ObstacleType(random(3, 3)), 2 + 6 * i, random(1, 3) * 120, direction(random(2, 3)));
 				break;
 			}
 		}
 		else EXIT_ERROR("Level::Level()", -1);
 	}
-	player = new CPeople(2, 6 * sizeArr + 8);
+	player = new CPeople(85, 6 * sizeArr + 8);
 }
 
 int Level::getLevel()
@@ -83,6 +83,8 @@ int Level::getLevel()
 
 void Level::saveGame(const std::string & gameName)
 {
+	if (gameName == "")
+		return;
 	std::ofstream fileSave;
 	fileSave.open(gameName, std::ios_base::binary);
 	if (fileSave.is_open()) {

@@ -53,6 +53,7 @@ public:
 	void losescreen();
 
 	void settingMenu();
+	void difficultMenu();
 
 	template<class T>
 	T menu(const menuType& type, T init);
