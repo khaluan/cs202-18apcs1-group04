@@ -457,6 +457,200 @@ std::string Screen::loadMenu() {
 	std::cin.ignore(1000, '\n');
 }
 
+void Screen::splashScreen() {
+	system("cls");
+	m.lock();
+	std::string L1 = " @@@@@@@  @@@@@@@    @@@@@@    @@@@@@    @@@@@@   @@@  @@@  @@@   @@@@@@@@     @@@@@@@    @@@@@@    @@@@@@   @@@@@@@ ";
+	std::string L2 = "@@@@@@@@  @@@@@@@@  @@@@@@@@  @@@@@@@   @@@@@@@   @@@  @@@@ @@@  @@@@@@@@@     @@@@@@@@  @@@@@@@@  @@@@@@@@  @@@@@@@@";
+	std::string L3 = "!@@       @@!  @@@  @@!  @@@  !@@       !@@       @@!  @@!@!@@@  !@@           @@!  @@@  @@!  @@@  @@!  @@@  @@!  @@@";
+	std::string L4 = "!@!       !@!  @!@  !@!  @!@  !@!       !@!       !@!  !@!!@!@!  !@!           !@!  @!@  !@!  @!@  !@!  @!@  !@!  @!@";
+	std::string L5 = "!@!       @!@!!@!   @!@  !@!  !!@@!!    !!@@!!    !!@  @!@ !!@!  !@! @!@!@     @!@!!@!   @!@  !@!  @!@!@!@!  @!@  !@!";
+	std::string L6 = "!!!       !!@!@!    !@!  !!!   !!@!!!    !!@!!!   !!!  !@!  !!!  !!! !!@!!     !!@!@!    !@!  !!!  !!!@!!!!  !@!  !!!";
+	std::string L7 = ":!!       !!: :!!   !!:  !!!       !:!       !:!  !!:  !!:  !!!  :!!   !!:     !!: :!!   !!:  !!!  !!:  !!!  !!:  !!!";
+	std::string L8 = ":!:       :!:  !:!  :!:  !:!      !:!       !:!   :!:  :!:  !:!  :!:   !::     :!:  !:!  :!:  !:!  :!:  !:!  :!:  !:!";
+	std::string L9 = " ::: :::  ::   :::  ::::: ::  :::: ::   :::: ::    ::   ::   ::   ::: ::::     ::   :::  ::::: ::  ::   :::   :::: ::";
+	std::string L14 = " :: :: :   :   : :   : :  :   :: : :    :: : :    :    ::    :    :: :: :       :   : :   : :  :    :   : :  :: :  : ";
+
+	std::string L10 = "   - PHAM KHA LUAN - ";
+	std::string L11 = "   - LE HOANG NHAN - ";
+	std::string L12 = " - HOANG NGUYEN KHOI - ";
+
+	// Show "about screen"
+	gotoXY(50, 20);
+	std::cout << L10;
+	animation(1, 800);
+
+	gotoXY(50, 21);
+	std::cout << L11;
+	animation(2, 800);
+
+	gotoXY(50, 22);
+	std::cout << L12;
+	animation(3, 800);
+
+	// Make text color effect
+	gotoXY(7, 5);
+	std::cout << L1;
+	animation(0, 50);
+
+	gotoXY(7, 6);
+	std::cout << L2;
+	animation(1, 200);
+
+	gotoXY(7, 7);
+	std::cout << L3;
+	animation(3, 200);
+
+	gotoXY(7, 8);
+	std::cout << L4;
+	animation(5, 200);
+
+	gotoXY(7, 9);
+	std::cout << L5;
+	animation(7, 200);
+
+	gotoXY(7, 10);
+	std::cout << L6;
+	animation(9, 200);
+
+	gotoXY(7, 11);
+	std::cout << L7;
+	animation(0, 200);
+
+	gotoXY(7, 12);
+	std::cout << L14;
+	animation(0, 200);
+
+	// Make background color effect
+	for (int i = 500; i > 0; i -= 250)
+	{
+		system("color 1");
+		Sleep(70);
+		system("color 2");
+		Sleep(70);
+		system("color 3");
+		Sleep(70);
+		system("color 4");
+		Sleep(70);
+		system("color 5");
+		Sleep(70);
+		system("color 6");
+		Sleep(70);
+		system("color 7");
+		Sleep(70);
+		system("color 8");
+		Sleep(70);
+	}
+
+	system("color e");
+
+	animation(0, 500);
+
+	gotoXY(50, 25);
+	system("pause");
+	m.unlock();
+	system("cls");
+}
+
+void Screen::animation(int m, int n)
+{
+	if (m == 1) system("color 1");
+	if (m == 2) system("color 2");
+	if (m == 3) system("color 3");
+	if (m == 4) system("color 4");
+	if (m == 5) system("color 5");
+	if (m == 6) system("color 6");
+	if (m == 7) system("color 7");
+	if (m == 8) system("color 8");
+	if (m == 9) system("color 9");
+	Sleep(n);
+}
+
+void Screen::saveScreen()
+{
+	system("cls");
+	//string s1 = "SAVING...";
+	std::string L1 = "  SSSSS    A  VV      VV IIIIII  NN   NN   GGGGGG    ";
+	std::string L2 = " SSSS     A A  VVV  VVV    II    NNN  NN  GGGGG     ";
+	std::string L3 = "	SSSS    AAAAA  VVVVVV 	  II    NN N NN GGGGG  GGG";
+	std::string L4 = "	 SSSS  AA   AA  VVVV 	  II    NN  NNN  GGGGG  G	";
+	std::string L5 = " SSSSS AA     AA  VV     IIIIII  NN   NN   GGGGGG	";
+	std::string L6 = " ";
+	
+	gotoXY(20, 5);
+	std::cout << L1;
+	animation(0, 50);
+
+	gotoXY(20, 6);
+	std::cout << L2;
+	animation(1, 200);
+
+	gotoXY(20, 7);
+	std::cout << L3;
+	animation(3, 200);
+
+	gotoXY(20, 8);
+	std::cout << L4;
+	animation(5, 200);
+
+	gotoXY(7, 9);
+	std::cout << L5;
+	animation(7, 200);
+
+	gotoXY(20, 10);
+	std::cout << L6;
+	animation(9, 200);
+
+	setColor(7);
+	Sleep(1000);
+
+
+	system("cls");
+	std::cout << "COMPLETED!";
+	Sleep(1000);
+}
+
+void Screen::losescreen()
+{
+	system("cls");
+	std::string L1 = "  uu      uu          LL           oooooo       sssssss   eeeeeeee    ";
+	std::string L2 = "  uu      uu          LL          oo    oo     sss        ee          ";
+	std::string L3 = "  uu      uu          LL         oo      oo    ssss       ee          ";
+	std::string L4 = "  uu      uu          LL         oo      oo      ssss     eeeeee      ";
+	std::string L5 = "  uu      uu          LL          oo    oo          sss   ee          ";
+	std::string L6 = "   uuuuuuuu           LLLLLLLLL    oooooo      sssssss    eeeeeeee    ";
+	std::string L7 = " ";
+
+
+	gotoXY(20, 5);
+	std::cout << L1;
+	animation(0, 50);
+
+	gotoXY(20, 6);
+	std::cout << L2;
+	animation(1, 200);
+
+	gotoXY(20, 7);
+	std::cout << L3;
+	animation(3, 200);
+
+	gotoXY(20, 8);
+	std::cout << L4;
+	animation(5, 200);
+
+	gotoXY(20, 9);
+	std::cout << L5;
+	animation(7, 200);
+
+	gotoXY(20, 10);
+	std::cout << L6;
+	animation(9, 200);
+
+	setColor(7);
+	Sleep(1000);
+
+	system("cls");
+}
 
 
 /*	switch (s)

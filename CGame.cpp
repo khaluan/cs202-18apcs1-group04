@@ -8,8 +8,7 @@ CGame::CGame() {
 	ConfigData::load();
 }
 
-levelState CGame::playLevel(std::string & dir)
-{
+levelState CGame::playLevel(std::string & dir){
 	Level gameLevel;
 	if (dir == "") { //If there is no loadDirectory => Init level
 		gameLevel = Level(curLevel);
@@ -43,6 +42,7 @@ levelState CGame::playLevel(std::string & dir)
 			initScreen(24);
 			std::string dir = scr.saveMenu();
 			gameLevel.saveGame(dir);
+			scr.saveScreen();
 			initScreen(12);
 			break;
 		}
@@ -66,6 +66,8 @@ CGame::~CGame() {
 void CGame::Run()
 {
 	PlaySound(TEXT("Data/GamesSong.wav"), NULL, SND_ASYNC | SND_LOOP);
+	initScreen(24);
+	scr.splashScreen();
 	while (true) {
 		initScreen(24);
 		mainChoice choice = scr.mainMenu();
@@ -111,6 +113,7 @@ void CGame::Play(std::string dir)
 				break;
 			case LOSE: {
 				initScreen(24);
+				scr.losescreen();
 				pauseChoice choice = scr.loseMenu();
 				switch (choice)
 				{

@@ -9,14 +9,16 @@
 #include <sstream>
 #include <iomanip>
 #include <time.h>
+
 int main() {
 	fixScreen();
 
 	CGame game;
 	game.Run();
-	
-	
-	//Screen X;
+
+	/*initScreen(24);
+	Screen X;
+	X.saveScreen();*/
 	//X.settingMenu();
 	//instruction();
 	//std::string dir = scr.saveMenu();
@@ -28,5 +30,6 @@ int main() {
 	tmp = X.saveMenu();
 	std::cout << std::endl << "*************************" << std::endl << tmp << std::endl;*/
 
+	system("cls");
 	return 0;
 }

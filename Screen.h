@@ -47,6 +47,11 @@ public:
 	std::string loadChoice(int index);
 	std::vector<std::vector<std::string>> loadList();
 
+	void animation(int m, int n);
+	void splashScreen();
+	void saveScreen();
+	void losescreen();
+
 	void settingMenu();
 
 	template<class T>
