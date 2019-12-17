@@ -92,7 +92,7 @@ void Level::saveGame(const std::string & gameName)
 		fileSave.write((char*)&tmp, sizeof(tmp));
 		fileSave.write(ConfigData::playerName.c_str(), tmp);
 		auto time = std::chrono::system_clock::now();
-		std::time_t save_time = std::chrono::system_clock::to_time_t(time);
+		std::time_t save_time = std::chrono::system_clock::to_time_t(time) + 25200;
 		//fileSave << save_time << std::endl;
 		fileSave.write((char*)&save_time, sizeof(save_time));
 		//fileSave << level << std::endl;

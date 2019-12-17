@@ -9,6 +9,7 @@ CGame::CGame() {
 }
 
 levelState CGame::playLevel(std::string & dir){
+	initScreen(12);
 	Level gameLevel;
 	if (dir == "") { //If there is no loadDirectory => Init level
 		gameLevel = Level(curLevel);
@@ -71,7 +72,7 @@ void CGame::Run()
 	if (ConfigData::soundOn)
 		PlaySound(TEXT("Data/GamesSong.wav"), NULL, SND_ASYNC | SND_LOOP);
 	initScreen(24);
-	//scr.splashScreen();
+	scr.splashScreen();
 	while (true) {
 		initScreen(24);
 		mainChoice choice = scr.mainMenu();
@@ -147,8 +148,8 @@ void CGame::Play(std::string dir)
 			state = playLevel(dir);
 		}
 	}
-	//TODO: Win screen
 	initScreen(24);
 	scr.winScreen();
 	initScreen(12);
+	curLevel = 1;
 }
