@@ -189,7 +189,7 @@ mainChoice Screen::mainMenu()
 	}
 	setColor(7);
 
-	int state = 1, s = 1, sNum = mainChoice_list.size();
+	int state = 1, s = 1, sNum = mainChoice_list.size() - 1;
 	while (1)
 	{
 		if (s <= sNum) {
@@ -945,6 +945,7 @@ void ConfigData::save(bool Default)
 		fout.write((char*)&ConfigData::soundOn, sizeof(ConfigData::soundOn));
 		fout.write((char*)&ConfigData::difficulty, sizeof(ConfigData::difficulty));
 	}
+	fout.close();
 }
 
 void ConfigData::display(int xPos, int yPos)
