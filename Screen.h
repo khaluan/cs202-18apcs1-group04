@@ -16,6 +16,7 @@ struct ConfigData {
 	static int difficulty;
 	static void load();
 	static void save(bool Default = false);
+	static void display(int xPos, int yPos);
 };
 
 enum mainChoice {

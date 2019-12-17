@@ -65,7 +65,8 @@ CGame::~CGame() {
 
 void CGame::Run()
 {
-	PlaySound(TEXT("Data/GamesSong.wav"), NULL, SND_ASYNC | SND_LOOP);
+	if (ConfigData::soundOn)
+		PlaySound(TEXT("Data/GamesSong.wav"), NULL, SND_ASYNC | SND_LOOP);
 	initScreen(24);
 	//scr.splashScreen();
 	while (true) {
