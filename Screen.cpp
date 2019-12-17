@@ -721,7 +721,7 @@ void Screen::saveScreen()
 	Sleep(1000);
 }
 
-void Screen::losescreen()
+void Screen::loseScreen()
 {
 	system("cls");
 	std::string L1 = "  uu      uu          LL           oooooo       sssssss   eeeeeeee    ";
@@ -764,6 +764,48 @@ void Screen::losescreen()
 	system("cls");
 }
 
+void Screen::winScreen()
+{
+	system("cls");
+	std::string L1 = "  uu      uu          ww          ww   ii      nnn      nn";
+	std::string L2 = "  uu      uu          ww          ww           nnnn     nn";
+	std::string L3 = "  uu      uu          ww    ww    ww   ii      nn  nn   nn";
+	std::string L4 = "  uu      uu          ww   wwww   ww   ii      nn   nn  nn";
+	std::string L5 = "  uu      uu           ww ww  ww ww    ii      nn    nn nn";
+	std::string L6 = "   uuuuuuuu             ww      ww     ii      nn      nnn";
+	std::string L7 = " ";
+
+
+	gotoXY(20, 5);
+	std::cout << L1;
+	animation(0, 50);
+
+	gotoXY(20, 6);
+	std::cout << L2;
+	animation(1, 200);
+
+	gotoXY(20, 7);
+	std::cout << L3;
+	animation(3, 200);
+
+	gotoXY(20, 8);
+	std::cout << L4;
+	animation(5, 200);
+
+	gotoXY(20, 9);
+	std::cout << L5;
+	animation(7, 200);
+
+	gotoXY(20, 10);
+	std::cout << L6;
+	animation(9, 200);
+
+	system("color e");
+	setColor(7);
+	Sleep(1000);
+
+	system("cls");
+}
 
 /*	switch (s)
 		{

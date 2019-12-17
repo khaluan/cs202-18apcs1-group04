@@ -54,7 +54,8 @@ public:
 	void animation(int m, int n);
 	void splashScreen();
 	void saveScreen();
-	void losescreen();
+	void loseScreen();
+	void winScreen();
 
 	void settingMenu();
 	void difficultMenu();

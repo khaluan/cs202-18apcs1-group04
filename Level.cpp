@@ -162,7 +162,7 @@ void Level::drawGame() {
 	time += " " + date;
 
 	gotoXY(5, 47);
-	std::cout << ConfigData::playerName<<"      "<<time;
+	std::cout << "Player: " << ConfigData::playerName<<"      "<<time;
 	setColor(7);
 
 	player->display();
@@ -185,23 +185,23 @@ levelState Level::process() {
 		th[i] = std::thread(&Road::process, arrRoad[i], player);
 	while (player->getState() && !player->isFinish()) {
 		if ((GetAsyncKeyState(VK_UP) | GetAsyncKeyState('W')) & 0x8000) {
-			player->move(Up);
 			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
+			player->move(Up);
 		}
 
 		if ((GetAsyncKeyState(VK_DOWN) | GetAsyncKeyState('S')) & 0x8000) {
-			player->move(Down);
 			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
+			player->move(Down);
 		}
 
 		if ((GetAsyncKeyState(VK_LEFT) | GetAsyncKeyState('A')) & 0x8000) {
-			player->move(Left);
 			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
+			player->move(Left);
 		}
 
 		if ((GetAsyncKeyState(VK_RIGHT) | GetAsyncKeyState('D')) & 0x8000) {
-			player->move(Right);
 			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
+			player->move(Right);
 		}
 
 		if (GetAsyncKeyState('P') & 0x8000) {
@@ -236,8 +236,10 @@ levelState Level::process() {
 			return LOAD;
 		}
 
-		if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
+		if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {
+			Sleep(SLEEP_TIME_BETWEEN_SCREEN);
 			break;
+		}
 	}
 	Road::CHANGE_EXIT();
 	for (int i = 0; i < sizeArr; ++i) {

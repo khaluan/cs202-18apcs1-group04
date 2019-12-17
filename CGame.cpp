@@ -47,10 +47,13 @@ levelState CGame::playLevel(std::string & dir){
 			break;
 		}
 		case LOAD: 
+			system("cls");
 			return LOAD;
 		case EXIT:
+			system("cls");
 			return EXIT;
 		case LOSE: 
+			system("cls");
 			return LOSE;
 		default:
 			break;
@@ -83,6 +86,7 @@ void CGame::Run()
 			//initScreen(24);
 			std::string saveGameName = scr.loadMenu();
 			system("cls");
+			initScreen(12);
 			if (saveGameName == "") break;
 			Play(saveGameName);
 			break;
@@ -103,6 +107,8 @@ void CGame::Play(std::string dir)
 		if (state == LOAD) {
 			initScreen(24);
 			std::string dir = scr.loadMenu();
+			system("cls");
+			initScreen(12);
 			state = playLevel(dir);
 			continue;
 		}
@@ -113,9 +119,9 @@ void CGame::Play(std::string dir)
 				++curLevel;
 				break;
 			case LOSE: {
-				initScreen(24);
 				/*TODO: LOSE EFFECT HERE*/
-				scr.losescreen();
+				initScreen(24);
+				scr.loseScreen();
 				pauseChoice choice = scr.loseMenu();
 				switch (choice)
 				{
@@ -142,4 +148,7 @@ void CGame::Play(std::string dir)
 		}
 	}
 	//TODO: Win screen
+	initScreen(24);
+	scr.winScreen();
+	initScreen(12);
 }
