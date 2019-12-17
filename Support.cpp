@@ -131,10 +131,14 @@ void instruction() {
 	std::cout << "    S or DOWN to move down";
 	gotoXY(instructX + 5, instructY + 16);
 	std::cout << "    D or RIGHT to move right";
+	gotoXY(instructX + 5, instructY + 18);
+	std::cout << "    T to LOAD GAME";
+	gotoXY(instructX + 5, instructY + 20);
+	std::cout << "    L to SAVE GAME";
 
-	gotoXY(instructX + 5, instructY + 19);
+	gotoXY(instructX + 5, instructY + 25);
 	std::cout << "Cross the all the roads to win";
-	gotoXY(instructX + 5, instructY + 21);
+	gotoXY(instructX + 5, instructY + 27);
 	std::cout << "Avoid to get hit or DIE";
 	setColor(7);
 	m.unlock();
