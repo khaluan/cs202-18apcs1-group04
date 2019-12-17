@@ -73,6 +73,7 @@ int Screen::stateMove(int& state, int n)
 			return state;
 		}
 		if (GetAsyncKeyState(VK_RETURN) & 0x8000) {
+			//std::cin.ignore(1000, '\n');
 			Sleep(400);
 			return n + 1;
 		}
@@ -82,19 +83,63 @@ int Screen::stateMove(int& state, int n)
 std::vector<std::string> Screen::inputPlayer_Menu() {
 	system("cls");
 	std::vector<std::string> playerInfo;
-	std::string name, time, date, now = __TIMESTAMP__;
+	std::string tmp, name = "", time, date, now = __TIMESTAMP__;
 	time = now.substr(11, 8);
 	date = now.substr(0, 11);
 	date += now.substr(20, 4);
 	time += " " + date;
 
+	name.clear();
+	//std::cin.ignore(1000, '\n');
 	gotoXY(xPos, yPos);
 	std::cout << "Player name: ";
-	std::cin.ignore(100, '\n');
-	std::getline(std::cin, name, '\n');
+	gotoXY(xPos + 14, yPos);
+	name = takeInfo(xPos+14,yPos);
+
 	playerInfo.push_back(name);
 	playerInfo.push_back(time);
 	return playerInfo;
+}
+
+std::string Screen::takeInfo(const int& x, const int& y) {
+	ShowConsoleCursor(TRUE);
+	std::string tmp;
+	char c = 'a';
+	while (1) {
+		if (GetAsyncKeyState(VK_BACK) & 0x8000) {
+			Sleep(400);
+			tmp = tmp.substr(0, tmp.size() - 1);
+			system("cls");
+			gotoXY(x - 14, y);
+			std::cout << "Player name: ";
+			gotoXY(x, y);
+			std::cout << tmp;
+		}
+
+		if (GetAsyncKeyState(VK_RETURN) & 0x8000) {
+			Sleep(200);
+			ShowConsoleCursor(FALSE);
+			return tmp;
+		}
+
+		for (int i = 65; i < 91; ++i){
+			c = i;
+			if (GetAsyncKeyState(c) & 0x8000) {
+				Sleep(200);
+				std::cout << c;
+				tmp += c;
+			}
+		}
+
+		for (int i = 48; i < 58; ++i) {
+			c = i;
+			if (GetAsyncKeyState(c) & 0x8000) {
+				Sleep(200);
+				std::cout << c;
+				tmp += c;
+			}
+		}
+	}
 }
 
 pauseChoice Screen::pauseMenu() {
@@ -127,8 +172,23 @@ pauseChoice Screen::pauseMenu() {
 mainChoice Screen::mainMenu()
 {
 	//initScreen(24);
-	system("cls");
 	Sleep(sleepTime);
+	system("cls");
+
+	std::vector<std::string> menu;
+	setColor(12);
+	menu.push_back("MMM   MMM   EEEEEE   NNN     NN   UU    UU");
+	menu.push_back("MM M M MM   EE       NN NN   NN   UU    UU");
+	menu.push_back("MM  M  MM   EEEE     NN  NN  NN   UU    UU");
+	menu.push_back("MM     MM   EE       NN    N NN   UU    UU");
+	menu.push_back("MM     MM   EEEEEE   NN     NNN    UUUUUU");
+	int mX = 20, mY = 3;
+	for (int i = 0; i < 5; ++i) {
+		gotoXY(mX, mY + i);
+		std::cout << menu[i];
+	}
+	setColor(7);
+
 	int state = 1, s = 1, sNum = mainChoice_list.size();
 	while (1)
 	{
@@ -578,13 +638,14 @@ void Screen::splashScreen() {
 	}
 
 	system("color e");
-
+	setColor(7);
 	animation(0, 500);
 
 	gotoXY(50, 25);
 	system("pause");
-	m.unlock();
+
 	system("cls");
+	m.unlock();
 }
 
 void Screen::animation(int m, int n)
@@ -605,37 +666,58 @@ void Screen::saveScreen()
 {
 	system("cls");
 	//string s1 = "SAVING...";
-	std::string L1 = "  SSSSS    A  VV      VV IIIIII  NN   NN   GGGGGG    ";
-	std::string L2 = " SSSS     A A  VVV  VVV    II    NNN  NN  GGGGG     ";
-	std::string L3 = "	SSSS    AAAAA  VVVVVV 	  II    NN N NN GGGGG  GGG";
-	std::string L4 = "	 SSSS  AA   AA  VVVV 	  II    NN  NNN  GGGGG  G	";
-	std::string L5 = " SSSSS AA     AA  VV     IIIIII  NN   NN   GGGGGG	";
+	std::string L1 = "  SSSSS    A  VV      VV IIIIII  NN   NN   GGGGGG";
+	std::string L2 = " SSSS     AAA  VV    VV    II    NNN  NN  GGGG";
+	std::string L3 = "  SSSS   AA AA  VV  VV     II    NN N NN GGGG   GGG";
+	std::string L4 = "   SSSS AAAAAAA  VVVV      II    NN  NNN  GGGG  GG";
+	std::string L5 = " SSSSS AA     AA  VV     IIIIII  NN   NN   GGGGGG";
 	std::string L6 = " ";
 	
 	gotoXY(20, 5);
 	std::cout << L1;
-	animation(0, 50);
+	//animation(0, 50);
 
 	gotoXY(20, 6);
 	std::cout << L2;
-	animation(1, 200);
+	//animation(1, 200);
 
 	gotoXY(20, 7);
 	std::cout << L3;
-	animation(3, 200);
+	//animation(3, 200);
 
 	gotoXY(20, 8);
 	std::cout << L4;
-	animation(5, 200);
+	//animation(5, 200);
 
-	gotoXY(7, 9);
+	gotoXY(20, 9);
 	std::cout << L5;
-	animation(7, 200);
+	//animation(7, 200);
 
 	gotoXY(20, 10);
 	std::cout << L6;
-	animation(9, 200);
+	//animation(9, 200);
 
+	for (int i = 500; i > 0; i -= 250)
+	{
+		system("color 1");
+		Sleep(70);
+		system("color 2");
+		Sleep(70);
+		system("color 3");
+		Sleep(70);
+		system("color 4");
+		Sleep(70);
+		system("color 5");
+		Sleep(70);
+		system("color 6");
+		Sleep(70);
+		system("color 7");
+		Sleep(70);
+		system("color 8");
+		Sleep(70);
+	}
+
+	system("color e");
 	setColor(7);
 	Sleep(1000);
 
@@ -681,6 +763,7 @@ void Screen::losescreen()
 	std::cout << L6;
 	animation(9, 200);
 
+	system("color e");
 	setColor(7);
 	Sleep(1000);
 

@@ -4,6 +4,8 @@
 #include "Support.h"
 #include <iomanip>
 #include <sstream>
+//#include <ios>
+//#include<limits>
 
 const int Height = 50;
 const int Width = 180;
@@ -38,6 +40,7 @@ public:
 	Screen();
 	~Screen();
 	int stateMove(int& state, int n);
+	std::string takeInfo(const int& x, const int& y);
 	std::vector<std::string> inputPlayer_Menu();
 	pauseChoice pauseMenu();
 	mainChoice mainMenu();

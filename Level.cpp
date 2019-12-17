@@ -151,8 +151,19 @@ void Level::drawGame() {
 	m.lock();
 	system("cls");
 	instruction();
-	gotoXY(225, 48);
+	setColor(11);
+	gotoXY(225, 47);
 	std::cout << "LEVEL " << level;
+
+	std::string time, date, now = __TIMESTAMP__;
+	time = now.substr(11, 8);
+	date = now.substr(0, 11);
+	date += now.substr(20, 4);
+	time += " " + date;
+
+	gotoXY(5, 47);
+	std::cout << ConfigData::playerName<<"      "<<time;
+	setColor(7);
 
 	player->display();
 

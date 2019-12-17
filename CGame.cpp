@@ -42,7 +42,7 @@ levelState CGame::playLevel(std::string & dir){
 			initScreen(24);
 			std::string dir = scr.saveMenu();
 			gameLevel.saveGame(dir);
-			scr.saveScreen();
+			if (dir != "") scr.saveScreen();
 			initScreen(12);
 			break;
 		}
@@ -67,7 +67,7 @@ void CGame::Run()
 {
 	PlaySound(TEXT("Data/GamesSong.wav"), NULL, SND_ASYNC | SND_LOOP);
 	initScreen(24);
-	scr.splashScreen();
+	//scr.splashScreen();
 	while (true) {
 		initScreen(24);
 		mainChoice choice = scr.mainMenu();

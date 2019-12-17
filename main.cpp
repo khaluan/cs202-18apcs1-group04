@@ -16,20 +16,20 @@ int main() {
 	CGame game;
 	game.Run();
 
-	/*initScreen(24);
-	Screen X;
-	X.saveScreen();*/
+	//initScreen(24);
+	//Screen X;
+	//X.saveScreen();
 	//X.settingMenu();
 	//instruction();
 	//std::string dir = scr.saveMenu();
 
-	/*std::vector<std::string> tmp = X.inputPlayer_Menu();
-	std::cout << tmp[0] << "     " << tmp[1] << std::endl;*/
+	//std::vector<std::string> tmp = X.inputPlayer_Menu();
+	//std::cout <<std::endl<< tmp[0] << "     " << tmp[1] << std::endl;
 	
 	/*std::string tmp;
 	tmp = X.saveMenu();
 	std::cout << std::endl << "*************************" << std::endl << tmp << std::endl;*/
 
-	system("cls");
+	//system("cls");
 	return 0;
 }
