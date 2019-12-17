@@ -317,6 +317,7 @@ void Screen::settingMenu()
 
 			gotoXY(xPos, yPos + (i + 1));
 			std::cout << settingChoice_list[i];
+			ConfigData::display(xPos, yPos);
 		}
 		s = stateMove(state, sNum);
 	}
@@ -327,8 +328,8 @@ void Screen::difficultMenu()
 	system("cls");
 	gotoXY(xPos, yPos);
 	std::cout << "Choose difficulty";
-	const std::vector<std::string> option{ "Easy", "Normal", "Hard", "Expert" };
-	int state = 1, s = 1, sNum = 4;
+	const std::vector<std::string> option{ "Easy", "Normal", "Hard", "Expert", "Exit" };
+	int state = 1, s = 1, sNum = option.size();
 	while (true) {
 		for (int i = 1; i <= option.size(); ++i) {
 			if (i == s) {
@@ -340,16 +341,9 @@ void Screen::difficultMenu()
 				setColor(7);
 			}
 		}
-
-		if (s == option.size())
-			setColor(10);
-		gotoXY(xPos, yPos + 5);
-		std::cout << "Exit";
-		if (s == option.size())
-			setColor(7);
 		if (s == option.size() + 1) {
-			if (state < option.size() + 1)
-				ConfigData::difficulty = state - 1;
+			if (state < option.size())
+				ConfigData::difficulty = (state - 1) * 2;
 			return;
 		}
 		s = stateMove(state, sNum);
@@ -826,4 +820,20 @@ void ConfigData::save(bool Default)
 		fout.write((char*)&ConfigData::soundOn, sizeof(ConfigData::soundOn));
 		fout.write((char*)&ConfigData::difficulty, sizeof(ConfigData::difficulty));
 	}
+}
+
+void ConfigData::display(int xPos, int yPos)
+{
+	gotoXY(xPos + 15, yPos + 1);
+	if (soundOn)
+		std::cout << "ON";
+	else
+		std::cout << "OFF";
+
+	gotoXY(xPos + 15, yPos + 2);
+	std::cout << playerName;
+
+	gotoXY(xPos + 15, yPos + 3);
+	std::vector<std::string> diff { "Easy", "Normal", "Hard", "Expert" };
+	std::cout << diff[difficulty / 2];
 }

@@ -45,29 +45,29 @@ Level::Level(int level)
 				arrRoad[i - 1] = new Road(3, 7, ObstacleType(random(2, 3)), 2 + 6 * i, random(50, 60), direction(random(2, 3)));
 				break;
 			default:
-				arrRoad[i - 1] = new Road(3, 8, ObstacleType(random(3, 3)), 2 + 6 * i, random(1, 3) * 120, direction(random(2, 3)));
+				arrRoad[i - 1] = new Road(3, 8, ObstacleType(random(3, 3)), 2 + 6 * i, random(25, 50), direction(random(2, 3)));
 				break;
 			}
 		}
 		else if (typeRoad == 1) {
 			switch ((level + ConfigData::difficulty) / 3) {
 			case 0:
-				arrRoad[i - 1] = new RoadVehicle(3, random(2, 3), ObstacleType(random(2, 3)), 2 + 6 * i, random(175, 200), direction(random(2, 3)));
+				arrRoad[i - 1] = new RoadVehicle(3, random(2, 3), ObstacleType(random(0, 1)), 2 + 6 * i, random(175, 200), direction(random(2, 3)));
 				break;
 			case 1:
-				arrRoad[i - 1] = new RoadVehicle(3, random(3, 4), ObstacleType(random(2, 3)), 2 + 6 * i, random(150, 175), direction(random(2, 3)));
+				arrRoad[i - 1] = new RoadVehicle(3, random(3, 4), ObstacleType(random(0, 1)), 2 + 6 * i, random(150, 175), direction(random(2, 3)));
 				break;
 			case 2:
-				arrRoad[i - 1] = new RoadVehicle(3, random(4, 5), ObstacleType(random(2, 3)), 2 + 6 * i, random(125, 150), direction(random(2, 3)));
+				arrRoad[i - 1] = new RoadVehicle(3, random(4, 5), ObstacleType(random(0, 1)), 2 + 6 * i, random(125, 150), direction(random(2, 3)));
 				break;
 			case 3:
-				arrRoad[i - 1] = new RoadVehicle(3, random(5, 6), ObstacleType(random(2, 3)), 2 + 6 * i, random(100, 150), direction(random(2, 3)));
+				arrRoad[i - 1] = new RoadVehicle(3, random(5, 6), ObstacleType(random(0, 1)), 2 + 6 * i, random(100, 150), direction(random(2, 3)));
 				break;
 			case 4:
-				arrRoad[i - 1] = new RoadVehicle(3, 7, ObstacleType(random(2, 3)), 2 + 6 * i, random(50, 60), direction(random(2, 3)));
+				arrRoad[i - 1] = new RoadVehicle(3, 7, ObstacleType(random(0, 1)), 2 + 6 * i, random(50, 60), direction(random(2, 3)));
 				break;
 			default:
-				arrRoad[i - 1] = new RoadVehicle(3, 8, ObstacleType(random(3, 3)), 2 + 6 * i, random(1, 3) * 120, direction(random(2, 3)));
+				arrRoad[i - 1] = new RoadVehicle(3, 8, ObstacleType(random(0, 1)), 2 + 6 * i, random(25, 50), direction(random(2, 3)));
 				break;
 			}
 		}

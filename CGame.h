@@ -22,7 +22,7 @@ public:
 	~CGame();
 	
 private:
-	int curLevel = 1, maxLevel = 15;
+	int curLevel = 1, maxLevel = 10;
 	static std::string Null;
 	Screen scr;
 };

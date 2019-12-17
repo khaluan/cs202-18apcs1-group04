@@ -26,7 +26,7 @@ Road::Road(int offset, int maxObject, ObstacleType type, int objRow, int objectS
 
 void Road::addObject(ObstacleType type)
 {
-	int curX = (direct == 2) ? 1 : Width;
+	int curX = (direct == 2) ? random(1, 10) : random(Width - 10, Width);
 	for (int i = 0; i < maxObject; ++i) {
 		Obstacle* ptr = nullptr;
 
