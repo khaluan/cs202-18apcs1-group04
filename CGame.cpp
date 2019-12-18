@@ -79,6 +79,7 @@ void CGame::Run()
 		switch (choice)
 		{
 		case NEWGAME:
+			curLevel = 1;
 			initScreen(12);
 			Play();
 			system("cls");
@@ -104,20 +105,26 @@ void CGame::Run()
 void CGame::Play(std::string dir)
 {
 	levelState state = DEFAULT;
-	while (curLevel < maxLevel) {
+	while (curLevel <= maxLevel) {
 		if (state == LOAD) {
 			initScreen(24);
 			std::string dir = scr.loadMenu();
 			system("cls");
 			initScreen(12);
 			state = playLevel(dir);
-			continue;
 		}
 		else {
 			switch (state)
 			{
 			case WIN:
 				++curLevel;
+				if (curLevel == 11) {
+					initScreen(24);
+					scr.winScreen();
+					initScreen(12);
+					curLevel = 1;
+					return;
+				}	
 				break;
 			case LOSE: {
 				/*TODO: LOSE EFFECT HERE*/
@@ -148,8 +155,4 @@ void CGame::Play(std::string dir)
 			state = playLevel(dir);
 		}
 	}
-	initScreen(24);
-	scr.winScreen();
-	initScreen(12);
-	curLevel = 1;
 }

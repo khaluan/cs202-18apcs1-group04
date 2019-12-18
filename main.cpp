@@ -30,6 +30,6 @@ int main() {
 	tmp = X.saveMenu();
 	std::cout << std::endl << "*************************" << std::endl << tmp << std::endl;*/
 
-	//system("cls");
+	system("cls");
 	return 0;
 }

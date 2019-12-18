@@ -189,7 +189,7 @@ mainChoice Screen::mainMenu()
 	}
 	setColor(7);
 
-	int state = 1, s = 1, sNum = mainChoice_list.size() - 1;
+	int state = 1, s = 1, sNum = mainChoice_list.size();
 	while (1)
 	{
 		if (s <= sNum) {
@@ -361,6 +361,7 @@ void Screen::settingMenu()
 				system("cls");
 				difficultMenu();
 				s = 3;
+				break;
 			}
 			default:
 				return;

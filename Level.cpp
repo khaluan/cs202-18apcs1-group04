@@ -119,7 +119,12 @@ void Level::loadGame(const std::string & gameName)
 			EXIT_ERROR("This slot is empty", -2);
 			return;
 		}
-		gameFile.read((char*)&ConfigData::playerName, tmp);
+		char* str;
+		str = new char[tmp + 1];
+		gameFile.read(str, tmp);
+		str[tmp] = '\0';
+		ConfigData::playerName = std::string(str);
+		delete str;
 		std::time_t time;
 		//gameFile >> time;
 		gameFile.read((char*)&time, sizeof(time_t));
@@ -162,7 +167,7 @@ void Level::drawGame() {
 	time += " " + date;
 
 	gotoXY(5, 47);
-	std::cout << "Player: " << ConfigData::playerName<<"      "<<time;
+	std::cout << "Player: " << ConfigData::playerName<<"      "<< date;
 	setColor(7);
 
 	player->display();
